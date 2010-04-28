@@ -1,0 +1,28 @@
+name:                epub-metadata
+version:             1.0.0
+cabal-version:       >= 1.2
+build-type:          Simple
+license:             BSD3
+license-file:        LICENSE
+copyright:           2010 Dino Morelli
+author:              Dino Morelli
+maintainer:          Dino Morelli <dino@ui3.info>
+stability:           experimental
+homepage:            http://foo/bar/baz.html
+synopsis:            Foo
+description:         Bar Baz
+category:            Unknown
+tested-with:         GHC>=6.12.1
+
+library
+   exposed-modules:  Codec.Epub.Opf.Metadata
+   hs-source-dirs:   src
+   build-depends:    base >= 3 && < 5
+   ghc-options:      -Wall
+
+executable           epub-meta
+   main-is:          Codec/Epub/Opf/epub-meta.hs
+   hs-source-dirs:   src
+   build-depends:    base >= 3 && < 5, bytestring, directory, tagsoup, 
+                     zip-archive
+   ghc-options:      -Wall
