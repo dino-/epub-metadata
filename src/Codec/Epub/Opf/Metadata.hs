@@ -11,12 +11,10 @@ import Data.Maybe ( fromJust )
 import Text.HTML.TagSoup
 
 
-{-
 data Creator = Creator
    String   -- role
    String   -- creator
    deriving Show
--}
 
 {-
 type Date =
@@ -29,7 +27,7 @@ data EpubMeta = EpubMeta
    { emTitle :: String
 --   , emLanguage :: String
 --   , emIdentifier :: String
---   , emCreator :: Creator
+   , emCreator :: Creator
 --   , emContributor :: String
 --   , emDescription :: String
 --   , emDates :: [Date]
@@ -51,10 +49,25 @@ extractTitle = B.unpack . fromTagText . head . filter isTagText
    . head . (sections (~== "<dc:title>"))
 
 
+extractCreator :: [Tag B.ByteString] -> Creator
+extractCreator tags = Creator role creator
+   where
+      creatorTags = head . (sections (~== "<dc:creator>")) $ tags
+
+      role = B.unpack . fromAttrib (B.pack "opf:role")
+         . head $ creatorTags
+
+      creator = B.unpack . fromTagText . head . filter isTagText
+         $ creatorTags
+
+
 extractEpubMeta :: Archive -> EpubMeta
 --extractEpubMeta archive = EpubMeta $ extractTitle opfTags
 --extractEpubMeta archive = opfTags
-extractEpubMeta archive = EpubMeta $ extractTitle opfTags
+extractEpubMeta archive = EpubMeta
+   (extractTitle opfTags)
+   (extractCreator opfTags)
+
    where
       opfTags = head . sections (~== "<metadata>") . parseTags
          . fromEntry . fromJust
