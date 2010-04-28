@@ -16,12 +16,10 @@ data Creator = Creator
    String   -- creator
    deriving Show
 
-{-
 type Date =
    ( String    -- event
    , String    -- date value
    )
--}
 
 data EpubMeta = EpubMeta
    { emTitle :: String
@@ -30,7 +28,7 @@ data EpubMeta = EpubMeta
    , emCreator :: Creator
 --   , emContributor :: String
 --   , emDescription :: String
---   , emDates :: [Date]
+   , emDates :: [Date]
    }
    deriving Show
 
@@ -61,12 +59,21 @@ extractCreator tags = Creator role creator
          $ creatorTags
 
 
+extractDates :: [Tag B.ByteString] -> [Date]
+extractDates = map extractDate . sections (~== "<dc:date>")
+   where extractDate ts = (event, date)
+      where
+         event = B.unpack . fromAttrib (B.pack "opf:event") . head $ ts
+         date = B.unpack . fromTagText . head . filter isTagText $ ts
+
+
 extractEpubMeta :: Archive -> EpubMeta
 --extractEpubMeta archive = EpubMeta $ extractTitle opfTags
 --extractEpubMeta archive = opfTags
 extractEpubMeta archive = EpubMeta
    (extractTitle opfTags)
    (extractCreator opfTags)
+   (extractDates opfTags)
 
    where
       opfTags = head . sections (~== "<metadata>") . parseTags
