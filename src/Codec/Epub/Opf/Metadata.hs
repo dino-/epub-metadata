@@ -61,10 +61,11 @@ extractCreator tags = Creator role creator
 
 extractDates :: [Tag B.ByteString] -> [Date]
 extractDates = map extractDate . sections (~== "<dc:date>")
-   where extractDate ts = (event, date)
-      where
-         event = B.unpack . fromAttrib (B.pack "opf:event") . head $ ts
-         date = B.unpack . fromTagText . head . filter isTagText $ ts
+   where
+      extractDate ts = (event, date)
+         where
+            event = B.unpack . fromAttrib (B.pack "opf:event") . head $ ts
+            date = B.unpack . fromTagText . head . filter isTagText $ ts
 
 
 extractEpubMeta :: Archive -> EpubMeta
