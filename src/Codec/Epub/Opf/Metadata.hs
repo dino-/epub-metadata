@@ -2,13 +2,15 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+{-# LANGUAGE FlexibleContexts #-}
+
 module Codec.Epub.Opf.Metadata
    where
 
-import Codec.Archive.Zip
-import qualified Data.ByteString.Lazy.Char8 as B
-import Data.Maybe ( fromJust )
+import Control.Monad.Error
+import HSH.Command
 import Text.HTML.TagSoup
+import Text.Printf
 
 
 data Creator = Creator
@@ -33,51 +35,67 @@ data EpubMeta = EpubMeta
    deriving Show
 
 
-opfPath :: Archive -> B.ByteString
-opfPath archive =
-   fromAttrib (B.pack "full-path") . head . head
-      . sections (~== "<rootfile>") $ containerTags archive
-   where
-      containerTags = parseTags . fromEntry . fromJust
-         . findEntryByPath "META-INF/container.xml"
+opfPath :: (MonadError String m, MonadIO m) =>
+   FilePath -> m String
+opfPath zipPath = do
+   containerContents <- extractFileFromZip zipPath
+      "META-INF/container.xml"
+
+   let containerTags = parseTags containerContents
+
+   return $ fromAttrib "full-path" . head . head .
+         sections (~== "<rootfile>") $ containerTags
 
 
-extractTitle :: [Tag B.ByteString] -> String
-extractTitle = B.unpack . fromTagText . head . filter isTagText
+extractTitle :: [Tag String] -> String
+extractTitle = fromTagText . head . filter isTagText
    . head . (sections (~== "<dc:title>"))
 
 
-extractCreator :: [Tag B.ByteString] -> Creator
+extractCreator :: [Tag String] -> Creator
 extractCreator tags = Creator role creator
    where
       creatorTags = head . (sections (~== "<dc:creator>")) $ tags
 
-      role = B.unpack . fromAttrib (B.pack "opf:role")
-         . head $ creatorTags
+      role = fromAttrib "opf:role" . head $ creatorTags
 
-      creator = B.unpack . fromTagText . head . filter isTagText
+      creator = fromTagText . head . filter isTagText
          $ creatorTags
 
 
-extractDates :: [Tag B.ByteString] -> [Date]
+extractDates :: [Tag String] -> [Date]
 extractDates = map extractDate . sections (~== "<dc:date>")
    where
       extractDate ts = (event, date)
          where
-            event = B.unpack . fromAttrib (B.pack "opf:event") . head $ ts
-            date = B.unpack . fromTagText . head . filter isTagText $ ts
+            event = fromAttrib "opf:event" . head $ ts
+            date = fromTagText . head . filter isTagText $ ts
 
 
-extractEpubMeta :: Archive -> EpubMeta
---extractEpubMeta archive = EpubMeta $ extractTitle opfTags
---extractEpubMeta archive = opfTags
-extractEpubMeta archive = EpubMeta
-   (extractTitle opfTags)
-   (extractCreator opfTags)
-   (extractDates opfTags)
+extractEpubMeta :: (MonadIO m, MonadError String m) =>
+   FilePath -> m EpubMeta
+extractEpubMeta zipPath = EpubMeta
+   `liftM` (extractTitle `liftM` opfTags)
+   `ap`    (extractCreator `liftM` opfTags)
+   `ap`    (extractDates `liftM` opfTags)
 
    where
-      opfTags = head . sections (~== "<metadata>") . parseTags
-         . fromEntry . fromJust
-         . (findEntryByPath (B.unpack $ opfPath archive))
-         $ archive
+      opfTags = do
+         opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
+
+         return $ head . sections (~== "<metadata>") . parseTags
+            $ opfContents
+
+
+extractFileFromZip ::
+   (MonadIO m, MonadError [Char] m) =>
+   FilePath -> FilePath -> m String
+extractFileFromZip zipPath filePath = do
+   let app = "unzip"
+   result <- liftIO $ tryEC $ run
+      ((printf "%s -p %s %s" app zipPath filePath) :: String)
+   case result of
+      Left ps -> throwError $
+         printf "[ERROR %s  zip file: %s  path in zip: %s  status: %s]"
+            app zipPath filePath (show ps)
+      Right output -> return output
