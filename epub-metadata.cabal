@@ -23,5 +23,5 @@ library
 executable           epub-meta
    main-is:          Codec/Epub/Opf/epub-meta.hs
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5, HSH, mtl, tagsoup
+   build-depends:    base >= 3 && < 5, HSH, hxt, mtl
    ghc-options:      -Wall
