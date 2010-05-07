@@ -93,6 +93,10 @@ getId = atQTag (dcName "identifier") >>>
       returnA -< EMId i s c
 
 
+getLang :: (ArrowXml a) => a (NTree XNode) String
+getLang = atQTag (dcName "language") >>> text
+
+
 getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
 getMeta = atTag "metadata" >>>
    proc x -> do
@@ -100,11 +104,13 @@ getMeta = atTag "metadata" >>>
       cs <- listA getCreator -< x
       ds <- listA getDate -< x
       is <- listA getId -< x
+      ls <- listA getLang -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
          , emCreators = cs
          , emDates = ds
          , emIds = is
+         , emLangs = ls
          }
 
 
