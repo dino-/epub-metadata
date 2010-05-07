@@ -75,6 +75,14 @@ getCreator = atQTag (dcName "creator") >>>
       returnA -< EMCreator r f c
 
 
+getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+getPublisher =
+   ( atQTag (dcName "publisher") >>>
+     text >>> notNullA >>> arr Just )
+   `orElse`
+   (constA Nothing)
+
+
 getDate :: (ArrowXml a) => a (NTree XNode) EMDate
 getDate = atQTag (dcName "date") >>>
    proc x -> do
@@ -102,12 +110,14 @@ getMeta = atTag "metadata" >>>
    proc x -> do
       ts <- listA getTitle -< x
       cs <- listA getCreator -< x
+      p  <- getPublisher -< x
       ds <- listA getDate -< x
       is <- listA getId -< x
       ls <- listA getLang -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
          , emCreators = cs
+         , emPublisher = p
          , emDates = ds
          , emIds = is
          , emLangs = ls
