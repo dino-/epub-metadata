@@ -44,8 +44,17 @@ dateToString (EMDate event date) = init $
    (formatSubline "date" (Just date))
 
 
+idToString :: EMId -> String
+idToString (EMId idVal scheme content) = init $
+   "identifier\n" ++
+   (formatSubline "id" (Just idVal)) ++
+   (formatSubline "scheme" scheme) ++
+   (formatSubline "identifier" (Just content))
+
+
 emToString :: EpubMeta -> String
 emToString em = unlines $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
-   (map dateToString $ emDates em)
+   (map dateToString $ emDates em) ++
+   (map idToString $ emIds em)
