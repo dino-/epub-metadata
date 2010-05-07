@@ -52,9 +52,14 @@ idToString (EMId idVal scheme content) = init $
    (formatSubline "identifier" (Just content))
 
 
+langToString :: String -> String
+langToString = ("language: " ++)
+
+
 emToString :: EpubMeta -> String
 emToString em = unlines $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map dateToString $ emDates em) ++
-   (map idToString $ emIds em)
+   (map idToString $ emIds em) ++
+   (map langToString $ emLangs em)
