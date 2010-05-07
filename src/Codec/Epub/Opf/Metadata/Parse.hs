@@ -93,18 +93,22 @@ getMeta = atTag "metadata" >>>
          }
 
 
+parseXmlToMeta :: (MonadIO m) => String -> m [EpubMeta]
+parseXmlToMeta opfContents =
+   liftIO $ runX (
+      readString [(a_validate, v_0)] opfContents
+      >>> propagateNamespaces
+      >>> getMeta
+      )
+
+
 parseEpubMeta :: (MonadIO m, MonadError String m) =>
    FilePath -> m EpubMeta
 parseEpubMeta zipPath = do
    opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
-   let parsedDoc = readString [(a_validate, v_0)] opfContents
-         >>> propagateNamespaces
-
-   --x <- liftIO $ runX ( parsedDoc >>> getTitles )
-   --x <- liftIO $ runX ( parsedDoc >>> getCreators )
-   --x <- liftIO $ runX ( parsedDoc >>> getDates )
-   result <- liftIO $ runX ( parsedDoc >>> getMeta )
+   result <- parseXmlToMeta opfContents
 
    case result of
       (em : []) -> return em
-      _         -> throwError "ERROR: we didn't come up with a single EpubMeta"
+      _         -> throwError
+         "ERROR: we didn't come up with a single EpubMeta"
