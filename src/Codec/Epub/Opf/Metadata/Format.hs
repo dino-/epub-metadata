@@ -35,6 +35,16 @@ creatorToString (EMCreator role fileAs creator) =
    (formatSubline "creator" (Just creator))
 
 
+contributorToString :: EMCreator -> String
+contributorToString (EMCreator Nothing Nothing contributor) =
+   printf "contributor: %s\n" contributor
+contributorToString (EMCreator role fileAs contributor) =
+   "contributor\n" ++
+   (formatSubline "role" role) ++
+   (formatSubline "file-as" fileAs) ++
+   (formatSubline "creator" (Just contributor))
+
+
 publisherToString :: Maybe String -> String
 publisherToString = maybe "" (printf "publisher: %s\n")
 
@@ -64,6 +74,7 @@ emToString :: EpubMeta -> String
 emToString em = concat $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
+   (map contributorToString $ emContributors em) ++
    [publisherToString . emPublisher $ em] ++
    (map dateToString $ emDates em) ++
    (map idToString $ emIds em) ++
