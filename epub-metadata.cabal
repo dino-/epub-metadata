@@ -15,7 +15,8 @@ category:            Unknown
 tested-with:         GHC>=6.12.1
 
 library
-   exposed-modules:  Codec.Epub.Opf.Metadata
+   exposed-modules:  Codec.Epub.IO, Codec.Epub.Opf.Metadata,
+                     Codec.Epub.Opf.Metadata.Parse
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, HSH, hxt, mtl
    ghc-options:      -Wall
@@ -23,5 +24,5 @@ library
 executable           epub-meta
    main-is:          Codec/Epub/Opf/epub-meta.hs
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5, HSH, hxt, mtl
+   build-depends:    base >= 3 && < 5
    ghc-options:      -Wall
