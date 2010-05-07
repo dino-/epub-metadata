@@ -17,7 +17,7 @@ tested-with:         GHC>=6.12.1
 library
    exposed-modules:  Codec.Epub.Opf.Metadata
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5
+   build-depends:    base >= 3 && < 5, HSH, hxt, mtl
    ghc-options:      -Wall
 
 executable           epub-meta
