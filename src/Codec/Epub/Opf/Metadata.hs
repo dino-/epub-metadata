@@ -9,6 +9,7 @@ module Codec.Epub.Opf.Metadata
    where
 
 import Control.Monad.Error
+import Data.Tree.NTree.TypeDefs ( NTree )
 import HSH.Command
 import Text.Printf
 import Text.XML.HXT.Arrow
@@ -61,6 +62,8 @@ data EpubMeta = EpubMeta
    }
    deriving Show
 
+-- Note: This isn't valid as-is, some required values are empty lists!
+emptyEpubMeta :: EpubMeta
 emptyEpubMeta = EpubMeta
    { emEMTitles = []   -- one required
    , emEMCreators = []
@@ -82,20 +85,29 @@ emptyEpubMeta = EpubMeta
 
 -- HXT helpers
 
+hxtParseParams :: [(String, String)]
 hxtParseParams = [(a_validate, v_0)]
 
+atTag :: (ArrowXml a) => String -> a (NTree XNode) XmlTree
 atTag tag = deep (isElem >>> hasName tag)
 
+atQTag :: (ArrowXml a) => QName -> a (NTree XNode) XmlTree
 atQTag tag = deep (isElem >>> hasQName tag)
 
+text :: (ArrowXml a) => a (NTree XNode) String
 text = getChildren >>> getText
 
+notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
+mbGetAttrValue :: (ArrowXml a) =>
+   String -> a XmlTree (Maybe String)
 mbGetAttrValue n =
    (getAttrValue n >>> notNullA >>> arr Just)
    `orElse` (constA Nothing)
 
+mbGetQAttrValue :: (ArrowXml a) =>
+   QName -> a XmlTree (Maybe String)
 mbGetQAttrValue qn =
    (getQAttrValue qn >>> notNullA >>> arr Just)
    `orElse` (constA Nothing)
@@ -126,14 +138,16 @@ opfPath zipPath = do
          "ERROR: rootfile full-path missing from META-INF/container.xml"
 
 
-getTitles = atQTag (dcName "title") >>>
+getTitle :: (ArrowXml a) => a (NTree XNode) EMTitle
+getTitle = atQTag (dcName "title") >>>
    proc x -> do
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
       returnA -< EMTitle l c
 
 
-getCreators = atQTag (dcName "creator") >>>
+getCreator :: (ArrowXml a) => a (NTree XNode) EMCreator
+getCreator = atQTag (dcName "creator") >>>
    proc x -> do
       r <- mbGetQAttrValue (opfName "role") -< x
       f <- mbGetQAttrValue (opfName "file-as") -< x
@@ -141,18 +155,20 @@ getCreators = atQTag (dcName "creator") >>>
       returnA -< EMCreator r f c
 
 
-getDates = atQTag (dcName "date") >>>
+getDate :: (ArrowXml a) => a (NTree XNode) EMDate
+getDate = atQTag (dcName "date") >>>
    proc x -> do
       e <- mbGetQAttrValue (opfName "event") -< x
       c <- text -< x
       returnA -< EMDate e c
 
 
+getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
 getMeta = atTag "metadata" >>>
    proc x -> do
-      ts <- getTitles -< x
-      cs <- getCreators -< x
-      ds <- getDates -< x
+      ts <- listA getTitle -< x
+      cs <- listA getCreator -< x
+      ds <- listA getDate -< x
       returnA -< emptyEpubMeta
          { emEMTitles = ts
          , emEMCreators = cs
@@ -160,6 +176,8 @@ getMeta = atTag "metadata" >>>
          }
 
 
+extractEpubMeta :: (MonadIO m, MonadError String m) =>
+   FilePath -> m EpubMeta
 extractEpubMeta zipPath = do
    opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
    let parsedDoc = readString hxtParseParams opfContents
