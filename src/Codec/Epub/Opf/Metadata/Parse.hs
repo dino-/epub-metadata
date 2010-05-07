@@ -13,6 +13,7 @@ module Codec.Epub.Opf.Metadata.Parse
 
 import Control.Monad.Error
 import Data.Tree.NTree.TypeDefs ( NTree )
+import Prelude hiding ( cos )
 import Text.XML.HXT.Arrow
 
 import Codec.Epub.IO
@@ -75,6 +76,15 @@ getCreator = atQTag (dcName "creator") >>>
       returnA -< EMCreator r f c
 
 
+getContributor :: (ArrowXml a) => a (NTree XNode) EMCreator
+getContributor = atQTag (dcName "contributor") >>>
+   proc x -> do
+      r <- mbGetQAttrValue (opfName "role") -< x
+      f <- mbGetQAttrValue (opfName "file-as") -< x
+      c <- text -< x
+      returnA -< EMCreator r f c
+
+
 getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
 getPublisher =
    ( atQTag (dcName "publisher") >>>
@@ -108,15 +118,17 @@ getLang = atQTag (dcName "language") >>> text
 getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
 getMeta = atTag "metadata" >>>
    proc x -> do
-      ts <- listA getTitle -< x
-      cs <- listA getCreator -< x
-      p  <- getPublisher -< x
-      ds <- listA getDate -< x
-      is <- listA getId -< x
-      ls <- listA getLang -< x
+      ts  <- listA getTitle -< x
+      crs <- listA getCreator -< x
+      cos <- listA getContributor -< x
+      p   <- getPublisher -< x
+      ds  <- listA getDate -< x
+      is  <- listA getId -< x
+      ls  <- listA getLang -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
-         , emCreators = cs
+         , emCreators = crs
+         , emContributors = cos
          , emPublisher = p
          , emDates = ds
          , emIds = is
