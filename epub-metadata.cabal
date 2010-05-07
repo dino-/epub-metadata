@@ -15,7 +15,9 @@ category:            Unknown
 tested-with:         GHC>=6.12.1
 
 library
-   exposed-modules:  Codec.Epub.IO, Codec.Epub.Opf.Metadata,
+   exposed-modules:  Codec.Epub.IO,
+                     Codec.Epub.Opf.Metadata,
+                     Codec.Epub.Opf.Metadata.Format,
                      Codec.Epub.Opf.Metadata.Parse
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, HSH, hxt, mtl

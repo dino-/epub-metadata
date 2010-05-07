@@ -6,6 +6,7 @@ import Control.Applicative ( (<$>) )
 import Control.Monad.Error
 import System.Environment ( getArgs )
 
+import Codec.Epub.Opf.Metadata.Format
 import Codec.Epub.Opf.Metadata.Parse
 
 
@@ -14,6 +15,7 @@ main = do
    zipPath <- head <$> getArgs
 
    result <- runErrorT $ parseEpubMeta zipPath
-   print result
+
+   putStr $ either (++ "\n") emToString result
 
    return ()
