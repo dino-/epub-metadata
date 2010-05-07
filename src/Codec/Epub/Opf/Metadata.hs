@@ -51,7 +51,7 @@ data EpubMeta = EpubMeta
    , emDates :: [EMDate]
    , emType :: Maybe String
    , emFormat :: Maybe String
-   , emId :: [EMId]          -- one required
+   , emIds :: [EMId]          -- one required
    , emSource :: Maybe String
    , emLang :: [String]    -- one required
    , emRelation :: Maybe String
@@ -72,7 +72,7 @@ emptyEpubMeta = EpubMeta
    , emDates = []
    , emType = Nothing
    , emFormat = Nothing
-   , emId = []       -- one required
+   , emIds = []       -- one required
    , emSource = Nothing
    , emLang = []     -- one required
    , emRelation = Nothing
