@@ -38,8 +38,8 @@ data EMDate = EMDate
    deriving Show
 
 data Id = Id
-   String         -- id
-   (Maybe String) -- opf:scheme
+   String         -- id attribute
+   (Maybe String) -- opf:scheme attribute
    String         -- content
    deriving Show
 
@@ -113,7 +113,11 @@ mbGetQAttrValue qn =
    `orElse` (constA Nothing)
 
 
--- ePub parsing helpers
+{- ePub parsing helpers
+
+   Note that these URIs could conceivably change in the future
+   Is it ok that they're hardcoded like this?
+-}
 
 dcName, opfName, xmlName :: String -> QName
 dcName local = mkQName "dc" local "http://purl.org/dc/elements/1.1/"
