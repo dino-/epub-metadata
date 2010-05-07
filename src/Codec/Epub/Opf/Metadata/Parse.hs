@@ -33,14 +33,11 @@ text = getChildren >>> getText
 notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
-{- Nothing is using this yet, will need it later
-
 mbGetAttrValue :: (ArrowXml a) =>
    String -> a XmlTree (Maybe String)
 mbGetAttrValue n =
    (getAttrValue n >>> notNullA >>> arr Just)
    `orElse` (constA Nothing)
--}
 
 mbGetQAttrValue :: (ArrowXml a) =>
    QName -> a XmlTree (Maybe String)
@@ -86,16 +83,28 @@ getDate = atQTag (dcName "date") >>>
       returnA -< EMDate e c
 
 
+getId :: (ArrowXml a) => a (NTree XNode) EMId
+getId = atQTag (dcName "identifier") >>>
+   proc x -> do
+      mbi <- mbGetAttrValue "id" -< x
+      s <- mbGetQAttrValue (opfName "scheme") -< x
+      c <- text -< x
+      let i = maybe "[WARNING: missing required id attribute]" id mbi
+      returnA -< EMId i s c
+
+
 getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
 getMeta = atTag "metadata" >>>
    proc x -> do
       ts <- listA getTitle -< x
       cs <- listA getCreator -< x
       ds <- listA getDate -< x
+      is <- listA getId -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
          , emCreators = cs
          , emDates = ds
+         , emIds = is
          }
 
 
