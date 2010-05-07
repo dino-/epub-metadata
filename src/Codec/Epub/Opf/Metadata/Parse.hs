@@ -30,11 +30,14 @@ text = getChildren >>> getText
 notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
+{- Nothing is using this yet, will need it later
+
 mbGetAttrValue :: (ArrowXml a) =>
    String -> a XmlTree (Maybe String)
 mbGetAttrValue n =
    (getAttrValue n >>> notNullA >>> arr Just)
    `orElse` (constA Nothing)
+-}
 
 mbGetQAttrValue :: (ArrowXml a) =>
    QName -> a XmlTree (Maybe String)
