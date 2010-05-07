@@ -18,8 +18,8 @@ formatSubline key (Just value) = printf "   %s: %s\n" key value
 
 
 titleToString :: EMTitle -> String
-titleToString (EMTitle Nothing title) = "title: " ++ title
-titleToString (EMTitle lang title) = init $
+titleToString (EMTitle Nothing title) = printf "title: %s\n" title
+titleToString (EMTitle lang title) =
    "title\n" ++
    (formatSubline "lang" lang) ++
    (formatSubline "title" (Just title))
@@ -27,8 +27,8 @@ titleToString (EMTitle lang title) = init $
 
 creatorToString :: EMCreator -> String
 creatorToString (EMCreator Nothing Nothing creator) =
-   "creator: " ++ creator
-creatorToString (EMCreator role fileAs creator) = init $
+   printf "creator: %s\n" creator
+creatorToString (EMCreator role fileAs creator) =
    "creator\n" ++
    (formatSubline "role" role) ++
    (formatSubline "file-as" fileAs) ++
@@ -37,15 +37,15 @@ creatorToString (EMCreator role fileAs creator) = init $
 
 dateToString :: EMDate -> String
 dateToString (EMDate Nothing date) =
-   "date: " ++ date
-dateToString (EMDate event date) = init $
+   printf "date: %s\n" date
+dateToString (EMDate event date) =
    "date\n" ++
    (formatSubline "event" event) ++
    (formatSubline "date" (Just date))
 
 
 idToString :: EMId -> String
-idToString (EMId idVal scheme content) = init $
+idToString (EMId idVal scheme content) =
    "identifier\n" ++
    (formatSubline "id" (Just idVal)) ++
    (formatSubline "scheme" scheme) ++
@@ -53,11 +53,11 @@ idToString (EMId idVal scheme content) = init $
 
 
 langToString :: String -> String
-langToString = ("language: " ++)
+langToString = printf "language: %s\n"
 
 
 emToString :: EpubMeta -> String
-emToString em = unlines $
+emToString em = concat $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map dateToString $ emDates em) ++
