@@ -190,10 +190,11 @@ extractEpubMeta zipPath = do
    --x <- liftIO $ runX ( parsedDoc >>> getTitles )
    --x <- liftIO $ runX ( parsedDoc >>> getCreators )
    --x <- liftIO $ runX ( parsedDoc >>> getDates )
-   x <- liftIO $ runX ( parsedDoc >>> getMeta )
+   result <- liftIO $ runX ( parsedDoc >>> getMeta )
 
-   return x
-   --return ()
+   case result of
+      (em : []) -> return em
+      _         -> throwError "ERROR: we didn't come up with a single EpubMeta"
 
 
 extractFileFromZip ::
