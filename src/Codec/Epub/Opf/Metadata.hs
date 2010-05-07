@@ -42,16 +42,16 @@ data EMId = EMId
    deriving Show
 
 data EpubMeta = EpubMeta
-   { emEMTitles :: [EMTitle]   -- one required
-   , emEMCreators :: [EMCreator]
+   { emTitles :: [EMTitle]   -- one required
+   , emCreators :: [EMCreator]
    , emContributors :: [EMCreator]
    , emSubjects :: [String]
    , emDescription :: Maybe String
    , emPublisher :: Maybe String
-   , emEMDates :: [EMDate]
+   , emDates :: [EMDate]
    , emType :: Maybe String
    , emFormat :: Maybe String
-   , emEMId :: [EMId]          -- one required
+   , emId :: [EMId]          -- one required
    , emSource :: Maybe String
    , emLang :: [String]    -- one required
    , emRelation :: Maybe String
@@ -63,16 +63,16 @@ data EpubMeta = EpubMeta
 -- Note: This isn't valid as-is, some required values are empty lists!
 emptyEpubMeta :: EpubMeta
 emptyEpubMeta = EpubMeta
-   { emEMTitles = []   -- one required
-   , emEMCreators = []
+   { emTitles = []   -- one required
+   , emCreators = []
    , emContributors = []
    , emSubjects = []
    , emDescription = Nothing
    , emPublisher = Nothing
-   , emEMDates = []
+   , emDates = []
    , emType = Nothing
    , emFormat = Nothing
-   , emEMId = []       -- one required
+   , emId = []       -- one required
    , emSource = Nothing
    , emLang = []     -- one required
    , emRelation = Nothing

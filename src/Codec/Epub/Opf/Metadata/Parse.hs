@@ -87,9 +87,9 @@ getMeta = atTag "metadata" >>>
       cs <- listA getCreator -< x
       ds <- listA getDate -< x
       returnA -< emptyEpubMeta
-         { emEMTitles = ts
-         , emEMCreators = cs
-         , emEMDates = ds
+         { emTitles = ts
+         , emCreators = cs
+         , emDates = ds
          }
 
 
