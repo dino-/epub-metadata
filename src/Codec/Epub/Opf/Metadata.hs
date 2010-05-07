@@ -6,7 +6,7 @@ module Codec.Epub.Opf.Metadata
    ( EMTitle (..)
    , EMCreator (..)
    , EMDate (..)
-   , Id (..)
+   , EMId (..)
    , EpubMeta (..)
    , emptyEpubMeta
    )
@@ -35,7 +35,7 @@ data EMDate = EMDate
    String         -- content
    deriving Show
 
-data Id = Id
+data EMId = EMId
    String         -- id attribute
    (Maybe String) -- opf:scheme attribute
    String         -- content
@@ -51,7 +51,7 @@ data EpubMeta = EpubMeta
    , emEMDates :: [EMDate]
    , emType :: Maybe String
    , emFormat :: Maybe String
-   , emId :: [Id]          -- one required
+   , emEMId :: [EMId]          -- one required
    , emSource :: Maybe String
    , emLang :: [String]    -- one required
    , emRelation :: Maybe String
@@ -72,7 +72,7 @@ emptyEpubMeta = EpubMeta
    , emEMDates = []
    , emType = Nothing
    , emFormat = Nothing
-   , emId = []       -- one required
+   , emEMId = []       -- one required
    , emSource = Nothing
    , emLang = []     -- one required
    , emRelation = Nothing
