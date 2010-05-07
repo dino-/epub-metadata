@@ -6,6 +6,9 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Codec.Epub.Opf.Metadata.Parse
+   ( parseXmlToMeta
+   , parseEpubMeta
+   )
    where
 
 import Control.Monad.Error
