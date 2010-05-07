@@ -14,19 +14,25 @@ import Text.Printf
 import Text.XML.HXT.Arrow
 
 
-data Title = Title
-   (Maybe String) -- xml:lang
+{- These data types were constructed by studying the IDPF OPF 
+   specification  for ePub documents found here:
+
+   http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html
+-}
+
+data EMTitle = EMTitle
+   (Maybe String) -- xml:lang attribute
    String         -- content
    deriving Show
 
-data Creator = Creator
-   (Maybe String) -- opf:role
-   (Maybe String) -- opf:file-as
+data EMCreator = EMCreator
+   (Maybe String) -- opf:role attribute
+   (Maybe String) -- opf:file-as attribute
    String         -- content
    deriving Show
 
-data Date = Date
-   (Maybe String) -- opf:event
+data EMDate = EMDate
+   (Maybe String) -- opf:event attribute
    String         -- content
    deriving Show
 
@@ -37,13 +43,13 @@ data Id = Id
    deriving Show
 
 data EpubMeta = EpubMeta
-   { emTitles :: [Title]   -- one required
-   , emCreators :: [Creator]
-   , emContributors :: [Creator]
+   { emEMTitles :: [EMTitle]   -- one required
+   , emEMCreators :: [EMCreator]
+   , emContributors :: [EMCreator]
    , emSubjects :: [String]
    , emDescription :: Maybe String
    , emPublisher :: Maybe String
-   , emDates :: [Date]
+   , emEMDates :: [EMDate]
    , emType :: Maybe String
    , emFormat :: Maybe String
    , emId :: [Id]          -- one required
@@ -56,13 +62,13 @@ data EpubMeta = EpubMeta
    deriving Show
 
 emptyEpubMeta = EpubMeta
-   { emTitles = []   -- one required
-   , emCreators = []
+   { emEMTitles = []   -- one required
+   , emEMCreators = []
    , emContributors = []
    , emSubjects = []
    , emDescription = Nothing
    , emPublisher = Nothing
-   , emDates = []
+   , emEMDates = []
    , emType = Nothing
    , emFormat = Nothing
    , emId = []       -- one required
@@ -124,7 +130,7 @@ getTitles = atQTag (dcName "title") >>>
    proc x -> do
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
-      returnA -< Title l c
+      returnA -< EMTitle l c
 
 
 getCreators = atQTag (dcName "creator") >>>
@@ -132,14 +138,14 @@ getCreators = atQTag (dcName "creator") >>>
       r <- mbGetQAttrValue (opfName "role") -< x
       f <- mbGetQAttrValue (opfName "file-as") -< x
       c <- text -< x
-      returnA -< Creator r f c
+      returnA -< EMCreator r f c
 
 
 getDates = atQTag (dcName "date") >>>
    proc x -> do
       e <- mbGetQAttrValue (opfName "event") -< x
       c <- text -< x
-      returnA -< Date e c
+      returnA -< EMDate e c
 
 
 getMeta = atTag "metadata" >>>
@@ -148,9 +154,9 @@ getMeta = atTag "metadata" >>>
       cs <- getCreators -< x
       ds <- getDates -< x
       returnA -< emptyEpubMeta
-         { emTitles = [ts]
-         , emCreators = [cs]
-         , emDates = [ds]
+         { emEMTitles = ts
+         , emEMCreators = cs
+         , emEMDates = ds
          }
 
 
