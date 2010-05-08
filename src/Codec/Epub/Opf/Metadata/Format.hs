@@ -79,8 +79,8 @@ emToString em = concat $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map contributorToString $ emContributors em) ++
-   (map subjectToString $ emSubjects em) ++
-   [publisherToString . emPublisher $ em] ++
    (map dateToString $ emDates em) ++
    (map idToString $ emIds em) ++
+   (map subjectToString $ emSubjects em) ++
+   [publisherToString . emPublisher $ em] ++
    (map langToString $ emLangs em)
