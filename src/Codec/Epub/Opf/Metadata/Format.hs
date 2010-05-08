@@ -45,6 +45,10 @@ contributorToString (EMCreator role fileAs contributor) =
    (formatSubline "creator" (Just contributor))
 
 
+subjectToString :: String -> String
+subjectToString = printf "subject: %s\n"
+
+
 publisherToString :: Maybe String -> String
 publisherToString = maybe "" (printf "publisher: %s\n")
 
@@ -75,6 +79,7 @@ emToString em = concat $
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map contributorToString $ emContributors em) ++
+   (map subjectToString $ emSubjects em) ++
    [publisherToString . emPublisher $ em] ++
    (map dateToString $ emDates em) ++
    (map idToString $ emIds em) ++
