@@ -56,7 +56,7 @@ mbGetQAttrValue qn =
 dcName, opfName, xmlName :: String -> QName
 dcName local = mkQName "dc" local "http://purl.org/dc/elements/1.1/"
 opfName local = mkQName "opf" local "http://www.idpf.org/2007/opf"
-xmlName local = mkQName "xml" local "http://FIXME-WRONG"
+xmlName local = mkQName "xml" local "http://www.w3.org/XML/1998/namespace"
 
 
 getTitle :: (ArrowXml a) => a (NTree XNode) EMTitle
