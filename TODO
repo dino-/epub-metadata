@@ -1,8 +1,5 @@
 - Haddock docs
 
-- unit tests
-   What's the difference with Setup.hs test and cabal test?
-
 - Fill out cabal info like synopsis, description
 
 - Examine dc:identifier tags. Spec says they MUST have an id attribute. Is that the case with actual book files? If not, need to change the EMId data type.

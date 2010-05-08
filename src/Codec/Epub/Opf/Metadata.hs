@@ -22,24 +22,24 @@ module Codec.Epub.Opf.Metadata
 data EMTitle = EMTitle
    (Maybe String) -- xml:lang attribute
    String         -- content
-   deriving Show
+   deriving (Eq, Show)
 
 data EMCreator = EMCreator
    (Maybe String) -- opf:role attribute
    (Maybe String) -- opf:file-as attribute
    String         -- content
-   deriving Show
+   deriving (Eq, Show)
 
 data EMDate = EMDate
    (Maybe String) -- opf:event attribute
    String         -- content
-   deriving Show
+   deriving (Eq, Show)
 
 data EMId = EMId
    String         -- id attribute
    (Maybe String) -- opf:scheme attribute
    String         -- content
-   deriving Show
+   deriving (Eq, Show)
 
 data EpubMeta = EpubMeta
    { emTitles :: [EMTitle]   -- one required
@@ -58,7 +58,7 @@ data EpubMeta = EpubMeta
    , emCoverage :: Maybe String
    , emRights :: Maybe String
    }
-   deriving Show
+   deriving (Eq, Show)
 
 -- Note: This isn't valid as-is, some required values are empty lists!
 emptyEpubMeta :: EpubMeta
