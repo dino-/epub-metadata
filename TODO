@@ -1,3 +1,5 @@
+- Better errors on parse failure, this will emerge along with more unit testing
+
 - Add a new tool: epub-opfdump
    To reach in and dump the opf rootfile from an epub zipfile to stdout
 
