@@ -14,7 +14,7 @@ module Codec.Epub.Opf.Metadata
 
 
 {- These data types were constructed by studying the IDPF OPF 
-   specification  for ePub documents found here:
+   specification for ePub documents found here:
 
    http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html
 -}

@@ -23,6 +23,9 @@ tests = TestList
    ]
 
 
+{- A fairly comprehensive test containing all possible things
+   Not complete at this time because the library can't parse it all yet!
+-}
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
