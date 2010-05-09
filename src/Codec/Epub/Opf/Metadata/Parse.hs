@@ -5,6 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
+-- | Module for extracting the metadata from an ePub file
 module Codec.Epub.Opf.Metadata.Parse
    ( parseXmlToMeta
    , parseEpubMeta
@@ -51,6 +52,8 @@ mbGetQAttrValue qn =
 
    Note that these URIs could conceivably change in the future
    Is it ok that they're hardcoded like this?
+
+   Well, ok, the xml namespace URI will probably never change.
 -}
 
 dcName, opfName, xmlName :: String -> QName
@@ -142,6 +145,9 @@ getMeta = atTag "metadata" >>>
          }
 
 
+{- | Extract the ePub metadata contained in an OPF rootfile, here 
+   given as a string
+-}
 parseXmlToMeta :: (MonadIO m) => String -> m [EpubMeta]
 parseXmlToMeta opfContents =
    liftIO $ runX (
@@ -151,6 +157,7 @@ parseXmlToMeta opfContents =
       )
 
 
+-- | Given the path to an ePub file, extract the metadata
 parseEpubMeta :: (MonadIO m, MonadError String m) =>
    FilePath -> m EpubMeta
 parseEpubMeta zipPath = do
