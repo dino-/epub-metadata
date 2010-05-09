@@ -2,6 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+-- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Opf.Metadata.Format
    ( emToString
    )
@@ -74,6 +75,7 @@ langToString :: String -> String
 langToString = printf "language: %s\n"
 
 
+-- | Format an ePub metadata into a String
 emToString :: EpubMeta -> String
 emToString em = concat $
    (map titleToString $ emTitles em) ++
