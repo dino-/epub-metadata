@@ -4,6 +4,11 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
+{- | Functions for doing some disk IO with ePub documents
+
+   Note that these functions do their work by using the external 
+   unzip utility.
+-}
 module Codec.Epub.IO
    ( extractFileFromZip, opfPath )
    where
@@ -14,9 +19,13 @@ import Text.Printf
 import Text.XML.HXT.Arrow
 
 
-extractFileFromZip ::
-   (MonadIO m, MonadError [Char] m) =>
-   FilePath -> FilePath -> m String
+{- | Extract a file from a zipfile.
+   This is here because ePub files are really just zip files.
+-}
+extractFileFromZip :: (MonadIO m, MonadError [Char] m)
+   => FilePath    -- ^ path to zip file
+   -> FilePath    -- ^ path within zip file to extract
+   -> m String    -- ^ contents of expected file
 extractFileFromZip zipPath filePath = do
    let dearchiver = "unzip"
    result <- liftIO $ tryEC $ run
@@ -28,8 +37,10 @@ extractFileFromZip zipPath filePath = do
       Right output -> return output
 
 
-opfPath :: (MonadError String m, MonadIO m) =>
-   FilePath -> m String
+-- | Get the path to the opf rootfile from an ePub document
+opfPath :: (MonadError String m, MonadIO m)
+   => FilePath    -- ^ path to zip file
+   -> m String    -- ^ path within zip to the opf rootfile
 opfPath zipPath = do
    containerContents <- extractFileFromZip zipPath
       "META-INF/container.xml"
