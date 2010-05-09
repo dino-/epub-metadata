@@ -3,6 +3,4 @@
 - Add a new tool: epub-opfdump
    To reach in and dump the opf rootfile from an epub zipfile to stdout
 
-- Haddock docs
-
 - Fill out cabal info like synopsis, description
