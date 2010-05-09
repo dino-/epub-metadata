@@ -2,6 +2,13 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+{- | Data types for working with the metadata of ePub documents
+
+   These data types were constructed by studying the IDPF OPF 
+   specification for ePub documents found here:
+
+   <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
+-}
 module Codec.Epub.Opf.Metadata
    ( EMTitle (..)
    , EMCreator (..)
@@ -13,54 +20,43 @@ module Codec.Epub.Opf.Metadata
    where
 
 
-{- These data types were constructed by studying the IDPF OPF 
-   specification for ePub documents found here:
-
-   http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html
--}
-
-data EMTitle = EMTitle
-   (Maybe String) -- xml:lang attribute
-   String         -- content
+-- | dc:title tag, xml:lang attr, content
+data EMTitle = EMTitle (Maybe String) String
    deriving (Eq, Show)
 
-data EMCreator = EMCreator
-   (Maybe String) -- opf:role attribute
-   (Maybe String) -- opf:file-as attribute
-   String         -- content
+-- | dc:creator tag, opf:role attr, opf:file-as attr, content
+data EMCreator = EMCreator (Maybe String) (Maybe String) String
    deriving (Eq, Show)
 
-data EMDate = EMDate
-   (Maybe String) -- opf:event attribute
-   String         -- content
+-- | dc:date tag, opf:event attr, content
+data EMDate = EMDate (Maybe String) String
    deriving (Eq, Show)
 
-data EMId = EMId
-   String         -- id attribute
-   (Maybe String) -- opf:scheme attribute
-   String         -- content
+-- | dc:identifier tag, id attr, opf:scheme attr, content
+data EMId = EMId String (Maybe String) String
    deriving (Eq, Show)
 
+-- | opf:metadata tag
 data EpubMeta = EpubMeta
-   { emTitles :: [EMTitle]   -- one required
+   { emTitles :: [EMTitle]   -- ^ at least one required
    , emCreators :: [EMCreator]
    , emContributors :: [EMCreator]
-   , emSubjects :: [String]
-   , emDescription :: Maybe String
-   , emPublisher :: Maybe String
+   , emSubjects :: [String]  -- ^ dc:subject tags
+   , emDescription :: Maybe String  -- ^ dc:description tags
+   , emPublisher :: Maybe String  -- ^ dc:publisher tag
    , emDates :: [EMDate]
-   , emType :: Maybe String
-   , emFormat :: Maybe String
-   , emIds :: [EMId]          -- one required
-   , emSource :: Maybe String
-   , emLangs :: [String]    -- one required
-   , emRelation :: Maybe String
-   , emCoverage :: Maybe String
-   , emRights :: Maybe String
+   , emType :: Maybe String  -- ^ dc:type tag
+   , emFormat :: Maybe String  -- ^ dc:format tag
+   , emIds :: [EMId]          -- ^ at least one required
+   , emSource :: Maybe String  -- ^ dc:source tag
+   , emLangs :: [String]    -- ^ dc:language tags, at least one required
+   , emRelation :: Maybe String  -- ^ dc:relation tag
+   , emCoverage :: Maybe String  -- ^ dc:coverage tag
+   , emRights :: Maybe String  -- ^ dc:rights tag
    }
    deriving (Eq, Show)
 
--- Note: This isn't valid as-is, some required values are empty lists!
+-- | Note: This isn't valid as-is, some required values are empty lists!
 emptyEpubMeta :: EpubMeta
 emptyEpubMeta = EpubMeta
    { emTitles = []   -- one required
