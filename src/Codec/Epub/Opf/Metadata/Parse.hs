@@ -125,6 +125,10 @@ getDate = atQTag (dcName "date") >>>
       returnA -< EMDate e c
 
 
+getType :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+getType = mbQTagText $ dcName "type"
+
+
 getId :: (ArrowXml a) => a (NTree XNode) EMId
 getId = atQTag (dcName "identifier") >>>
    proc x -> do
@@ -149,6 +153,7 @@ getMeta = atTag "metadata" >>>
       d   <- getDescription -< x
       p   <- getPublisher -< x
       ds  <- listA getDate -< x
+      t   <- getType -< x
       is  <- listA getId -< x
       ls  <- listA getLang -< x
       returnA -< emptyEpubMeta
@@ -159,6 +164,7 @@ getMeta = atTag "metadata" >>>
          , emDescription = d
          , emPublisher = p
          , emDates = ds
+         , emType = t
          , emIds = is
          , emLangs = ls
          }
