@@ -14,6 +14,7 @@
       <dc:creator>Natalia Jenkins</dc:creator>
       <dc:contributor opf:role="ill" opf:file-as="Knickerbocker, Reginald Q.">Reginald Q. Knickerbocker</dc:contributor>
       <dc:contributor opf:role="edt">Beverly Abercrombie</dc:contributor>
+      <dc:description>This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata.</dc:description>
       <dc:identifier id="isbn" opf:scheme="ISBN">1-82057-821-9</dc:identifier>
       <dc:date opf:event="published">2010</dc:date>
       <dc:date opf:event="created">2010-05-07</dc:date>
@@ -24,6 +25,12 @@
       <dc:identifier id="other">1386506873266</dc:identifier>
       <dc:subject>Fiction</dc:subject>
       <dc:subject>Science Fiction</dc:subject>
+      <dc:type>test OPF Package Document</dc:type>
+      <dc:format>ePub publication</dc:format>
+      <dc:source>document source</dc:source>
+      <dc:relation>document relation</dc:relation>
+      <dc:coverage>coverage information</dc:coverage>
+      <dc:rights>Copyright: 2010 Dino Morelli, License: BSD3</dc:rights>
       <meta name="series_index" content="1"/>
    </metadata>
 

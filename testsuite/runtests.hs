@@ -61,7 +61,7 @@ testFull = TestCase $ do
                "Beverly Abercrombie"
             ]
          , emSubjects = ["Fiction", "Science Fiction"]
-         , emDescription = Nothing
+         , emDescription = Just "This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata."
          , emPublisher = Just "Fictional Books Ltd."
          , emDates =
             [ EMDate (Just "published") "2010"
