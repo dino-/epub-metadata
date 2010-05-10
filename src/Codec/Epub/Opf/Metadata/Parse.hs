@@ -35,6 +35,15 @@ text = getChildren >>> getText
 notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
+
+mbQTagText :: (ArrowXml a) => QName -> a (NTree XNode) (Maybe String)
+mbQTagText tag =
+   ( atQTag tag >>>
+     text >>> notNullA >>> arr Just )
+   `orElse`
+   (constA Nothing)
+
+
 mbGetAttrValue :: (ArrowXml a) =>
    String -> a XmlTree (Maybe String)
 mbGetAttrValue n =
@@ -101,11 +110,7 @@ getSubject = atQTag (dcName "subject") >>> text
 
 
 getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getPublisher =
-   ( atQTag (dcName "publisher") >>>
-     text >>> notNullA >>> arr Just )
-   `orElse`
-   (constA Nothing)
+getPublisher = mbQTagText $ dcName "publisher"
 
 
 getDate :: (ArrowXml a) => a (NTree XNode) EMDate
