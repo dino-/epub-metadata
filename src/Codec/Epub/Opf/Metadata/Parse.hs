@@ -151,6 +151,10 @@ getLang :: (ArrowXml a) => a (NTree XNode) String
 getLang = atQTag (dcName "language") >>> text
 
 
+getRelation :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+getRelation = mbQTagText $ dcName "relation"
+
+
 getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
 getMeta = atTag "metadata" >>>
    proc x -> do
@@ -166,6 +170,7 @@ getMeta = atTag "metadata" >>>
       is  <- listA getId -< x
       s   <- getSource -< x
       ls  <- listA getLang -< x
+      r   <- getRelation -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
          , emCreators = crs
@@ -179,6 +184,7 @@ getMeta = atTag "metadata" >>>
          , emIds = is
          , emSource = s
          , emLangs = ls
+         , emRelation = r
          }
 
 
