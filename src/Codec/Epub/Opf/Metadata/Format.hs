@@ -74,6 +74,10 @@ dateToString (EMDate event date) =
    (formatSubline "date" (Just date))
 
 
+typeToString :: Maybe String -> String
+typeToString = maybe "" (printf "type: %s\n")
+
+
 idToString :: EMId -> String
 idToString (EMId idVal scheme content) =
    "identifier\n" ++
@@ -94,6 +98,7 @@ emToString em = concat $
    (map creatorToString $ emCreators em) ++
    (map contributorToString $ emContributors em) ++
    (map dateToString $ emDates em) ++
+   [typeToString . emType $ em] ++
    (map idToString $ emIds em) ++
    (map subjectToString $ emSubjects em) ++
    [descriptionToString . emDescription $ em] ++
