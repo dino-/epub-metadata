@@ -17,9 +17,7 @@ tests :: Test
 tests = TestList
    [ testFull
    , testMinimal
---   , testMissingTitle
---   , testMissingId
---   , testMissingLang
+   , testMissingAll
    ]
 
 
@@ -109,3 +107,14 @@ testMinimal = TestCase $ do
          , emRights = Nothing
          } ]
    assertEqual "minimal" expected actual
+
+
+{- Test data missing everything important: package version and 
+   unique-identifier attributes, title, identifier and language tags
+-}
+testMissingAll :: Test
+testMissingAll = TestCase $ do
+   xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
+   actual <- parseXmlToMeta xmlString
+   let expected = [ emptyEpubMeta ]
+   assertEqual "missing all" expected actual

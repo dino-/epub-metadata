@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf">
+   <metadata
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:opf="http://www.idpf.org/2007/opf"
+      xmlns:xml="http://www.w3.org/XML/1998/namespace">
+   </metadata>
+
+   <!-- This document is a stub used for unit testing. It is missing 
+        the rest of the tags that normally occur after metadata -->
+</package>
