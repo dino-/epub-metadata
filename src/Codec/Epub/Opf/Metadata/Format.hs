@@ -18,6 +18,13 @@ formatSubline _   Nothing = ""
 formatSubline key (Just value) = printf "   %s: %s\n" key value
 
 
+packageToString :: OPFPackage -> String
+packageToString (OPFPackage version uniqueId) =
+   "package\n" ++
+   (formatSubline "version" (Just version)) ++
+   (formatSubline "unique-identifier" (Just uniqueId))
+
+
 titleToString :: EMTitle -> String
 titleToString (EMTitle Nothing title) = printf "title: %s\n" title
 titleToString (EMTitle lang title) =
@@ -78,6 +85,7 @@ langToString = printf "language: %s\n"
 -- | Format an ePub metadata into a String
 emToString :: EpubMeta -> String
 emToString em = concat $
+   [packageToString . emPackage $ em] ++
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map contributorToString $ emContributors em) ++
