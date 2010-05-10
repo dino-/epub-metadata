@@ -69,7 +69,7 @@ testFull = TestCase $ do
             , EMDate (Just "modified") "2010-05-08T10:20:57"
             , EMDate Nothing "2009-08-03T16:22:20"
             ]
-         , emType = Nothing
+         , emType = Just "test OPF Package Document"
          , emFormat = Nothing
          , emIds =
             [ EMId "isbn" (Just "ISBN") "1-82057-821-9"
