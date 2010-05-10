@@ -143,6 +143,10 @@ getId = atQTag (dcName "identifier") >>>
       returnA -< EMId i s c
 
 
+getSource :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+getSource = mbQTagText $ dcName "source"
+
+
 getLang :: (ArrowXml a) => a (NTree XNode) String
 getLang = atQTag (dcName "language") >>> text
 
@@ -160,6 +164,7 @@ getMeta = atTag "metadata" >>>
       t   <- getType -< x
       f   <- getFormat -< x
       is  <- listA getId -< x
+      s   <- getSource -< x
       ls  <- listA getLang -< x
       returnA -< emptyEpubMeta
          { emTitles = ts
@@ -172,6 +177,7 @@ getMeta = atTag "metadata" >>>
          , emType = t
          , emFormat = f
          , emIds = is
+         , emSource = s
          , emLangs = ls
          }
 
