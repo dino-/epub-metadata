@@ -62,6 +62,14 @@ opfName local = mkQName "opf" local "http://www.idpf.org/2007/opf"
 xmlName local = mkQName "xml" local "http://www.w3.org/XML/1998/namespace"
 
 
+getPackage :: (ArrowXml a) => a (NTree XNode) OPFPackage
+getPackage = atTag "package" >>>
+   proc x -> do
+      v <- getAttrValue "version" -< x
+      u <- getAttrValue "unique-identifier" -< x
+      returnA -< OPFPackage v u
+
+
 getTitle :: (ArrowXml a) => a (NTree XNode) EMTitle
 getTitle = atQTag (dcName "title") >>>
    proc x -> do
@@ -145,6 +153,14 @@ getMeta = atTag "metadata" >>>
          }
 
 
+getBookData :: (ArrowXml a) => a (NTree XNode) EpubMeta
+getBookData = 
+   proc x -> do
+      p <- getPackage -< x
+      m <- getMeta -< x
+      returnA -< m { emPackage = p }
+
+
 {- | Extract the ePub metadata contained in an OPF rootfile, here 
    given as a string
 -}
@@ -153,7 +169,7 @@ parseXmlToMeta opfContents =
    liftIO $ runX (
       readString [(a_validate, v_0)] opfContents
       >>> propagateNamespaces
-      >>> getMeta
+      >>> getBookData
       )
 
 
