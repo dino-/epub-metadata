@@ -98,6 +98,10 @@ langToString :: String -> String
 langToString = printf "language: %s\n"
 
 
+relationToString :: Maybe String -> String
+relationToString = maybe "" (printf "relation: %s\n")
+
+
 -- | Format an ePub metadata into a String
 emToString :: EpubMeta -> String
 emToString em = concat $
@@ -113,4 +117,5 @@ emToString em = concat $
    (map subjectToString $ emSubjects em) ++
    [descriptionToString . emDescription $ em] ++
    [publisherToString . emPublisher $ em] ++
-   (map langToString $ emLangs em)
+   (map langToString $ emLangs em) ++
+   [relationToString . emRelation $ em]
