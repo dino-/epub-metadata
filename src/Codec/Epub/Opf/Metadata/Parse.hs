@@ -161,8 +161,8 @@ getBookData =
       returnA -< m { emPackage = p }
 
 
-{- | Extract the ePub metadata contained in an OPF rootfile, here 
-   given as a string
+{- | Extract the ePub metadata contained in the OPF Package Document 
+   contained in the supplied string
 -}
 parseXmlToMeta :: (MonadIO m) => String -> m [EpubMeta]
 parseXmlToMeta opfContents =

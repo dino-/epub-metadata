@@ -37,10 +37,10 @@ extractFileFromZip zipPath filePath = do
       Right output -> return output
 
 
--- | Get the path to the opf rootfile from an ePub document
+-- | Get the path within an ePub file to the OPF Package Document
 opfPath :: (MonadError String m, MonadIO m)
-   => FilePath    -- ^ path to zip file
-   -> m String    -- ^ path within zip to the opf rootfile
+   => FilePath    -- ^ path to ePub zip file
+   -> m String    -- ^ path within ePub to the OPF Package Document
 opfPath zipPath = do
    containerContents <- extractFileFromZip zipPath
       "META-INF/container.xml"
