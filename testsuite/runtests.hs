@@ -31,7 +31,8 @@ testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
    actual <- parseXmlToMeta xmlString
    let expected = [ EpubMeta
-         { emTitles =
+         { emPackage = OPFPackage "2.0" "isbn"
+         , emTitles =
             [ EMTitle Nothing "Title Of This Book"
             , EMTitle (Just "fr") "Titre De Ce Livre"
             ]
