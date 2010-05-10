@@ -74,7 +74,7 @@ testFull = TestCase $ do
          , emIds =
             [ EMId "isbn" (Just "ISBN") "1-82057-821-9"
             , EMId "other" Nothing "1386506873266"]
-         , emSource = Nothing
+         , emSource = Just "document source"
          , emLangs = ["en-us"]
          , emRelation = Nothing
          , emCoverage = Nothing
