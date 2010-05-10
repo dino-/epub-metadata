@@ -77,8 +77,8 @@ testFull = TestCase $ do
          , emSource = Just "document source"
          , emLangs = ["en-us"]
          , emRelation = Just "document relation"
-         , emCoverage = Nothing
-         , emRights = Nothing
+         , emCoverage = Just "coverage information"
+         , emRights = Just "Copyright: 2010 Dino Morelli, License: BSD3"
          } ]
    assertEqual "very full" expected actual
 
