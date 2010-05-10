@@ -76,7 +76,7 @@ testFull = TestCase $ do
             , EMId "other" Nothing "1386506873266"]
          , emSource = Just "document source"
          , emLangs = ["en-us"]
-         , emRelation = Nothing
+         , emRelation = Just "document relation"
          , emCoverage = Nothing
          , emRights = Nothing
          } ]
