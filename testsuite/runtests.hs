@@ -16,7 +16,7 @@ main = runTestTT tests >> return ()
 tests :: Test
 tests = TestList
    [ testFull
---   , testMinimal
+   , testMinimal
 --   , testMissingTitle
 --   , testMissingId
 --   , testMissingLang
@@ -81,3 +81,31 @@ testFull = TestCase $ do
          , emRights = Nothing
          } ]
    assertEqual "very full" expected actual
+
+
+{- Test the absolute minimum set of fields allowed while remaining 
+   compliant with the spec
+-}
+testMinimal :: Test
+testMinimal = TestCase $ do
+   xmlString <- readFile $ "testsuite" </> "testMinimal.opf"
+   actual <- parseXmlToMeta xmlString
+   let expected = [ EpubMeta
+         { emPackage = OPFPackage "2.0" "isbn"
+         , emTitles = [EMTitle Nothing "Title Of This Book"]
+         , emCreators = []
+         , emContributors = []
+         , emSubjects = []
+         , emDescription = Nothing
+         , emPublisher = Nothing
+         , emDates = []
+         , emType = Nothing
+         , emFormat = Nothing
+         , emIds = [EMId "isbn" (Just "ISBN") "1-82057-821-9"]
+         , emSource = Nothing
+         , emLangs = ["en-us"]
+         , emRelation = Nothing
+         , emCoverage = Nothing
+         , emRights = Nothing
+         } ]
+   assertEqual "minimal" expected actual
