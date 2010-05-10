@@ -109,6 +109,10 @@ getSubject :: (ArrowXml a) => a (NTree XNode) String
 getSubject = atQTag (dcName "subject") >>> text
 
 
+getDescription :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+getDescription = mbQTagText $ dcName "description"
+
+
 getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
 getPublisher = mbQTagText $ dcName "publisher"
 
@@ -142,6 +146,7 @@ getMeta = atTag "metadata" >>>
       crs <- listA getCreator -< x
       cos <- listA getContributor -< x
       sjs <- listA getSubject -< x
+      d   <- getDescription -< x
       p   <- getPublisher -< x
       ds  <- listA getDate -< x
       is  <- listA getId -< x
@@ -151,6 +156,7 @@ getMeta = atTag "metadata" >>>
          , emCreators = crs
          , emContributors = cos
          , emSubjects = sjs
+         , emDescription = d
          , emPublisher = p
          , emDates = ds
          , emIds = is
