@@ -90,6 +90,10 @@ idToString (EMId idVal scheme content) =
    (formatSubline "identifier" (Just content))
 
 
+sourceToString :: Maybe String -> String
+sourceToString = maybe "" (printf "source: %s\n")
+
+
 langToString :: String -> String
 langToString = printf "language: %s\n"
 
@@ -105,6 +109,7 @@ emToString em = concat $
    [typeToString . emType $ em] ++
    [formatToString . emFormat $ em] ++
    (map idToString $ emIds em) ++
+   [sourceToString . emSource $ em] ++
    (map subjectToString $ emSubjects em) ++
    [descriptionToString . emDescription $ em] ++
    [publisherToString . emPublisher $ em] ++
