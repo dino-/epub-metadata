@@ -102,6 +102,14 @@ relationToString :: Maybe String -> String
 relationToString = maybe "" (printf "relation: %s\n")
 
 
+coverageToString :: Maybe String -> String
+coverageToString = maybe "" (printf "coverage: %s\n")
+
+
+rightsToString :: Maybe String -> String
+rightsToString = maybe "" (printf "rights: %s\n")
+
+
 -- | Format an ePub metadata into a String
 emToString :: EpubMeta -> String
 emToString em = concat $
@@ -118,4 +126,6 @@ emToString em = concat $
    [descriptionToString . emDescription $ em] ++
    [publisherToString . emPublisher $ em] ++
    (map langToString $ emLangs em) ++
-   [relationToString . emRelation $ em]
+   [relationToString . emRelation $ em] ++
+   [coverageToString . emCoverage $ em] ++
+   [rightsToString . emRights $ em]
