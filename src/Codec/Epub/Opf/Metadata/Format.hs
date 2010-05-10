@@ -78,6 +78,10 @@ typeToString :: Maybe String -> String
 typeToString = maybe "" (printf "type: %s\n")
 
 
+formatToString :: Maybe String -> String
+formatToString = maybe "" (printf "format: %s\n")
+
+
 idToString :: EMId -> String
 idToString (EMId idVal scheme content) =
    "identifier\n" ++
@@ -99,6 +103,7 @@ emToString em = concat $
    (map contributorToString $ emContributors em) ++
    (map dateToString $ emDates em) ++
    [typeToString . emType $ em] ++
+   [formatToString . emFormat $ em] ++
    (map idToString $ emIds em) ++
    (map subjectToString $ emSubjects em) ++
    [descriptionToString . emDescription $ em] ++
