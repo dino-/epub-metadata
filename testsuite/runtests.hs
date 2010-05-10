@@ -70,7 +70,7 @@ testFull = TestCase $ do
             , EMDate Nothing "2009-08-03T16:22:20"
             ]
          , emType = Just "test OPF Package Document"
-         , emFormat = Nothing
+         , emFormat = Just "ePub publication"
          , emIds =
             [ EMId "isbn" (Just "ISBN") "1-82057-821-9"
             , EMId "other" Nothing "1386506873266"]
