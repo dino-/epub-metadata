@@ -57,6 +57,10 @@ subjectToString :: String -> String
 subjectToString = printf "subject: %s\n"
 
 
+descriptionToString :: Maybe String -> String
+descriptionToString = maybe "" (printf "description: %s\n")
+
+
 publisherToString :: Maybe String -> String
 publisherToString = maybe "" (printf "publisher: %s\n")
 
@@ -92,5 +96,6 @@ emToString em = concat $
    (map dateToString $ emDates em) ++
    (map idToString $ emIds em) ++
    (map subjectToString $ emSubjects em) ++
+   [descriptionToString . emDescription $ em] ++
    [publisherToString . emPublisher $ em] ++
    (map langToString $ emLangs em)
