@@ -10,7 +10,8 @@
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
 module Codec.Epub.Opf.Metadata
-   ( EMTitle (..)
+   ( OPFPackage (..)
+   , EMTitle (..)
    , EMCreator (..)
    , EMDate (..)
    , EMId (..)
@@ -18,6 +19,15 @@ module Codec.Epub.Opf.Metadata
    , emptyEpubMeta
    )
    where
+
+
+{- | opf:package tag, version attr, unique-identifier attr
+
+   Not really part of the metadata, but important enough to
+   include here.
+-}
+data OPFPackage = OPFPackage String String
+   deriving (Eq, Show)
 
 
 -- | dc:title tag, xml:lang attr, content
@@ -38,7 +48,8 @@ data EMId = EMId String (Maybe String) String
 
 -- | opf:metadata tag
 data EpubMeta = EpubMeta
-   { emTitles :: [EMTitle]   -- ^ at least one required
+   { emPackage :: OPFPackage
+   , emTitles :: [EMTitle]   -- ^ at least one required
    , emCreators :: [EMCreator]
    , emContributors :: [EMCreator]
    , emSubjects :: [String]  -- ^ dc:subject tags
@@ -59,7 +70,8 @@ data EpubMeta = EpubMeta
 -- | Note: This isn't valid as-is, some required values are empty lists!
 emptyEpubMeta :: EpubMeta
 emptyEpubMeta = EpubMeta
-   { emTitles = []   -- one required
+   { emPackage = OPFPackage "" ""
+   , emTitles = []   -- one required
    , emCreators = []
    , emContributors = []
    , emSubjects = []
