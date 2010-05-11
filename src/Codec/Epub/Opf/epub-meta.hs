@@ -14,8 +14,8 @@ main :: IO ()
 main = do
    zipPath <- head <$> getArgs
 
-   result <- runErrorT $ parseEpubMeta zipPath
+   result <- runErrorT $ parseEpubOpf zipPath
 
-   putStr $ either (++ "\n") emToString result
+   putStr $ either (++ "\n") opfToString result
 
    return ()

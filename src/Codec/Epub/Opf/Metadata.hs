@@ -21,12 +21,17 @@ module Codec.Epub.Opf.Metadata
    where
 
 
-{- | opf:package tag, version attr, unique-identifier attr
+{- | opf:package tag
 
-   Not really part of the metadata, but important enough to
-   include here.
+   Note that we are not yet storing the data that comes after
+   /package/metadata in an OPF Package Document. But that may
+   be added at a later time.
 -}
-data OPFPackage = OPFPackage String String
+data OPFPackage = OPFPackage
+   { opVersion :: String  -- ^ version attr
+   , opUniqueId :: String  -- ^ unique-identifier attr
+   , opMeta :: EpubMeta  -- ^ metadata child element contents
+   }
    deriving (Eq, Show)
 
 
@@ -48,8 +53,7 @@ data EMId = EMId String (Maybe String) String
 
 -- | opf:metadata tag
 data EpubMeta = EpubMeta
-   { emPackage :: OPFPackage
-   , emTitles :: [EMTitle]   -- ^ at least one required
+   { emTitles :: [EMTitle]   -- ^ at least one required
    , emCreators :: [EMCreator]
    , emContributors :: [EMCreator]
    , emSubjects :: [String]  -- ^ dc:subject tags
@@ -70,8 +74,7 @@ data EpubMeta = EpubMeta
 -- | Note: This isn't valid as-is, some required values are empty lists!
 emptyEpubMeta :: EpubMeta
 emptyEpubMeta = EpubMeta
-   { emPackage = OPFPackage "" ""
-   , emTitles = []   -- one required
+   { emTitles = []   -- one required
    , emCreators = []
    , emContributors = []
    , emSubjects = []

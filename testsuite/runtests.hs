@@ -27,10 +27,9 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
-   actual <- parseXmlToMeta xmlString
-   let expected = [ EpubMeta
-         { emPackage = OPFPackage "2.0" "isbn"
-         , emTitles =
+   actual <- parseXmlToOpf xmlString
+   let expected = [ OPFPackage "2.0" "isbn" ( EpubMeta
+         { emTitles =
             [ EMTitle Nothing "Title Of This Book"
             , EMTitle (Just "fr") "Titre De Ce Livre"
             ]
@@ -77,7 +76,7 @@ testFull = TestCase $ do
          , emRelation = Just "document relation"
          , emCoverage = Just "coverage information"
          , emRights = Just "Copyright: 2010 Dino Morelli, License: BSD3"
-         } ]
+         } ) ]
    assertEqual "very full" expected actual
 
 
@@ -87,10 +86,9 @@ testFull = TestCase $ do
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMinimal.opf"
-   actual <- parseXmlToMeta xmlString
-   let expected = [ EpubMeta
-         { emPackage = OPFPackage "2.0" "isbn"
-         , emTitles = [EMTitle Nothing "Title Of This Book"]
+   actual <- parseXmlToOpf xmlString
+   let expected = [ OPFPackage "2.0" "isbn" ( EpubMeta
+         { emTitles = [EMTitle Nothing "Title Of This Book"]
          , emCreators = []
          , emContributors = []
          , emSubjects = []
@@ -105,7 +103,7 @@ testMinimal = TestCase $ do
          , emRelation = Nothing
          , emCoverage = Nothing
          , emRights = Nothing
-         } ]
+         } ) ]
    assertEqual "minimal" expected actual
 
 
@@ -115,6 +113,6 @@ testMinimal = TestCase $ do
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
-   actual <- parseXmlToMeta xmlString
-   let expected = [ emptyEpubMeta ]
+   actual <- parseXmlToOpf xmlString
+   let expected = [ OPFPackage "" "" emptyEpubMeta ]
    assertEqual "missing all" expected actual

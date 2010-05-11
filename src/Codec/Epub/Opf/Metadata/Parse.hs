@@ -7,11 +7,12 @@
 
 -- | Module for extracting the metadata from an ePub file
 module Codec.Epub.Opf.Metadata.Parse
-   ( parseXmlToMeta
-   , parseEpubMeta
+   ( parseXmlToOpf
+   , parseEpubOpf
    )
    where
 
+import Control.Applicative
 import Control.Monad.Error
 import Data.Tree.NTree.TypeDefs ( NTree )
 import Prelude hiding ( cos )
@@ -71,12 +72,12 @@ opfName local = mkQName "opf" local "http://www.idpf.org/2007/opf"
 xmlName local = mkQName "xml" local "http://www.w3.org/XML/1998/namespace"
 
 
-getPackage :: (ArrowXml a) => a (NTree XNode) OPFPackage
+getPackage :: (ArrowXml a) => a (NTree XNode) (String, String)
 getPackage = atTag "package" >>>
    proc x -> do
       v <- getAttrValue "version" -< x
       u <- getAttrValue "unique-identifier" -< x
-      returnA -< OPFPackage v u
+      returnA -< (v, u)
 
 
 getTitle :: (ArrowXml a) => a (NTree XNode) EMTitle
@@ -87,22 +88,15 @@ getTitle = atQTag (dcName "title") >>>
       returnA -< EMTitle l c
 
 
-getCreator :: (ArrowXml a) => a (NTree XNode) EMCreator
-getCreator = atQTag (dcName "creator") >>>
-   proc x -> do
-      r <- mbGetQAttrValue (opfName "role") -< x
-      f <- mbGetQAttrValue (opfName "file-as") -< x
-      c <- text -< x
-      returnA -< EMCreator r f c
-
-
-getContributor :: (ArrowXml a) => a (NTree XNode) EMCreator
-getContributor = atQTag (dcName "contributor") >>>
-   proc x -> do
-      r <- mbGetQAttrValue (opfName "role") -< x
-      f <- mbGetQAttrValue (opfName "file-as") -< x
-      c <- text -< x
-      returnA -< EMCreator r f c
+{- Since creators and contributors have the same exact XML structure,
+   this arrow is used to get either of them
+-}
+getCreator :: (ArrowXml a) => String -> a (NTree XNode) EMCreator
+getCreator tag = atQTag (dcName tag) >>> ( unwrapArrow $ EMCreator
+   <$> (WrapArrow $ mbGetQAttrValue (opfName "role"))
+   <*> (WrapArrow $ mbGetQAttrValue (opfName "file-as"))
+   <*> (WrapArrow $ text)
+   )
 
 
 getSubject :: (ArrowXml a) => a (NTree XNode) String
@@ -164,55 +158,38 @@ getRights = mbQTagText $ dcName "rights"
 
 
 getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
-getMeta = atTag "metadata" >>>
-   proc x -> do
-      ts  <- listA getTitle -< x
-      crs <- listA getCreator -< x
-      cos <- listA getContributor -< x
-      sjs <- listA getSubject -< x
-      d   <- getDescription -< x
-      p   <- getPublisher -< x
-      ds  <- listA getDate -< x
-      t   <- getType -< x
-      f   <- getFormat -< x
-      is  <- listA getId -< x
-      s   <- getSource -< x
-      ls  <- listA getLang -< x
-      re  <- getRelation -< x
-      cv  <- getCoverage -< x
-      ri  <- getRights -< x
-      returnA -< emptyEpubMeta
-         { emTitles = ts
-         , emCreators = crs
-         , emContributors = cos
-         , emSubjects = sjs
-         , emDescription = d
-         , emPublisher = p
-         , emDates = ds
-         , emType = t
-         , emFormat = f
-         , emIds = is
-         , emSource = s
-         , emLangs = ls
-         , emRelation = re
-         , emCoverage = cv
-         , emRights = ri
-         }
+getMeta = atTag "metadata" >>> ( unwrapArrow $ EpubMeta
+   <$> (WrapArrow $ listA getTitle)
+   <*> (WrapArrow $ listA $ getCreator "creator")
+   <*> (WrapArrow $ listA $ getCreator "contributor")
+   <*> (WrapArrow $ listA getSubject)
+   <*> (WrapArrow $ getDescription)
+   <*> (WrapArrow $ getPublisher)
+   <*> (WrapArrow $ listA getDate)
+   <*> (WrapArrow $ getType)
+   <*> (WrapArrow $ getFormat)
+   <*> (WrapArrow $ listA getId)
+   <*> (WrapArrow $ getSource)
+   <*> (WrapArrow $ listA getLang)
+   <*> (WrapArrow $ getRelation)
+   <*> (WrapArrow $ getCoverage)
+   <*> (WrapArrow $ getRights)
+   )
 
 
-getBookData :: (ArrowXml a) => a (NTree XNode) EpubMeta
+getBookData :: (ArrowXml a) => a (NTree XNode) OPFPackage
 getBookData = 
    proc x -> do
-      p <- getPackage -< x
+      (v, u) <- getPackage -< x
       m <- getMeta -< x
-      returnA -< m { emPackage = p }
+      returnA -< OPFPackage v u m
 
 
 {- | Extract the ePub metadata contained in the OPF Package Document 
    contained in the supplied string
 -}
-parseXmlToMeta :: (MonadIO m) => String -> m [EpubMeta]
-parseXmlToMeta opfContents =
+parseXmlToOpf :: (MonadIO m) => String -> m [OPFPackage]
+parseXmlToOpf opfContents =
    liftIO $ runX (
       readString [(a_validate, v_0)] opfContents
       >>> propagateNamespaces
@@ -221,11 +198,11 @@ parseXmlToMeta opfContents =
 
 
 -- | Given the path to an ePub file, extract the metadata
-parseEpubMeta :: (MonadIO m, MonadError String m) =>
-   FilePath -> m EpubMeta
-parseEpubMeta zipPath = do
+parseEpubOpf :: (MonadIO m, MonadError String m) =>
+   FilePath -> m OPFPackage
+parseEpubOpf zipPath = do
    opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
-   result <- parseXmlToMeta opfContents
+   result <- parseXmlToOpf opfContents
 
    case result of
       (em : []) -> return em

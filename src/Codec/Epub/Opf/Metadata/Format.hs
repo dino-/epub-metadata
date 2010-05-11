@@ -4,7 +4,7 @@
 
 -- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Opf.Metadata.Format
-   ( emToString
+   ( opfToString
    )
    where
 
@@ -18,8 +18,8 @@ formatSubline _   Nothing = ""
 formatSubline key (Just value) = printf "   %s: %s\n" key value
 
 
-packageToString :: OPFPackage -> String
-packageToString (OPFPackage version uniqueId) =
+packageToString :: (String, String) -> String
+packageToString (version, uniqueId) =
    "package\n" ++
    (formatSubline "version" (Just version)) ++
    (formatSubline "unique-identifier" (Just uniqueId))
@@ -111,9 +111,9 @@ rightsToString = maybe "" (printf "rights: %s\n")
 
 
 -- | Format an ePub metadata into a String
-emToString :: EpubMeta -> String
-emToString em = concat $
-   [packageToString . emPackage $ em] ++
+opfToString :: OPFPackage -> String
+opfToString (OPFPackage v u em) = concat $
+   [packageToString (v, u)] ++
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
    (map contributorToString $ emContributors em) ++
