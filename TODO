@@ -1,8 +1,4 @@
-- Do validation of required data
-
 - Fill out README info
-
-- Need more tests
 
 - Switches for main program to do dump opf package file contents to stdout or show opf package file path. Will require Getopt.
 
