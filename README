@@ -1,66 +1,107 @@
 -----
 Building:
 
-   $ runhaskell Setup.hs configure
-   $ runhaskell Setup.hs build
-   $ runhaskell Setup.hs test
-   $ runhaskell Setup.hs haddock
-   $ runhaskell Setup.hs install
+   Easy with cabal-install, of course:
+
+      $ cabal install epub-metadata
+
+   Or the conventional way:
+
+      $ runhaskell Setup.hs configure
+      $ runhaskell Setup.hs build
+      $ runhaskell Setup.hs test
+      $ runhaskell Setup.hs haddock
+      $ runhaskell Setup.hs install
 
 
 -----
 Why was this done?
 
-   The motivation for this project grew out of my desire to take charge of missing or incorrect ePub metadata in books I have purchased. I started out using the Calibre open source tools for examining this info. Limitations and incomplete implementation of those tools led me here to build a more complete implementation in the programming language that I love beyond all others.
+   The motivation for this project grew out of my desire to take charge
+   of missing or incorrect ePub metadata in books I have purchased. I
+   started out using the Calibre open source tools for examining this
+   info. Limitations and incomplete implementation of those tools led
+   me here to build a more complete implementation in the programming
+   language that I love beyond all others.
 
 
 -----
 Why didn't I just use existing solutions?
 
    - Calibre ebook-meta utility
+
       I experienced various problems using this software, such as:
 
-      Incomplete and in some cases incorrect handling of tags that can exist more than once, particularly when they are differentiated using attributes according to the spec.
+      Incomplete and in some cases incorrect handling of tags that can
+      exist more than once, particularly when they are differentiated
+      using attributes according to the spec.
 
-      Unable to display many fields in the OPF Package Document metadata specification. Unable to manipulate data that is represented as attributes of tags in the OPF spec.
+      Unable to display many fields in the OPF Package Document metadata
+      specification. Unable to manipulate data that is represented as
+      attributes of tags in the OPF spec.
 
-      Astonishingly slow performance. The command-line tool in this Haskell project is more than 45 times faster at parsing and displaying ePub metadata. I'm going to blame Python here. This has had a big impact on projects where I've been processing hundreds of ePubs in batch operations.
+      Astonishingly slow performance. The command-line tool in this
+      Haskell project is more than 45 times faster at parsing and
+      displaying ePub metadata. I'm going to blame Python here. This has
+      had a big impact on projects where I've been processing hundreds
+      of ePubs in batch operations.
 
-      To be fair, an effort is being made in Calibre to bridge across both ePub and Sony LRF book documents. That is going to naturally require a lowest-common-denominator approach. My focus here was to work with ePub only, and thoroughly support the OPF specification.
+      To be fair, an effort is being made in Calibre to work with both
+      ePub and Sony LRF book documents. That is going to naturally require
+      a lowest-common-denominator approach. My focus here was to work
+      with ePub only, and thoroughly support the OPF specification.
 
 
    - epub on Hackage, EPUB E-Book construction support library
 
-      The focus of this project seems to be with building new documents, not parsing existing files. And there is a specific attempt to do more than the metadata, to gather up the content and other metafiles that make up an ePub for creation.
+      The focus of this project seems to be with building new documents,
+      not parsing existing files. And there is a specific attempt to
+      do more than the metadata, to gather up the content and other
+      metafiles that make up an ePub for creation.
 
-      Examining Codec.Ebook.OPF.Types, most of the metadata fields from the OPF Package Document spec are missing or aren't modeled thoroughly. I felt to contribute to this project, I would have had to significantly rip up the types and redesign them.
+      Examining Codec.Ebook.OPF.Types, most of the metadata fields
+      from the OPF Package Document spec are missing or aren't modeled
+      thoroughly. I felt to contribute to this project, I would have
+      had to significantly rip up the types and redesign them.
 
-      At this time I felt it was a better solution for me to start fresh with modelling these types and code to manipulate them. That said, I would be very interested in combining the epub and epub-meta projects at some point in some way that makes sense.
+      At this time I felt it was a better solution for me to start fresh
+      with modelling these types and code to manipulate them. That said,
+      I would be very interested in combining the epub and epub-meta
+      projects at some point in some way that makes sense.
 
 
    - zip-archive on Hackage
 
-      I started out using zip-archive in my own work but soon found that it has problems with some poorly-made ePub files. Nearly 300 or 40% of the books I have are unreadable at this time with zip-archive.
+      I started out using zip-archive for this work but soon found that
+      it has problems with some poorly-made ePub files. Nearly 300 or 40%
+      of the books I have are unreadable at this time with zip-archive.
 
-      As ugly as it sounds, I found the most reliable solution right now is to use the unzip shell utility to extract the relevant XML documents from ePub books. I'm not thrilled with this situation and would like to find time to dig into the zip file spec and submit patches to zip-archive.
+      As ugly as it sounds, I found the most reliable solution right
+      now is to use the unzip shell utility to extract the relevant XML
+      documents from ePub books. This is why the dependency on HSH. I'm
+      not thrilled with this situation and would like to find time to
+      dig into the zip file spec and submit patches to zip-archive.
+
+      But also note that epub-meta is obscenely fast even with invoking
+      a shell for unzipping. Haskell FTW!
 
 
 -----
 A word about the version numbering scheme:
 
-4-part: major.minor.status.build
-3-part: major.status.build
+   4-part: major.minor.status.build
+   3-part: major.status.build
 
-status:
-   0 alpha
-   1 beta
-   2 release candidate
-   3 release
+   status:
+      0 alpha
+      1 beta
+      2 release candidate
+      3 release
 
-examples:
-   1.3.0.2         v1.3 alpha build 2
-   1.2.1.0         v1.2 beta build 0
-   4.2.24          v4 release candidate build 24
-   2.10.3.5        v2.10 release build 5 (say they were bug fixes)
-   1.5.2.20090818  Can even use a date for build
-                   v1.5 release candidate 2009-08-18 build
+   examples:
+      1.3.0.2         v1.3 alpha build 2
+      1.2.1.0         v1.2 beta build 0
+      4.2.24          v4 release candidate build 24
+      2.10.3.5        v2.10 release build 5 (say they were bug fixes)
+      1.5.2.20090818  Can even use a date for build
+                      v1.5 release candidate 2009-08-18 build
