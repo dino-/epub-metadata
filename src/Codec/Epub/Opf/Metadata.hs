@@ -24,7 +24,7 @@ module Codec.Epub.Opf.Metadata
 {- | opf:package tag
 
    Note that we are not yet storing the data that comes after
-   /package/metadata in an OPF Package Document. But that may
+   \/package\/metadata in an OPF Package Document. But that may
    be added at a later time.
 -}
 data OPFPackage = OPFPackage
