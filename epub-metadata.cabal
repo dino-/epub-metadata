@@ -9,9 +9,9 @@ author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
 stability:           experimental
 homepage:            http://foo/bar/baz.html
-synopsis:            Foo
-description:         Bar Baz
-category:            Unknown
+synopsis:            Library and utility for parsing and manipulating ePub metadata
+description:         Library for parsing and manipulating ePub OPF metadata. An attempt has been made here to very thoroughly implement the metadata portion of the OPF Package Document specification. Also included is a command-line utility to dump ePub metadata to stdout in a human-readable form.
+category:            Codec, Text
 tested-with:         GHC>=6.12.1
 
 library
