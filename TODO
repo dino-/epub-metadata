@@ -1,7 +1,1 @@
-- Fill out README info
-
-- Switches for main program to do dump opf package file contents to stdout or show opf package file path. Will require Getopt.
-
 - Better errors on parse failure, this will emerge along with more unit testing
-
-- Fill out cabal info like synopsis, description
