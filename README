@@ -41,10 +41,10 @@ Why didn't I just use existing solutions?
       attributes of tags in the OPF spec.
 
       Astonishingly slow performance. The command-line tool in this
-      Haskell project is more than 45 times faster at parsing and
-      displaying ePub metadata. I'm going to blame Python here. This has
-      had a big impact on projects where I've been processing hundreds
-      of ePubs in batch operations.
+      new Haskell project is more than 45 times faster at parsing
+      and displaying ePub metadata. I'm going to blame Python here for
+      Calibre's performance. This has had a big impact on projects where
+      I've been processing hundreds of ePubs in batch operations.
 
       To be fair, an effort is being made in Calibre to work with both
       ePub and Sony LRF book documents. That is going to naturally require
@@ -66,7 +66,7 @@ Why didn't I just use existing solutions?
 
       At this time I felt it was a better solution for me to start fresh
       with modelling these types and code to manipulate them. That said,
-      I would be very interested in combining the epub and epub-meta
+      I would be very interested in combining the epub and epub-metadata
       projects at some point in some way that makes sense.
 
 
