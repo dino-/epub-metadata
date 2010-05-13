@@ -206,4 +206,4 @@ parseEpubOpf zipPath = do
    case result of
       (em : []) -> return em
       _         -> throwError
-         "ERROR: we didn't come up with a single EpubMeta"
+         "ERROR: Parse didn't result in a single document metadata"
