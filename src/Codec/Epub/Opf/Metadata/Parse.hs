@@ -15,7 +15,6 @@ module Codec.Epub.Opf.Metadata.Parse
 import Control.Applicative
 import Control.Monad.Error
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Prelude hiding ( cos )
 import Text.XML.HXT.Arrow
 
 import Codec.Epub.IO
