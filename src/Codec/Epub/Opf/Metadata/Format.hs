@@ -128,4 +128,9 @@ opfToString (OPFPackage v u em ma sp gu) = concat $
    (map langToString $ emLangs em) ++
    [relationToString . emRelation $ em] ++
    [coverageToString . emCoverage $ em] ++
-   [rightsToString . emRights $ em]
+   [rightsToString . emRights $ em] ++
+   ["manifest items:\n"] ++
+   [unlines $ map (printf "    %s" . show) ma] ++
+   [printf "spine idref=%s; items:\n" (show $ esID sp)] ++
+   [unlines $ map (printf "    %s" . show) (esItemrefs sp)] ++
+   [unlines $ map show gu]

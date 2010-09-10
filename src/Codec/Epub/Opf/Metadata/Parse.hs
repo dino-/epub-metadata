@@ -180,14 +180,62 @@ getMeta = atTag "metadata" >>> ( unwrapArrow $ EpubMeta
    <*> (WrapArrow $ getRights)
    )
 
+getMFItem :: (ArrowXml a) => a (NTree XNode) EpubMFItem
+getMFItem = atTag "item" >>>
+   proc x -> do
+      i <- getAttrValue "id" -< x
+      h <- getAttrValue "href" -< x
+      m <- getAttrValue "media-type" -< x
+      returnA -< EpubMFItem i h m
+
+getManifest :: (ArrowXml a) => a (NTree XNode) [EpubMFItem]
+getManifest = atTag "manifest" >>>
+   proc x -> do
+      l <- listA getMFItem -< x
+      returnA -< l
+
+getSPItemRef :: (ArrowXml a) => a (NTree XNode) EpubSPItemRef
+getSPItemRef = atTag "itemref" >>>
+   proc x -> do
+      i <- getAttrValue "idref" -< x
+      ml <- mbGetAttrValue "linear" -< x
+      let l = maybe Nothing (\v -> if v == "no" then Just False else Just True) ml
+      returnA -< EpubSPItemRef i l
+
+getSpine :: (ArrowXml a) => a (NTree XNode) EpubSpine
+getSpine = atTag "spine" >>>
+   proc x -> do
+      i <- getAttrValue "toc" -< x
+      l <- listA getSPItemRef -< x
+      returnA -< (EpubSpine i l)
+
+getGuideRef :: (ArrowXml a) => a (NTree XNode) EpubGuideRef
+getGuideRef = atTag "reference" >>>
+   proc x -> do
+      t <- getAttrValue "type" -< x
+      mt <- mbGetAttrValue "title" -< x
+      h <- getAttrValue "href" -< x
+      returnA -< EpubGuideRef t mt h
+
+getGuide :: (ArrowXml a) => a (NTree XNode) [EpubGuideRef]
+getGuide = atTag "guide" >>>
+   proc x -> do
+      l <- listA getGuideRef -< x
+      returnA -< l
 
 getBookData :: (ArrowXml a) => a (NTree XNode) OPFPackage
 getBookData = 
    proc x -> do
       (v, u) <- getPackage -< x
       m <- getMeta -< x
-      returnA -< OPFPackage v u m [] (EpubSpine "" []) []
-
+      mf <- getManifest -< x
+      sp <- getSpine -< x
+      gl <- listA getGuide -< x
+      let g = case gl of
+                []  -> []
+                [e] -> e
+                _   -> error "ERROR: more than one guide entries"        
+      returnA -< (OPFPackage v u m mf sp g)
 
 {- | Extract the ePub metadata contained in the OPF Package Document 
    contained in the supplied string
