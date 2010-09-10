@@ -186,7 +186,7 @@ getBookData =
    proc x -> do
       (v, u) <- getPackage -< x
       m <- getMeta -< x
-      returnA -< OPFPackage v u m
+      returnA -< OPFPackage v u m [] (EpubSpine "" []) []
 
 
 {- | Extract the ePub metadata contained in the OPF Package Document 

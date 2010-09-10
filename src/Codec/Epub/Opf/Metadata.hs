@@ -16,6 +16,10 @@ module Codec.Epub.Opf.Metadata
    , EMDate (..)
    , EMId (..)
    , EpubMeta (..)
+   , EpubMFItem (..)
+   , EpubSpine (..)
+   , EpubSPItemRef (..)
+   , EpubGuideRef (..)
    , emptyEpubMeta
    )
    where
@@ -31,6 +35,9 @@ data OPFPackage = OPFPackage
    { opVersion :: String  -- ^ version attr
    , opUniqueId :: String  -- ^ unique-identifier attr
    , opMeta :: EpubMeta  -- ^ metadata child element contents
+   , opManifest :: [EpubMFItem] -- ^ manifest child element contents. one required
+   , opSpine :: EpubSpine -- ^ spine child element contents
+   , opGuide :: [EpubGuideRef] -- ^ guide child element contents
    }
    deriving (Eq, Show)
 
@@ -49,6 +56,41 @@ data EMDate = EMDate (Maybe String) String
 
 -- | dc:identifier tag, id attr, opf:scheme attr, content
 data EMId = EMId String (Maybe String) String
+   deriving (Eq, Show)
+
+-- | manifest attributes (id, href, media-type)
+type MFItemID = String
+type MFItemHref = String
+type MFItemMediaType = String
+
+-- | opf:manifest tag
+data EpubMFItem = EpubMFItem
+   { emfID :: MFItemID
+   , emfHref :: MFItemHref
+   , emfMediaType :: MFItemMediaType
+   } 
+   deriving (Eq, Show)         
+
+-- | opf:spine:itemref
+data EpubSPItemRef = EpubSPItemRef
+   { eiIdRef  :: MFItemID -- Must reference item in manifest
+   , eiLinear :: Maybe Bool 
+   }
+   deriving (Eq, Show)
+
+-- | opf:spine
+data EpubSpine = EpubSpine 
+   { esID    :: MFItemID  -- Must reference the NCX in the manifest
+   , esItemrefs :: [ EpubSPItemRef ] -- one required
+   }
+   deriving (Eq, Show)
+
+-- | opf:guide
+data EpubGuideRef = EpubGuideRef
+   { egType :: String -- Must follow 13th edition of the Chicago Manual of Style
+   , egTitle :: Maybe String 
+   , egHref :: String -- Must reference item in manifest
+   }
    deriving (Eq, Show)
 
 -- | opf:metadata tag

@@ -112,7 +112,7 @@ rightsToString = maybe "" (printf "rights: %s\n")
 
 -- | Format an ePub metadata into a String
 opfToString :: OPFPackage -> String
-opfToString (OPFPackage v u em) = concat $
+opfToString (OPFPackage v u em ma sp gu) = concat $
    [packageToString (v, u)] ++
    (map titleToString $ emTitles em) ++
    (map creatorToString $ emCreators em) ++
