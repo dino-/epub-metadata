@@ -13,9 +13,14 @@ module Codec.Epub.Opf.Metadata.Parse
    where
 
 import Control.Applicative
+import Control.Arrow.ListArrows
 import Control.Monad.Error
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Text.XML.HXT.Arrow
+import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
+import Text.XML.HXT.Arrow.XmlArrow
+import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
+import Text.XML.HXT.Arrow.ReadDocument ( readString )
+import Text.XML.HXT.DOM.TypeDefs
 
 import Codec.Epub.IO
 import Codec.Epub.Opf.Metadata
@@ -190,7 +195,7 @@ getBookData =
 parseXmlToOpf :: (MonadIO m) => String -> m [OPFPackage]
 parseXmlToOpf opfContents =
    liftIO $ runX (
-      readString [(a_validate, v_0)] opfContents
+      readString [withValidate no] opfContents
       >>> propagateNamespaces
       >>> getBookData
       )

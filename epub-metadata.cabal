@@ -26,7 +26,7 @@ library
                      Codec.Epub.Opf.Metadata.Format,
                      Codec.Epub.Opf.Metadata.Parse
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5, HSH, hxt, mtl
+   build-depends:    base >= 3 && < 5, HSH, hxt >= 9, mtl
    ghc-options:      -Wall
 
 executable           epub-meta

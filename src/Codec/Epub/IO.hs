@@ -13,10 +13,13 @@ module Codec.Epub.IO
    ( extractFileFromZip, opfPath )
    where
 
+import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
 import HSH.Command
 import Text.Printf
-import Text.XML.HXT.Arrow
+import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
+import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
+import Text.XML.HXT.Arrow.ReadDocument ( readString )
 
 
 {- | Extract a file from a zipfile.
@@ -46,7 +49,7 @@ opfPath zipPath = do
       "META-INF/container.xml"
 
    result <- liftIO $ runX (
-      readString [(a_validate, v_0)] containerContents
+      readString [withValidate no] containerContents
       >>> deep (isElem >>> hasName "rootfile")
       >>> getAttrValue "full-path"
       )
