@@ -6,8 +6,8 @@ import Control.Monad.Error
 import System.Environment ( getArgs )
 import System.Exit
 
-import Codec.Epub.Opf.Metadata.Format
-import Codec.Epub.Opf.Metadata.Parse
+import Codec.Epub.Opf.Format.Package
+import Codec.Epub.Opf.Parse
 
 
 main :: IO ()

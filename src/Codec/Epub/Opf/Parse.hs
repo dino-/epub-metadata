@@ -6,7 +6,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for extracting the metadata from an ePub file
-module Codec.Epub.Opf.Metadata.Parse
+module Codec.Epub.Opf.Parse
    ( parseXmlToOpf
    , parseEpubOpf
    )
@@ -23,7 +23,7 @@ import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.DOM.TypeDefs
 
 import Codec.Epub.IO
-import Codec.Epub.Opf.Metadata
+import Codec.Epub.Opf.Package
 
 
 -- HXT helpers

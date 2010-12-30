@@ -3,14 +3,14 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 -- | Module for pretty-printing ePub metadata info
-module Codec.Epub.Opf.Metadata.Format
+module Codec.Epub.Opf.Format.Package
    ( opfToString
    )
    where
 
 import Text.Printf
 
-import Codec.Epub.Opf.Metadata
+import Codec.Epub.Opf.Package
 
 
 formatSubline :: String -> Maybe String -> String
