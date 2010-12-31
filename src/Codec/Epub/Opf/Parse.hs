@@ -180,8 +180,8 @@ getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
    <*> (WrapArrow $ getRights)
    )
 
-getMFItem :: (ArrowXml a) => a (NTree XNode) ManifestItem
-getMFItem = atTag "item" >>>
+getManifestItem :: (ArrowXml a) => a (NTree XNode) ManifestItem
+getManifestItem = atTag "item" >>>
    proc x -> do
       i <- getAttrValue "id" -< x
       h <- getAttrValue "href" -< x
@@ -191,11 +191,11 @@ getMFItem = atTag "item" >>>
 getManifest :: (ArrowXml a) => a (NTree XNode) [ManifestItem]
 getManifest = atTag "manifest" >>>
    proc x -> do
-      l <- listA getMFItem -< x
+      l <- listA getManifestItem -< x
       returnA -< l
 
-getSPItemRef :: (ArrowXml a) => a (NTree XNode) SpineItemref
-getSPItemRef = atTag "itemref" >>>
+getSpineItemref :: (ArrowXml a) => a (NTree XNode) SpineItemref
+getSpineItemref = atTag "itemref" >>>
    proc x -> do
       i <- getAttrValue "idref" -< x
       ml <- mbGetAttrValue "linear" -< x
@@ -206,7 +206,7 @@ getSpine :: (ArrowXml a) => a (NTree XNode) Spine
 getSpine = atTag "spine" >>>
    proc x -> do
       i <- getAttrValue "toc" -< x
-      l <- listA getSPItemRef -< x
+      l <- listA getSpineItemref -< x
       returnA -< (Spine i l)
 
 getGuideRef :: (ArrowXml a) => a (NTree XNode) GuideRef
