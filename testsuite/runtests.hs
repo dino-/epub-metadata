@@ -6,8 +6,8 @@ import System.FilePath
 import Test.HUnit ( Counts, Test (..), assertEqual, runTestTT )
 import Test.HUnit.Base ( Assertion )
 
-import Codec.Epub.Opf.Metadata
-import Codec.Epub.Opf.Metadata.Parse
+import Codec.Epub.Opf.Package
+import Codec.Epub.Opf.Parse
 
 
 main = runTestTT tests >> return ()

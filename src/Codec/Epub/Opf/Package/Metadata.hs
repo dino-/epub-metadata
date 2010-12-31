@@ -10,10 +10,10 @@
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
 module Codec.Epub.Opf.Package.Metadata
-   ( EMTitle (..)
-   , EMCreator (..)
-   , EMDate (..)
-   , EMId (..)
+   ( MetaTitle (..)
+   , MetaCreator (..)
+   , MetaDate (..)
+   , MetaId (..)
    , Metadata (..)
    , emptyMetadata
    )
@@ -21,57 +21,57 @@ module Codec.Epub.Opf.Package.Metadata
 
 
 -- | dc:title tag, xml:lang attr, content
-data EMTitle = EMTitle (Maybe String) String
+data MetaTitle = MetaTitle (Maybe String) String
    deriving (Eq, Show)
 
 -- | dc:creator tag, opf:role attr, opf:file-as attr, content
-data EMCreator = EMCreator (Maybe String) (Maybe String) String
+data MetaCreator = MetaCreator (Maybe String) (Maybe String) String
    deriving (Eq, Show)
 
 -- | dc:date tag, opf:event attr, content
-data EMDate = EMDate (Maybe String) String
+data MetaDate = MetaDate (Maybe String) String
    deriving (Eq, Show)
 
 -- | dc:identifier tag, id attr, opf:scheme attr, content
-data EMId = EMId String (Maybe String) String
+data MetaId = MetaId String (Maybe String) String
    deriving (Eq, Show)
 
 -- | opf:metadata tag
 data Metadata = Metadata
-   { emTitles :: [EMTitle]   -- ^ at least one required
-   , emCreators :: [EMCreator]
-   , emContributors :: [EMCreator]
-   , emSubjects :: [String]  -- ^ dc:subject tags
-   , emDescription :: Maybe String  -- ^ dc:description tags
-   , emPublisher :: Maybe String  -- ^ dc:publisher tag
-   , emDates :: [EMDate]
-   , emType :: Maybe String  -- ^ dc:type tag
-   , emFormat :: Maybe String  -- ^ dc:format tag
-   , emIds :: [EMId]          -- ^ at least one required
-   , emSource :: Maybe String  -- ^ dc:source tag
-   , emLangs :: [String]    -- ^ dc:language tags, at least one required
-   , emRelation :: Maybe String  -- ^ dc:relation tag
-   , emCoverage :: Maybe String  -- ^ dc:coverage tag
-   , emRights :: Maybe String  -- ^ dc:rights tag
+   { metaTitles :: [MetaTitle]   -- ^ at least one required
+   , metaCreators :: [MetaCreator]
+   , metaContributors :: [MetaCreator]
+   , metaSubjects :: [String]  -- ^ dc:subject tags
+   , metaDescription :: Maybe String  -- ^ dc:description tags
+   , metaPublisher :: Maybe String  -- ^ dc:publisher tag
+   , metaDates :: [MetaDate]
+   , metaType :: Maybe String  -- ^ dc:type tag
+   , metaFormat :: Maybe String  -- ^ dc:format tag
+   , metaIds :: [MetaId]          -- ^ at least one required
+   , metaSource :: Maybe String  -- ^ dc:source tag
+   , metaLangs :: [String]    -- ^ dc:language tags, at least one required
+   , metaRelation :: Maybe String  -- ^ dc:relation tag
+   , metaCoverage :: Maybe String  -- ^ dc:coverage tag
+   , metaRights :: Maybe String  -- ^ dc:rights tag
    }
    deriving (Eq, Show)
 
 -- | Note: This isn't valid as-is, some required values are empty lists!
 emptyMetadata :: Metadata
 emptyMetadata = Metadata
-   { emTitles = []   -- one required
-   , emCreators = []
-   , emContributors = []
-   , emSubjects = []
-   , emDescription = Nothing
-   , emPublisher = Nothing
-   , emDates = []
-   , emType = Nothing
-   , emFormat = Nothing
-   , emIds = []       -- one required
-   , emSource = Nothing
-   , emLangs = []     -- one required
-   , emRelation = Nothing
-   , emCoverage = Nothing
-   , emRights = Nothing
+   { metaTitles = []   -- one required
+   , metaCreators = []
+   , metaContributors = []
+   , metaSubjects = []
+   , metaDescription = Nothing
+   , metaPublisher = Nothing
+   , metaDates = []
+   , metaType = Nothing
+   , metaFormat = Nothing
+   , metaIds = []       -- one required
+   , metaSource = Nothing
+   , metaLangs = []     -- one required
+   , metaRelation = Nothing
+   , metaCoverage = Nothing
+   , metaRights = Nothing
    }

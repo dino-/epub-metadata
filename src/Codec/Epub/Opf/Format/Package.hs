@@ -24,23 +24,23 @@ packageToString (version, uniqueId) =
 
 -- | Format an ePub metadata into a String
 opfToString :: OPFPackage -> String
-opfToString (OPFPackage v u em ma sp gu) = concat $
+opfToString (OPFPackage v u meta ma sp gu) = concat $
    [packageToString (v, u)] ++
-   (map titleToString $ emTitles em) ++
-   (map creatorToString $ emCreators em) ++
-   (map contributorToString $ emContributors em) ++
-   (map dateToString $ emDates em) ++
-   [typeToString . emType $ em] ++
-   [formatToString . emFormat $ em] ++
-   (map idToString $ emIds em) ++
-   [sourceToString . emSource $ em] ++
-   (map subjectToString $ emSubjects em) ++
-   [descriptionToString . emDescription $ em] ++
-   [publisherToString . emPublisher $ em] ++
-   (map langToString $ emLangs em) ++
-   [relationToString . emRelation $ em] ++
-   [coverageToString . emCoverage $ em] ++
-   [rightsToString . emRights $ em] ++
+   (map titleToString $ metaTitles meta) ++
+   (map creatorToString $ metaCreators meta) ++
+   (map contributorToString $ metaContributors meta) ++
+   (map dateToString $ metaDates meta) ++
+   [typeToString . metaType $ meta] ++
+   [formatToString . metaFormat $ meta] ++
+   (map idToString $ metaIds meta) ++
+   [sourceToString . metaSource $ meta] ++
+   (map subjectToString $ metaSubjects meta) ++
+   [descriptionToString . metaDescription $ meta] ++
+   [publisherToString . metaPublisher $ meta] ++
+   (map langToString $ metaLangs meta) ++
+   [relationToString . metaRelation $ meta] ++
+   [coverageToString . metaCoverage $ meta] ++
+   [rightsToString . metaRights $ meta] ++
    ["manifest items:\n"] ++
    [unlines $ map (printf "    %s" . show) ma] ++
    [printf "spine idref=%s; items:\n" (show $ esID sp)] ++

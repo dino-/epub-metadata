@@ -12,28 +12,28 @@ import Codec.Epub.Opf.Format.Util
 import Codec.Epub.Opf.Package.Metadata
 
 
-titleToString :: EMTitle -> String
-titleToString (EMTitle Nothing title) = printf "title: %s\n" title
-titleToString (EMTitle lang title) =
+titleToString :: MetaTitle -> String
+titleToString (MetaTitle Nothing title) = printf "title: %s\n" title
+titleToString (MetaTitle lang title) =
    "title\n" ++
    (formatSubline "lang" lang) ++
    (formatSubline "title" (Just title))
 
 
-creatorToString :: EMCreator -> String
-creatorToString (EMCreator Nothing Nothing creator) =
+creatorToString :: MetaCreator -> String
+creatorToString (MetaCreator Nothing Nothing creator) =
    printf "creator: %s\n" creator
-creatorToString (EMCreator role fileAs creator) =
+creatorToString (MetaCreator role fileAs creator) =
    "creator\n" ++
    (formatSubline "role" role) ++
    (formatSubline "file-as" fileAs) ++
    (formatSubline "creator" (Just creator))
 
 
-contributorToString :: EMCreator -> String
-contributorToString (EMCreator Nothing Nothing contributor) =
+contributorToString :: MetaCreator -> String
+contributorToString (MetaCreator Nothing Nothing contributor) =
    printf "contributor: %s\n" contributor
-contributorToString (EMCreator role fileAs contributor) =
+contributorToString (MetaCreator role fileAs contributor) =
    "contributor\n" ++
    (formatSubline "role" role) ++
    (formatSubline "file-as" fileAs) ++
@@ -52,10 +52,10 @@ publisherToString :: Maybe String -> String
 publisherToString = maybe "" (printf "publisher: %s\n")
 
 
-dateToString :: EMDate -> String
-dateToString (EMDate Nothing date) =
+dateToString :: MetaDate -> String
+dateToString (MetaDate Nothing date) =
    printf "date: %s\n" date
-dateToString (EMDate event date) =
+dateToString (MetaDate event date) =
    "date\n" ++
    (formatSubline "event" event) ++
    (formatSubline "date" (Just date))
@@ -69,8 +69,8 @@ formatToString :: Maybe String -> String
 formatToString = maybe "" (printf "format: %s\n")
 
 
-idToString :: EMId -> String
-idToString (EMId idVal scheme content) =
+idToString :: MetaId -> String
+idToString (MetaId idVal scheme content) =
    "identifier\n" ++
    (formatSubline "id" (Just idVal)) ++
    (formatSubline "scheme" scheme) ++

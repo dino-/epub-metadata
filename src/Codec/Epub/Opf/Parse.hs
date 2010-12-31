@@ -84,19 +84,19 @@ getPackage = atTag "package" >>>
       returnA -< (v, u)
 
 
-getTitle :: (ArrowXml a) => a (NTree XNode) EMTitle
+getTitle :: (ArrowXml a) => a (NTree XNode) MetaTitle
 getTitle = atQTag (dcName "title") >>>
    proc x -> do
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
-      returnA -< EMTitle l c
+      returnA -< MetaTitle l c
 
 
 {- Since creators and contributors have the same exact XML structure,
    this arrow is used to get either of them
 -}
-getCreator :: (ArrowXml a) => String -> a (NTree XNode) EMCreator
-getCreator tag = atQTag (dcName tag) >>> ( unwrapArrow $ EMCreator
+getCreator :: (ArrowXml a) => String -> a (NTree XNode) MetaCreator
+getCreator tag = atQTag (dcName tag) >>> ( unwrapArrow $ MetaCreator
    <$> (WrapArrow $ mbGetQAttrValue (opfName "role"))
    <*> (WrapArrow $ mbGetQAttrValue (opfName "file-as"))
    <*> (WrapArrow $ text)
@@ -115,12 +115,12 @@ getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
 getPublisher = mbQTagText $ dcName "publisher"
 
 
-getDate :: (ArrowXml a) => a (NTree XNode) EMDate
+getDate :: (ArrowXml a) => a (NTree XNode) MetaDate
 getDate = atQTag (dcName "date") >>>
    proc x -> do
       e <- mbGetQAttrValue (opfName "event") -< x
       c <- text -< x
-      returnA -< EMDate e c
+      returnA -< MetaDate e c
 
 
 getType :: (ArrowXml a) => a (NTree XNode) (Maybe String)
@@ -131,14 +131,14 @@ getFormat :: (ArrowXml a) => a (NTree XNode) (Maybe String)
 getFormat = mbQTagText $ dcName "format"
 
 
-getId :: (ArrowXml a) => a (NTree XNode) EMId
+getId :: (ArrowXml a) => a (NTree XNode) MetaId
 getId = atQTag (dcName "identifier") >>>
    proc x -> do
       mbi <- mbGetAttrValue "id" -< x
       s <- mbGetQAttrValue (opfName "scheme") -< x
       c <- text -< x
       let i = maybe "[WARNING: missing required id attribute]" id mbi
-      returnA -< EMId i s c
+      returnA -< MetaId i s c
 
 
 getSource :: (ArrowXml a) => a (NTree XNode) (Maybe String)

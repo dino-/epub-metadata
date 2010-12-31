@@ -11,10 +11,10 @@
 -}
 module Codec.Epub.Opf.Package
    ( OPFPackage (..)
-   , EMTitle (..)
-   , EMCreator (..)
-   , EMDate (..)
-   , EMId (..)
+   , MetaTitle (..)
+   , MetaCreator (..)
+   , MetaDate (..)
+   , MetaId (..)
    , Metadata (..)
    , EpubMFItem (..)
    , EpubSpine (..)
