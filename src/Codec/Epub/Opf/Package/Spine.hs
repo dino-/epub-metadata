@@ -10,8 +10,8 @@
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
 module Codec.Epub.Opf.Package.Spine
-   ( EpubSpine (..)
-   , EpubSPItemRef (..)
+   ( Spine (..)
+   , SpineItemref (..)
    )
    where
 
@@ -19,16 +19,16 @@ import Codec.Epub.Opf.Common
 
 
 -- | opf:spine:itemref
-data EpubSPItemRef = EpubSPItemRef
-   { eiIdRef  :: MFItemID -- Must reference item in manifest
-   , eiLinear :: Maybe Bool
+data SpineItemref = SpineItemref
+   { siIdRef  :: MFItemID -- Must reference item in manifest
+   , siLinear :: Maybe Bool
    }
    deriving (Eq, Show)
 
 
 -- | opf:spine
-data EpubSpine = EpubSpine
-   { esID    :: MFItemID  -- Must reference the NCX in the manifest
-   , esItemrefs :: [ EpubSPItemRef ] -- one required
+data Spine = Spine
+   { spineId    :: MFItemID  -- Must reference the NCX in the manifest
+   , spineItemrefs :: [ SpineItemref ] -- one required
    }
    deriving (Eq, Show)

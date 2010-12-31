@@ -194,20 +194,20 @@ getManifest = atTag "manifest" >>>
       l <- listA getMFItem -< x
       returnA -< l
 
-getSPItemRef :: (ArrowXml a) => a (NTree XNode) EpubSPItemRef
+getSPItemRef :: (ArrowXml a) => a (NTree XNode) SpineItemref
 getSPItemRef = atTag "itemref" >>>
    proc x -> do
       i <- getAttrValue "idref" -< x
       ml <- mbGetAttrValue "linear" -< x
       let l = maybe Nothing (\v -> if v == "no" then Just False else Just True) ml
-      returnA -< EpubSPItemRef i l
+      returnA -< SpineItemref i l
 
-getSpine :: (ArrowXml a) => a (NTree XNode) EpubSpine
+getSpine :: (ArrowXml a) => a (NTree XNode) Spine
 getSpine = atTag "spine" >>>
    proc x -> do
       i <- getAttrValue "toc" -< x
       l <- listA getSPItemRef -< x
-      returnA -< (EpubSpine i l)
+      returnA -< (Spine i l)
 
 getGuideRef :: (ArrowXml a) => a (NTree XNode) EpubGuideRef
 getGuideRef = atTag "reference" >>>
