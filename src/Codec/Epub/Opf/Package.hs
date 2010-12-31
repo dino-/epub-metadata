@@ -24,9 +24,9 @@ module Codec.Epub.Opf.Package
    )
    where
 
-import Codec.Epub.Opf.Common
 import Codec.Epub.Opf.Package.Manifest
 import Codec.Epub.Opf.Package.Metadata
+import Codec.Epub.Opf.Package.Spine
 
 
 {- | opf:package tag
@@ -42,20 +42,6 @@ data Package = Package
    , opManifest :: [EpubMFItem] -- ^ manifest child element contents. one required
    , opSpine :: EpubSpine -- ^ spine child element contents
    , opGuide :: [EpubGuideRef] -- ^ guide child element contents
-   }
-   deriving (Eq, Show)
-
--- | opf:spine:itemref
-data EpubSPItemRef = EpubSPItemRef
-   { eiIdRef  :: MFItemID -- Must reference item in manifest
-   , eiLinear :: Maybe Bool 
-   }
-   deriving (Eq, Show)
-
--- | opf:spine
-data EpubSpine = EpubSpine 
-   { esID    :: MFItemID  -- Must reference the NCX in the manifest
-   , esItemrefs :: [ EpubSPItemRef ] -- one required
    }
    deriving (Eq, Show)
 
