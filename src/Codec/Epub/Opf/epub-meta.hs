@@ -21,4 +21,4 @@ main = do
    let zipPath = head as
    result <- runErrorT $ parseEpubOpf zipPath
 
-   putStr $ either (++ "\n") opfToString result
+   putStr $ either (++ "\n") opfPackageToString result

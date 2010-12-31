@@ -4,7 +4,7 @@
 
 -- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Opf.Format.Package
-   ( opfToString
+   ( opfPackageToString
    )
    where
 
@@ -23,8 +23,8 @@ packageToString (version, uniqueId) =
 
 
 -- | Format an ePub metadata into a String
-opfToString :: OPFPackage -> String
-opfToString (OPFPackage v u meta ma sp gu) = concat $
+opfPackageToString :: Package -> String
+opfPackageToString (Package v u meta ma sp gu) = concat $
    [packageToString (v, u)] ++
    (map titleToString $ metaTitles meta) ++
    (map creatorToString $ metaCreators meta) ++
