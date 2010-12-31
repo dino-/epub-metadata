@@ -36,7 +36,7 @@ data MetaDate = MetaDate (Maybe String) String
 data MetaId = MetaId String (Maybe String) String
    deriving (Eq, Show)
 
--- | opf:metadata tag
+-- | package\/metadata tag
 data Metadata = Metadata
    { metaTitles :: [MetaTitle]   -- ^ at least one required
    , metaCreators :: [MetaCreator]

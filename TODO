@@ -2,8 +2,6 @@
 
 - Add switches to epub-meta to allow inclusion of new parts: manifest, spine, guide
 
-- Fix API comments in Codec.Epub.Opf.* to point to the proper elements/attributes
-
 - Continue to rename data type and field names as part of the big repackaging
 
 - More unit testing

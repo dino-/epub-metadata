@@ -18,15 +18,15 @@ module Codec.Epub.Opf.Package.Spine
 import Codec.Epub.Opf.Common
 
 
--- | opf:spine:itemref
+-- | package\/spine\/itemref tag
 data SpineItemref = SpineItemref
-   { siIdRef  :: MFItemId -- Must reference item in manifest
-   , siLinear :: Maybe Bool
+   { siIdRef  :: MFItemId  -- ^ idref attr. Must reference item in manifest
+   , siLinear :: Maybe Bool  -- ^ linear attr
    }
    deriving (Eq, Show)
 
 
--- | opf:spine
+-- | package\/spine tag
 data Spine = Spine
    { spineToc    :: MFItemId  -- ^ toc attr. Must reference the NCX in the manifest
    , spineItemrefs :: [ SpineItemref ] -- one required

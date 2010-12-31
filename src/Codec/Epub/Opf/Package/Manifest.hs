@@ -17,15 +17,15 @@ module Codec.Epub.Opf.Package.Manifest
 import Codec.Epub.Opf.Common
 
 
--- | manifest attributes
+-- | manifest attribute values
 type MFItemHref = String
 type MFItemMediaType = String
 
 
--- | opf:manifest tag
+-- | package\/manifest\/item tag
 data ManifestItem = ManifestItem
-   { mfiId :: MFItemId
-   , mfiHref :: MFItemHref
-   , mfiMediaType :: MFItemMediaType
+   { mfiId :: MFItemId  -- ^ id attr
+   , mfiHref :: MFItemHref  -- ^ href attr
+   , mfiMediaType :: MFItemMediaType  -- ^ media-type attr
    }
    deriving (Eq, Show)

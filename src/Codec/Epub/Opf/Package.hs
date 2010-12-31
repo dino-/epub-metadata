@@ -30,11 +30,7 @@ import Codec.Epub.Opf.Package.Metadata
 import Codec.Epub.Opf.Package.Spine
 
 
-{- | opf:package tag
-
-   Note that we are not yet storing the data that comes after
-   \/package\/metadata in an OPF Package Document. But that may
-   be added at a later time.
+{- | package tag
 -}
 data Package = Package
    { opVersion :: String  -- ^ version attr

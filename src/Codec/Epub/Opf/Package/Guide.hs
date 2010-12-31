@@ -15,10 +15,10 @@ module Codec.Epub.Opf.Package.Guide
    where
 
 
--- | opf:guide
+-- | package\/guide\/reference tag
 data GuideRef = GuideRef
-   { grType :: String -- Must follow 13th edition of the Chicago Manual of Style
-   , grTitle :: Maybe String
-   , grHref :: String -- Must reference item in manifest
+   { grType :: String  -- ^ type attr. Must follow 13th edition of the Chicago Manual of Style
+   , grTitle :: Maybe String  -- ^ title attr
+   , grHref :: String  -- ^ href attr. Must reference item in manifest
    }
    deriving (Eq, Show)
