@@ -24,6 +24,7 @@ module Codec.Epub.Opf.Package
    )
    where
 
+import Codec.Epub.Opf.Package.Guide
 import Codec.Epub.Opf.Package.Manifest
 import Codec.Epub.Opf.Package.Metadata
 import Codec.Epub.Opf.Package.Spine
@@ -42,13 +43,5 @@ data Package = Package
    , opManifest :: [EpubMFItem] -- ^ manifest child element contents. one required
    , opSpine :: EpubSpine -- ^ spine child element contents
    , opGuide :: [EpubGuideRef] -- ^ guide child element contents
-   }
-   deriving (Eq, Show)
-
--- | opf:guide
-data EpubGuideRef = EpubGuideRef
-   { egType :: String -- Must follow 13th edition of the Chicago Manual of Style
-   , egTitle :: Maybe String 
-   , egHref :: String -- Must reference item in manifest
    }
    deriving (Eq, Show)
