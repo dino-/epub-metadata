@@ -24,6 +24,8 @@ module Codec.Epub.Opf.Package
    )
    where
 
+import Codec.Epub.Opf.Common
+import Codec.Epub.Opf.Package.Manifest
 import Codec.Epub.Opf.Package.Metadata
 
 
@@ -42,19 +44,6 @@ data Package = Package
    , opGuide :: [EpubGuideRef] -- ^ guide child element contents
    }
    deriving (Eq, Show)
-
--- | manifest attributes (id, href, media-type)
-type MFItemID = String
-type MFItemHref = String
-type MFItemMediaType = String
-
--- | opf:manifest tag
-data EpubMFItem = EpubMFItem
-   { emfID :: MFItemID
-   , emfHref :: MFItemHref
-   , emfMediaType :: MFItemMediaType
-   } 
-   deriving (Eq, Show)         
 
 -- | opf:spine:itemref
 data EpubSPItemRef = EpubSPItemRef
