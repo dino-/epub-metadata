@@ -180,6 +180,7 @@ getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
    <*> (WrapArrow $ getRights)
    )
 
+
 getManifestItem :: (ArrowXml a) => a (NTree XNode) ManifestItem
 getManifestItem = atTag "item" >>>
    proc x -> do
@@ -188,11 +189,13 @@ getManifestItem = atTag "item" >>>
       m <- getAttrValue "media-type" -< x
       returnA -< ManifestItem i h m
 
+
 getManifest :: (ArrowXml a) => a (NTree XNode) [ManifestItem]
 getManifest = atTag "manifest" >>>
    proc x -> do
       l <- listA getManifestItem -< x
       returnA -< l
+
 
 getSpineItemref :: (ArrowXml a) => a (NTree XNode) SpineItemref
 getSpineItemref = atTag "itemref" >>>
@@ -202,12 +205,14 @@ getSpineItemref = atTag "itemref" >>>
       let l = maybe Nothing (\v -> if v == "no" then Just False else Just True) ml
       returnA -< SpineItemref i l
 
+
 getSpine :: (ArrowXml a) => a (NTree XNode) Spine
 getSpine = atTag "spine" >>>
    proc x -> do
       i <- getAttrValue "toc" -< x
       l <- listA getSpineItemref -< x
       returnA -< (Spine i l)
+
 
 getGuideRef :: (ArrowXml a) => a (NTree XNode) GuideRef
 getGuideRef = atTag "reference" >>>
@@ -217,11 +222,13 @@ getGuideRef = atTag "reference" >>>
       h <- getAttrValue "href" -< x
       returnA -< GuideRef t mt h
 
+
 getGuide :: (ArrowXml a) => a (NTree XNode) [GuideRef]
 getGuide = atTag "guide" >>>
    proc x -> do
       l <- listA getGuideRef -< x
       returnA -< l
+
 
 getBookData :: (ArrowXml a) => a (NTree XNode) Package
 getBookData = 
@@ -236,6 +243,7 @@ getBookData =
                 [e] -> e
                 _   -> error "ERROR: more than one guide entries"        
       returnA -< (Package v u m mf sp g)
+
 
 {- | Extract the ePub metadata contained in the OPF Package Document 
    contained in the supplied string
