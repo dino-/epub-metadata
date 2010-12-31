@@ -24,7 +24,7 @@ type MFItemMediaType = String
 
 -- | opf:manifest tag
 data ManifestItem = ManifestItem
-   { mfiID :: MFItemID
+   { mfiId :: MFItemId
    , mfiHref :: MFItemHref
    , mfiMediaType :: MFItemMediaType
    }

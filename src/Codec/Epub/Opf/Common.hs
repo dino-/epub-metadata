@@ -13,4 +13,4 @@ module Codec.Epub.Opf.Common
    where
 
 
-type MFItemID = String
+type MFItemId = String

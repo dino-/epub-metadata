@@ -20,7 +20,7 @@ import Codec.Epub.Opf.Common
 
 -- | opf:spine:itemref
 data SpineItemref = SpineItemref
-   { siIdRef  :: MFItemID -- Must reference item in manifest
+   { siIdRef  :: MFItemId -- Must reference item in manifest
    , siLinear :: Maybe Bool
    }
    deriving (Eq, Show)
@@ -28,7 +28,7 @@ data SpineItemref = SpineItemref
 
 -- | opf:spine
 data Spine = Spine
-   { spineId    :: MFItemID  -- Must reference the NCX in the manifest
+   { spineId    :: MFItemId  -- Must reference the NCX in the manifest
    , spineItemrefs :: [ SpineItemref ] -- one required
    }
    deriving (Eq, Show)
