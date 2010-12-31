@@ -180,15 +180,15 @@ getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
    <*> (WrapArrow $ getRights)
    )
 
-getMFItem :: (ArrowXml a) => a (NTree XNode) EpubMFItem
+getMFItem :: (ArrowXml a) => a (NTree XNode) ManifestItem
 getMFItem = atTag "item" >>>
    proc x -> do
       i <- getAttrValue "id" -< x
       h <- getAttrValue "href" -< x
       m <- getAttrValue "media-type" -< x
-      returnA -< EpubMFItem i h m
+      returnA -< ManifestItem i h m
 
-getManifest :: (ArrowXml a) => a (NTree XNode) [EpubMFItem]
+getManifest :: (ArrowXml a) => a (NTree XNode) [ManifestItem]
 getManifest = atTag "manifest" >>>
    proc x -> do
       l <- listA getMFItem -< x

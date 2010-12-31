@@ -16,7 +16,7 @@ module Codec.Epub.Opf.Package
    , MetaDate (..)
    , MetaId (..)
    , Metadata (..)
-   , EpubMFItem (..)
+   , ManifestItem (..)
    , EpubSpine (..)
    , EpubSPItemRef (..)
    , EpubGuideRef (..)
@@ -40,7 +40,7 @@ data Package = Package
    { opVersion :: String  -- ^ version attr
    , opUniqueId :: String  -- ^ unique-identifier attr
    , opMeta :: Metadata  -- ^ metadata child element contents
-   , opManifest :: [EpubMFItem] -- ^ manifest child element contents. one required
+   , opManifest :: [ManifestItem] -- ^ manifest child element contents. one required
    , opSpine :: EpubSpine -- ^ spine child element contents
    , opGuide :: [EpubGuideRef] -- ^ guide child element contents
    }

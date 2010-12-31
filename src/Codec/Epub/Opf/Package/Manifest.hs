@@ -10,7 +10,7 @@
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
 module Codec.Epub.Opf.Package.Manifest
-   ( EpubMFItem (..)
+   ( ManifestItem (..)
    )
    where
 
@@ -23,9 +23,9 @@ type MFItemMediaType = String
 
 
 -- | opf:manifest tag
-data EpubMFItem = EpubMFItem
-   { emfID :: MFItemID
-   , emfHref :: MFItemHref
-   , emfMediaType :: MFItemMediaType
+data ManifestItem = ManifestItem
+   { mfiID :: MFItemID
+   , mfiHref :: MFItemHref
+   , mfiMediaType :: MFItemMediaType
    }
    deriving (Eq, Show)
