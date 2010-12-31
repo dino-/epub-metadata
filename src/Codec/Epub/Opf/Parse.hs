@@ -161,8 +161,8 @@ getRights :: (ArrowXml a) => a (NTree XNode) (Maybe String)
 getRights = mbQTagText $ dcName "rights"
 
 
-getMeta :: (ArrowXml a) => a (NTree XNode) EpubMeta
-getMeta = atTag "metadata" >>> ( unwrapArrow $ EpubMeta
+getMeta :: (ArrowXml a) => a (NTree XNode) Metadata
+getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
    <$> (WrapArrow $ listA getTitle)
    <*> (WrapArrow $ listA $ getCreator "creator")
    <*> (WrapArrow $ listA $ getCreator "contributor")
