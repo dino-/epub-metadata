@@ -43,6 +43,6 @@ opfPackageToString (Package v u meta ma sp gu) = concat $
    [rightsToString . metaRights $ meta] ++
    ["manifest items:\n"] ++
    [unlines $ map (printf "    %s" . show) ma] ++
-   [printf "spine idref=%s; items:\n" (show $ spineId sp)] ++
+   [printf "spine toc=%s; items:\n" (show $ spineToc sp)] ++
    [unlines $ map (printf "    %s" . show) (spineItemrefs sp)] ++
    [unlines $ map show gu]

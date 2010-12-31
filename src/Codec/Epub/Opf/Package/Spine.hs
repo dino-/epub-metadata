@@ -28,7 +28,7 @@ data SpineItemref = SpineItemref
 
 -- | opf:spine
 data Spine = Spine
-   { spineId    :: MFItemId  -- Must reference the NCX in the manifest
+   { spineToc    :: MFItemId  -- ^ toc attr. Must reference the NCX in the manifest
    , spineItemrefs :: [ SpineItemref ] -- one required
    }
    deriving (Eq, Show)
