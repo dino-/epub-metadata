@@ -19,7 +19,7 @@ module Codec.Epub.Opf.Package
    , ManifestItem (..)
    , SpineItemref (..)
    , Spine (..)
-   , EpubGuideRef (..)
+   , GuideRef (..)
    , emptyMetadata
    )
    where
@@ -42,6 +42,6 @@ data Package = Package
    , opMeta :: Metadata  -- ^ metadata child element contents
    , opManifest :: [ManifestItem] -- ^ manifest child element contents. one required
    , opSpine :: Spine  -- ^ spine child element contents
-   , opGuide :: [EpubGuideRef] -- ^ guide child element contents
+   , opGuide :: [GuideRef] -- ^ guide child element contents
    }
    deriving (Eq, Show)

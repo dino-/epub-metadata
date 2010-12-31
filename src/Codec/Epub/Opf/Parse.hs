@@ -209,15 +209,15 @@ getSpine = atTag "spine" >>>
       l <- listA getSPItemRef -< x
       returnA -< (Spine i l)
 
-getGuideRef :: (ArrowXml a) => a (NTree XNode) EpubGuideRef
+getGuideRef :: (ArrowXml a) => a (NTree XNode) GuideRef
 getGuideRef = atTag "reference" >>>
    proc x -> do
       t <- getAttrValue "type" -< x
       mt <- mbGetAttrValue "title" -< x
       h <- getAttrValue "href" -< x
-      returnA -< EpubGuideRef t mt h
+      returnA -< GuideRef t mt h
 
-getGuide :: (ArrowXml a) => a (NTree XNode) [EpubGuideRef]
+getGuide :: (ArrowXml a) => a (NTree XNode) [GuideRef]
 getGuide = atTag "guide" >>>
    proc x -> do
       l <- listA getGuideRef -< x
