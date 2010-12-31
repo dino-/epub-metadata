@@ -10,7 +10,7 @@
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
 module Codec.Epub.Opf.Package
-   ( OPFPackage (..)
+   ( Package (..)
    , MetaTitle (..)
    , MetaCreator (..)
    , MetaDate (..)
@@ -33,7 +33,7 @@ import Codec.Epub.Opf.Package.Metadata
    \/package\/metadata in an OPF Package Document. But that may
    be added at a later time.
 -}
-data OPFPackage = OPFPackage
+data Package = Package
    { opVersion :: String  -- ^ version attr
    , opUniqueId :: String  -- ^ unique-identifier attr
    , opMeta :: Metadata  -- ^ metadata child element contents

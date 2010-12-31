@@ -223,7 +223,7 @@ getGuide = atTag "guide" >>>
       l <- listA getGuideRef -< x
       returnA -< l
 
-getBookData :: (ArrowXml a) => a (NTree XNode) OPFPackage
+getBookData :: (ArrowXml a) => a (NTree XNode) Package
 getBookData = 
    proc x -> do
       (v, u) <- getPackage -< x
@@ -235,12 +235,12 @@ getBookData =
                 []  -> []
                 [e] -> e
                 _   -> error "ERROR: more than one guide entries"        
-      returnA -< (OPFPackage v u m mf sp g)
+      returnA -< (Package v u m mf sp g)
 
 {- | Extract the ePub metadata contained in the OPF Package Document 
    contained in the supplied string
 -}
-parseXmlToOpf :: (MonadIO m) => String -> m [OPFPackage]
+parseXmlToOpf :: (MonadIO m) => String -> m [Package]
 parseXmlToOpf opfContents =
    liftIO $ runX (
       readString [withValidate no] opfContents
@@ -251,7 +251,7 @@ parseXmlToOpf opfContents =
 
 -- | Given the path to an ePub file, extract the metadata
 parseEpubOpf :: (MonadIO m, MonadError String m) =>
-   FilePath -> m OPFPackage
+   FilePath -> m Package
 parseEpubOpf zipPath = do
    opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
    result <- parseXmlToOpf opfContents
