@@ -13,4 +13,5 @@ module Codec.Epub.Opf.Common
    where
 
 
+-- | Attribute value used to relate things to each other in the OPF data
 type MFItemId = String

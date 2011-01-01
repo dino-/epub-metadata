@@ -20,19 +20,23 @@ module Codec.Epub.Opf.Package.Metadata
    where
 
 
--- | dc:title tag, xml:lang attr, content
+-- | package\/metadata\/dc:title tag, xml:lang attr, content
 data MetaTitle = MetaTitle (Maybe String) String
    deriving (Eq, Show)
 
--- | dc:creator tag, opf:role attr, opf:file-as attr, content
+{- | package\/metadata\/dc:creator tag, opf:role attr, opf:file-as attr,
+   content
+-}
 data MetaCreator = MetaCreator (Maybe String) (Maybe String) String
    deriving (Eq, Show)
 
--- | dc:date tag, opf:event attr, content
+-- | package\/metadata\/dc:date tag, opf:event attr, content
 data MetaDate = MetaDate (Maybe String) String
    deriving (Eq, Show)
 
--- | dc:identifier tag, id attr, opf:scheme attr, content
+{- | package\/metadata\/dc:identifier tag, id attr, opf:scheme attr,
+   content
+-}
 data MetaId = MetaId String (Maybe String) String
    deriving (Eq, Show)
 

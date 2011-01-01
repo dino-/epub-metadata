@@ -245,8 +245,8 @@ getBookData =
       returnA -< (Package v u m mf sp g)
 
 
-{- | Extract the ePub metadata contained in the OPF Package Document 
-   contained in the supplied string
+{- | Extract the ePub OPF Package data contained in the supplied 
+   XML string
 -}
 parseXmlToOpf :: (MonadIO m) => String -> m [Package]
 parseXmlToOpf opfContents =
@@ -257,7 +257,7 @@ parseXmlToOpf opfContents =
       )
 
 
--- | Given the path to an ePub file, extract the metadata
+-- | Given the path to an ePub file, extract the OPF Package data
 parseEpubOpf :: (MonadIO m, MonadError String m) =>
    FilePath -> m Package
 parseEpubOpf zipPath = do

@@ -2,7 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
--- | Module for pretty-printing ePub metadata info
+-- | Module for pretty-printing OPF package data
 module Codec.Epub.Opf.Format.Package
    ( opfPackageToString
    )

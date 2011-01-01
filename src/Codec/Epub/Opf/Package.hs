@@ -36,7 +36,7 @@ data Package = Package
    { opVersion :: String  -- ^ version attr
    , opUniqueId :: String  -- ^ unique-identifier attr
    , opMeta :: Metadata  -- ^ metadata child element contents
-   , opManifest :: [ManifestItem] -- ^ manifest child element contents. one required
+   , opManifest :: [ManifestItem] -- ^ manifest child element contents. One required
    , opSpine :: Spine  -- ^ spine child element contents
    , opGuide :: [GuideRef] -- ^ guide child element contents
    }
