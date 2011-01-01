@@ -8,9 +8,9 @@ module Codec.Epub.Opf.Format.Package
    )
    where
 
-import Text.Printf
-
+import Codec.Epub.Opf.Format.Manifest
 import Codec.Epub.Opf.Format.Metadata
+import Codec.Epub.Opf.Format.Spine
 import Codec.Epub.Opf.Format.Util
 import Codec.Epub.Opf.Package
 
@@ -42,7 +42,6 @@ opfPackageToString (Package v u meta ma sp gu) = concat $
    [coverageToString . metaCoverage $ meta] ++
    [rightsToString . metaRights $ meta] ++
    ["manifest items:\n"] ++
-   [unlines $ map (printf "    %s" . show) ma] ++
-   [printf "spine toc=%s; items:\n" (show $ spineToc sp)] ++
-   [unlines $ map (printf "    %s" . show) (spineItemrefs sp)] ++
+   [unlines $ map manifestItemToString ma] ++
+   [spineToString sp] ++
    [unlines $ map show gu]
