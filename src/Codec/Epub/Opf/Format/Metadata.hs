@@ -100,19 +100,21 @@ tellRights = maybe (return ()) (tellSeq . (printf "rights: %s\n"))
 
 
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
-tellMetadata meta = do
-   mapM_ tellTitle $ metaTitles meta
-   mapM_ tellCreator $ metaCreators meta
-   mapM_ tellContributor $ metaContributors meta
-   mapM_ tellDate $ metaDates meta
-   tellType $ metaType meta
-   tellFormat $ metaFormat meta
-   mapM_ tellId $ metaIds meta
-   tellSource $ metaSource meta
-   mapM_ tellSubject $ metaSubjects meta
-   tellDescription $ metaDescription meta
-   tellPublisher $ metaPublisher meta
-   mapM_ tellLang $ metaLangs meta
-   tellRelation $ metaRelation meta
-   tellCoverage $ metaCoverage meta
-   tellRights $ metaRights meta
+tellMetadata (Metadata titles creators contributors subjects desc 
+      publisher dates mType format ids source langs relation 
+      coverage rights) = do
+   mapM_ tellTitle titles
+   mapM_ tellCreator creators
+   mapM_ tellContributor contributors
+   mapM_ tellDate dates
+   tellType mType
+   tellFormat format
+   mapM_ tellId ids
+   tellSource source
+   mapM_ tellSubject subjects
+   tellDescription desc
+   tellPublisher publisher
+   mapM_ tellLang langs
+   tellRelation relation
+   tellCoverage coverage
+   tellRights rights
