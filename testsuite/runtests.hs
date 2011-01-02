@@ -17,7 +17,7 @@ tests :: Test
 tests = TestList
    [ testFull
    , testMinimal
-   --, testMissingAll
+   , testMissingAll
    ]
 
 
@@ -167,11 +167,18 @@ testMinimal = TestCase $ do
 {- Test data missing everything important: package version and 
    unique-identifier attributes, title, identifier and language tags
 -}
-{-
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
    actual <- parseXmlToOpf xmlString
-   let expected = [ OPFPackage "" "" emptyEpubMeta ]
+   let expected =
+         [ Package 
+            { opVersion = ""
+            , opUniqueId = ""
+            , opMeta = emptyMetadata
+            , opManifest = []
+            , opSpine = Spine {spineToc = "", spineItemrefs = []}
+            , opGuide = []
+            }
+         ]
    assertEqual "missing all" expected actual
--}
