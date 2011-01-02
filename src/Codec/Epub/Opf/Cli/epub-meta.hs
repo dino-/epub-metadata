@@ -6,19 +6,20 @@ import Control.Monad.Error
 import System.Environment ( getArgs )
 import System.Exit
 
+import Codec.Epub.Opf.Cli.Opts
 import Codec.Epub.Opf.Format.Package
 import Codec.Epub.Opf.Parse
 
 
 main :: IO ()
 main = do
-   as <- getArgs
+   (opts, paths) <- getArgs >>= parseOpts
 
-   when (length as /= 1) $ do
-      putStrLn "usage: epub-meta EPUBFILE"
+   when ((optHelp opts) || (null paths)) $ do
+      putStrLn usageText
       exitWith $ ExitFailure 1
 
-   let zipPath = head as
+   let zipPath = head paths
    result <- runErrorT $ parseEpubOpf zipPath
 
-   putStr $ either id (formatPackage True) result
+   putStr $ either id (formatPackage (optVerbose opts)) result

@@ -30,7 +30,7 @@ library
    ghc-options:      -Wall
 
 executable           epub-meta
-   main-is:          Codec/Epub/Opf/epub-meta.hs
+   main-is:          Codec/Epub/Opf/Cli/epub-meta.hs
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5
    ghc-options:      -Wall

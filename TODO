@@ -1,5 +1,3 @@
 - Better errors on parse failure, this will emerge along with more unit testing
 
-- Add switches to epub-meta to allow inclusion of new parts: manifest, spine, guide
-
 - More unit testing
