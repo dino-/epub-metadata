@@ -4,7 +4,7 @@ cabal-version:       >= 1.2
 build-type:          Simple
 license:             BSD3
 license-file:        LICENSE
-copyright:           2010 Dino Morelli
+copyright:           2010, 2011 Dino Morelli
 author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
 stability:           experimental
