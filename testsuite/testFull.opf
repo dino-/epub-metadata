@@ -19,7 +19,7 @@
       <dc:date opf:event="published">2010</dc:date>
       <dc:date opf:event="created">2010-05-07</dc:date>
       <dc:date opf:event="modified">2010-05-08T10:20:57</dc:date>
-      <dc:date>2009-08-03T16:22:20</dc:date>
+      <dc:date>2009</dc:date>
       <dc:language>en-us</dc:language>
       <dc:publisher>Fictional Books Ltd.</dc:publisher>
       <dc:identifier id="other">1386506873266</dc:identifier>
@@ -31,9 +31,30 @@
       <dc:relation>document relation</dc:relation>
       <dc:coverage>coverage information</dc:coverage>
       <dc:rights>Copyright: 2010 Dino Morelli, License: BSD3</dc:rights>
-      <meta name="series_index" content="1"/>
    </metadata>
 
-   <!-- This document is a stub used for unit testing. It is missing 
-        the rest of the tags that normally occur after metadata -->
+   <manifest>
+      <item id="ncx"
+         href="toc.ncx"
+         media-type="application/x-dtbncx+xml" />
+      <item id="titlePage"
+         href="content/titlePage.html"
+         media-type="application/xhtml+xml" />
+      <item id="someContent"
+         href="content/someContent.html"
+         media-type="application/xhtml+xml" />
+   </manifest>
+
+   <spine toc="ncx">
+      <itemref idref="titlePage" />
+      <itemref idref="someContent" />
+   </spine>
+
+   <guide>
+      <reference type="title-page" title="Title page"
+         href="content/titlePage.html" />
+      <reference type="text" title="Title Of This Book"
+         href="content/someContent.html" />
+   </guide>
+
 </package>
