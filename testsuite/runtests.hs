@@ -16,7 +16,7 @@ main = runTestTT tests >> return ()
 tests :: Test
 tests = TestList
    [ testFull
-   --, testMinimal
+   , testMinimal
    --, testMissingAll
    ]
 
@@ -125,30 +125,43 @@ testFull = TestCase $ do
 {- Test the absolute minimum set of fields allowed while remaining 
    compliant with the spec
 -}
-{-
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMinimal.opf"
    actual <- parseXmlToOpf xmlString
-   let expected = [ OPFPackage "2.0" "isbn" ( EpubMeta
-         { emTitles = [EMTitle Nothing "Title Of This Book"]
-         , emCreators = []
-         , emContributors = []
-         , emSubjects = []
-         , emDescription = Nothing
-         , emPublisher = Nothing
-         , emDates = []
-         , emType = Nothing
-         , emFormat = Nothing
-         , emIds = [EMId "isbn" (Just "ISBN") "1-82057-821-9"]
-         , emSource = Nothing
-         , emLangs = ["en-us"]
-         , emRelation = Nothing
-         , emCoverage = Nothing
-         , emRights = Nothing
-         } ) ]
+   let expected = 
+         [ Package 
+            { opVersion = "2.0"
+            , opUniqueId = "isbn"
+            , opMeta = Metadata 
+               { metaTitles = [MetaTitle Nothing "Title Of This Book"]
+               , metaCreators = []
+               , metaContributors = []
+               , metaSubjects = []
+               , metaDescription = Nothing
+               , metaPublisher = Nothing
+               , metaDates = []
+               , metaType = Nothing
+               , metaFormat = Nothing
+               , metaIds = [MetaId "isbn" (Just "ISBN") "1-82057-821-9"]
+               , metaSource = Nothing
+               , metaLangs = ["en-us"]
+               , metaRelation = Nothing
+               , metaCoverage = Nothing
+               , metaRights = Nothing
+               }
+            , opManifest = 
+               [ ManifestItem 
+                  { mfiId = "ncx"
+                  , mfiHref = "toc.ncx"
+                  , mfiMediaType = "application/x-dtbncx+xml"
+                  }
+               ]
+            , opSpine = Spine {spineToc = "ncx", spineItemrefs = []}
+            , opGuide = []
+            }
+         ]
    assertEqual "minimal" expected actual
--}
 
 
 {- Test data missing everything important: package version and 

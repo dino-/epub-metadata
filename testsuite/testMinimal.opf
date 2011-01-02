@@ -12,6 +12,13 @@
       <dc:language>en-us</dc:language>
    </metadata>
 
-   <!-- This document is a stub used for unit testing. It is missing 
-        the rest of the tags that normally occur after metadata -->
+   <manifest>
+      <item id="ncx"
+         href="toc.ncx"
+         media-type="application/x-dtbncx+xml" />
+   </manifest>
+
+   <spine toc="ncx">
+   </spine>
+
 </package>
