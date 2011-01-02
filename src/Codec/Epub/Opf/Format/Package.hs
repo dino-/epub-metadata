@@ -2,12 +2,18 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+{-# LANGUAGE FlexibleContexts #-}
+
 -- | Module for pretty-printing OPF package data
 module Codec.Epub.Opf.Format.Package
-   ( opfPackageToString
+   ( formatPackage
    )
    where
 
+import Control.Monad.Writer.Lazy
+import Data.Foldable ( toList )
+
+import Codec.Epub.Opf.Format.Guide
 import Codec.Epub.Opf.Format.Manifest
 import Codec.Epub.Opf.Format.Metadata
 import Codec.Epub.Opf.Format.Spine
@@ -15,33 +21,20 @@ import Codec.Epub.Opf.Format.Util
 import Codec.Epub.Opf.Package
 
 
-packageToString :: (String, String) -> String
-packageToString (version, uniqueId) =
-   "package\n" ++
-   (formatSubline "version" (Just version)) ++
-   (formatSubline "unique-identifier" (Just uniqueId))
+tellPackage :: MonadWriter (Seq Char) m => (String, String) -> m ()
+tellPackage (version, uniqueId) = do
+   tellSeq "package\n"
+   tellSeq $ formatSubline "version" (Just version)
+   tellSeq $ formatSubline "unique-identifier" (Just uniqueId)
 
 
--- | Format an ePub metadata into a String
-opfPackageToString :: Package -> String
-opfPackageToString (Package v u meta ma sp gu) = concat $
-   [packageToString (v, u)] ++
-   (map titleToString $ metaTitles meta) ++
-   (map creatorToString $ metaCreators meta) ++
-   (map contributorToString $ metaContributors meta) ++
-   (map dateToString $ metaDates meta) ++
-   [typeToString . metaType $ meta] ++
-   [formatToString . metaFormat $ meta] ++
-   (map idToString $ metaIds meta) ++
-   [sourceToString . metaSource $ meta] ++
-   (map subjectToString $ metaSubjects meta) ++
-   [descriptionToString . metaDescription $ meta] ++
-   [publisherToString . metaPublisher $ meta] ++
-   (map langToString $ metaLangs meta) ++
-   [relationToString . metaRelation $ meta] ++
-   [coverageToString . metaCoverage $ meta] ++
-   [rightsToString . metaRights $ meta] ++
-   ["manifest items:\n"] ++
-   [unlines $ map manifestItemToString ma] ++
-   [spineToString sp] ++
-   [unlines $ map show gu]
+formatPackage :: Bool -> Package -> String
+formatPackage showAll (Package v u meta ma sp gu) =
+   toList . execWriter $ do
+      tellPackage (v, u)
+      tellMetadata meta
+
+      when showAll $ do
+         tellManifest ma
+         tellSpine sp
+         tellGuide gu

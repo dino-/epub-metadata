@@ -3,5 +3,3 @@
 - Add switches to epub-meta to allow inclusion of new parts: manifest, spine, guide
 
 - More unit testing
-
-- All the (++) in Codec.Epub.Opf.Format.Package is pretty evil. Do something more efficient
