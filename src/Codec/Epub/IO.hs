@@ -18,9 +18,16 @@ import Control.Monad.Error
 import System.Exit
 import System.Process
 import Text.Printf
+import Text.Regex
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
+
+
+-- | An evil hack to remove any <!DOCTYPE ...> from the document
+removeDoctype :: String -> String
+removeDoctype = flip (subRegex 
+   (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
 {- | GNU unzip has annoying non-zero exit codes that aren't fatal
@@ -54,7 +61,7 @@ extractFileFromZip zipPath filePath = do
    handleEC (printf "[ERROR %s  zip file: %s  path in zip: %s"
       dearchiver zipPath filePath) ec
 
-   return output
+   return . removeDoctype $ output
 
 
 -- | Get the path within an ePub file to the OPF Package Document
