@@ -36,6 +36,10 @@ handleEC _    ExitSuccess = return ()
 
 {- | Extract a file from a zipfile.
    This is here because ePub files are really just zip files.
+
+   Yep, you saw right sports fans. This code is using the command-
+   line unzip utility. In the future I'd like to make it use a
+   library.
 -}
 extractFileFromZip :: (MonadIO m, MonadError String m)
    => FilePath    -- ^ path to zip file
