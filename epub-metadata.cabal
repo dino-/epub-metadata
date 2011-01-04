@@ -35,7 +35,7 @@ library
                      Codec.Epub.Opf.Package.Spine,
                      Codec.Epub.Opf.Parse
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5, containers, HSH, hxt >= 9, mtl
+   build-depends:    base >= 3 && < 5, containers, hxt >= 9, mtl, process
    ghc-options:      -Wall
 
 executable           epub-meta

@@ -15,29 +15,42 @@ module Codec.Epub.IO
 
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
-import HSH.Command
+import System.Exit
+import System.Process
 import Text.Printf
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
 
 
+{- | GNU unzip has annoying non-zero exit codes that aren't fatal
+   so we need to check for those special.
+-}
+handleEC :: (MonadIO m, MonadError String m)
+   => String -> ExitCode -> m ()
+handleEC msg (ExitFailure c)
+   | c > 2 = throwError $ printf "%s  status: %s]\n" msg (show c)
+   | otherwise = return ()
+handleEC _    ExitSuccess = return ()
+
+
 {- | Extract a file from a zipfile.
    This is here because ePub files are really just zip files.
 -}
-extractFileFromZip :: (MonadIO m, MonadError [Char] m)
+extractFileFromZip :: (MonadIO m, MonadError String m)
    => FilePath    -- ^ path to zip file
    -> FilePath    -- ^ path within zip file to extract
    -> m String    -- ^ contents of expected file
 extractFileFromZip zipPath filePath = do
    let dearchiver = "unzip"
-   result <- liftIO $ tryEC $ run
-      ((printf "%s -p %s %s" dearchiver zipPath filePath) :: String)
-   case result of
-      Left ps -> throwError $
-         printf "[ERROR %s  zip file: %s  path in zip: %s  status: %s]"
-            dearchiver zipPath filePath (show ps)
-      Right output -> return output
+
+   (ec, output, _) <- liftIO $ readProcessWithExitCode
+      dearchiver ["-p", zipPath, filePath] ""
+
+   handleEC (printf "[ERROR %s  zip file: %s  path in zip: %s"
+      dearchiver zipPath filePath) ec
+
+   return output
 
 
 -- | Get the path within an ePub file to the OPF Package Document
