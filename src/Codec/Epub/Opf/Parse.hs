@@ -28,8 +28,10 @@ import Codec.Epub.Opf.Package
 
 -- HXT helpers
 
+{- Not used at this time. But may be used someday
 atTag :: (ArrowXml a) => String -> a (NTree XNode) XmlTree
 atTag tag = deep (isElem >>> hasName tag)
+-}
 
 atQTag :: (ArrowXml a) => QName -> a (NTree XNode) XmlTree
 atQTag tag = deep (isElem >>> hasQName tag)
@@ -77,7 +79,7 @@ xmlName local = mkQName "xml" local "http://www.w3.org/XML/1998/namespace"
 
 
 getPackage :: (ArrowXml a) => a (NTree XNode) (String, String)
-getPackage = atTag "package" >>>
+getPackage = atQTag (opfName "package") >>>
    proc x -> do
       v <- getAttrValue "version" -< x
       u <- getAttrValue "unique-identifier" -< x
@@ -162,7 +164,7 @@ getRights = mbQTagText $ dcName "rights"
 
 
 getMeta :: (ArrowXml a) => a (NTree XNode) Metadata
-getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
+getMeta = atQTag (opfName "metadata") >>> ( unwrapArrow $ Metadata
    <$> (WrapArrow $ listA getTitle)
    <*> (WrapArrow $ listA $ getCreator "creator")
    <*> (WrapArrow $ listA $ getCreator "contributor")
@@ -182,7 +184,7 @@ getMeta = atTag "metadata" >>> ( unwrapArrow $ Metadata
 
 
 getManifestItem :: (ArrowXml a) => a (NTree XNode) ManifestItem
-getManifestItem = atTag "item" >>>
+getManifestItem = atQTag (opfName "item") >>>
    proc x -> do
       i <- getAttrValue "id" -< x
       h <- getAttrValue "href" -< x
@@ -191,14 +193,14 @@ getManifestItem = atTag "item" >>>
 
 
 getManifest :: (ArrowXml a) => a (NTree XNode) [ManifestItem]
-getManifest = atTag "manifest" >>>
+getManifest = atQTag (opfName "manifest") >>>
    proc x -> do
       l <- listA getManifestItem -< x
       returnA -< l
 
 
 getSpineItemref :: (ArrowXml a) => a (NTree XNode) SpineItemref
-getSpineItemref = atTag "itemref" >>>
+getSpineItemref = atQTag (opfName "itemref") >>>
    proc x -> do
       i <- getAttrValue "idref" -< x
       ml <- mbGetAttrValue "linear" -< x
@@ -207,7 +209,7 @@ getSpineItemref = atTag "itemref" >>>
 
 
 getSpine :: (ArrowXml a) => a (NTree XNode) Spine
-getSpine = atTag "spine" >>>
+getSpine = atQTag (opfName "spine") >>>
    proc x -> do
       i <- getAttrValue "toc" -< x
       l <- listA getSpineItemref -< x
@@ -215,7 +217,7 @@ getSpine = atTag "spine" >>>
 
 
 getGuideRef :: (ArrowXml a) => a (NTree XNode) GuideRef
-getGuideRef = atTag "reference" >>>
+getGuideRef = atQTag (opfName "reference") >>>
    proc x -> do
       t <- getAttrValue "type" -< x
       mt <- mbGetAttrValue "title" -< x
@@ -224,7 +226,7 @@ getGuideRef = atTag "reference" >>>
 
 
 getGuide :: (ArrowXml a) => a (NTree XNode) [GuideRef]
-getGuide = atTag "guide" >>>
+getGuide = atQTag (opfName "guide") >>>
    proc x -> do
       l <- listA getGuideRef -< x
       returnA -< l
