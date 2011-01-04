@@ -24,6 +24,12 @@ import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
 
 
+-- | An evil hack to remove encoding from the document
+removeEncoding :: String -> String
+removeEncoding = flip (subRegex 
+   (mkRegexWithOpts " +encoding=\"UTF-8\"" False True)) ""
+
+
 -- | An evil hack to remove any <!DOCTYPE ...> from the document
 removeDoctype :: String -> String
 removeDoctype = flip (subRegex 
@@ -61,7 +67,7 @@ extractFileFromZip zipPath filePath = do
    handleEC (printf "[ERROR %s  zip file: %s  path in zip: %s"
       dearchiver zipPath filePath) ec
 
-   return . removeDoctype $ output
+   return . removeEncoding . removeDoctype $ output
 
 
 -- | Get the path within an ePub file to the OPF Package Document
