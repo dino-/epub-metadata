@@ -70,22 +70,6 @@ Why didn't I just use existing solutions?
       projects at some point in some way that makes sense.
 
 
-   - zip-archive on Hackage
-
-      I started out using zip-archive for this work but soon found that
-      it has problems with some poorly-made ePub files. Nearly 300 or 40%
-      of the books I have are unreadable at this time with zip-archive.
-
-      As ugly as it sounds, I found the most reliable solution right
-      now is to use the unzip shell utility to extract the relevant XML
-      documents from ePub books. This is why the dependency on HSH. I'm
-      not thrilled with this situation and would like to find time to
-      dig into the zip file spec and submit patches to zip-archive.
-
-      But also note that epub-meta is obscenely fast even with invoking
-      a shell for unzipping. Haskell FTW!
-
-
 -----
 A word about the version numbering scheme:
 

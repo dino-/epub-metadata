@@ -13,11 +13,9 @@ module Codec.Epub.IO
    ( extractFileFromZip, opfPath )
    where
 
+import Codec.Archive.LibZip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
-import System.Exit
-import System.Process
-import Text.Printf
 import Text.Regex
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
@@ -36,36 +34,18 @@ removeDoctype = flip (subRegex
    (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
-{- | GNU unzip has annoying non-zero exit codes that aren't fatal
-   so we need to check for those special.
--}
-handleEC :: (MonadIO m, MonadError String m)
-   => String -> ExitCode -> m ()
-handleEC msg (ExitFailure c)
-   | c > 2 = throwError $ printf "%s  status: %s]\n" msg (show c)
-   | otherwise = return ()
-handleEC _    ExitSuccess = return ()
-
-
 {- | Extract a file from a zipfile.
-   This is here because ePub files are really just zip files.
-
-   Yep, you saw right sports fans. This code is using the command-
-   line unzip utility. In the future I'd like to make it use a
-   library.
 -}
 extractFileFromZip :: (MonadIO m, MonadError String m)
    => FilePath    -- ^ path to zip file
    -> FilePath    -- ^ path within zip file to extract
    -> m String    -- ^ contents of expected file
 extractFileFromZip zipPath filePath = do
-   let dearchiver = "unzip"
+   result <- liftIO $ catchZipError
+      (fmap Right $ withArchive [] zipPath $ fileContents [] filePath)
+      (return . Left)
 
-   (ec, output, _) <- liftIO $ readProcessWithExitCode
-      dearchiver ["-p", zipPath, filePath] ""
-
-   handleEC (printf "[ERROR %s  zip file: %s  path in zip: %s"
-      dearchiver zipPath filePath) ec
+   output <- either (throwError . show) return result
 
    return . removeEncoding . removeDoctype $ output
 
