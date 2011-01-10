@@ -52,5 +52,5 @@ usageText = (usageInfo header options) ++ "\n" ++ footer
          , "Options:"
          ]
       footer = init $ unlines
-         [ "Version 2.0.1  Dino Morelli <dino@ui3.info>"
+         [ "Version 2.0.2  Dino Morelli <dino@ui3.info>"
          ]
