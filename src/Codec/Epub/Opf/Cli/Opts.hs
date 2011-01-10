@@ -46,8 +46,8 @@ usageText :: String
 usageText = (usageInfo header options) ++ "\n" ++ footer
    where
       header = init $ unlines
-         [ "Usage: epub-meta [OPTIONS] EPUBFILE"
-         , "Examine ePub OPF package data"
+         [ "Usage: epubmeta [OPTIONS] EPUBFILE"
+         , "Examine EPUB OPF package data"
          , ""
          , "Options:"
          ]

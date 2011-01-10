@@ -39,8 +39,8 @@ library
                      process, regex-compat
    ghc-options:      -Wall
 
-executable           epub-meta
-   main-is:          Codec/Epub/Opf/Cli/epub-meta.hs
+executable           epubmeta
+   main-is:          Codec/Epub/Opf/Cli/epubmeta.hs
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5
    ghc-options:      -Wall

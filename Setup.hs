@@ -22,7 +22,7 @@ main = defaultMainWithHooks (simpleUserHooks
       -- convenience
       customPostBuild _ _ _ _ = do
          let binDir = "bin"
-         let binName = "epub-meta"
+         let binName = "epubmeta"
          let destPath = binDir </> binName
 
          createDirectoryIfMissing True binDir
