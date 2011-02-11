@@ -5,9 +5,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 {- | Functions for doing some disk IO with ePub documents
-
-   Note that these functions do their work by using the external 
-   unzip utility.
 -}
 module Codec.Epub.IO
    ( extractFileFromZip, opfPath )
