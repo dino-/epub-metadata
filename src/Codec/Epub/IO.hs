@@ -10,9 +10,10 @@ module Codec.Epub.IO
    ( extractFileFromZip, opfPath )
    where
 
-import Codec.Archive.LibZip
+import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
+import qualified Data.ByteString.Lazy.Char8 as B
 import Text.Regex
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
@@ -38,13 +39,15 @@ extractFileFromZip :: (MonadIO m, MonadError String m)
    -> FilePath    -- ^ path within zip file to extract
    -> m String    -- ^ contents of expected file
 extractFileFromZip zipPath filePath = do
-   result <- liftIO $ catchZipError
-      (fmap Right $ withArchive [] zipPath $ fileContents [] filePath)
-      (return . Left)
+   zipFileBytes <- liftIO $ B.readFile zipPath
 
-   output <- either (throwError . show) return result
+   let mbEntry = findEntryByPath filePath $ toArchive zipFileBytes
 
-   return . removeEncoding . removeDoctype $ output
+   fileBytes <-
+      maybe (throwError $ "Unable to locate file " ++ filePath)
+         (return . B.unpack . fromEntry) mbEntry
+
+   return . removeEncoding . removeDoctype $ fileBytes
 
 
 -- | Get the path within an ePub file to the OPF Package Document

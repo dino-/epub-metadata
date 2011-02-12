@@ -35,8 +35,8 @@ library
                      Codec.Epub.Opf.Package.Spine,
                      Codec.Epub.Opf.Parse
    hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5, containers, hxt >= 9, LibZip, 
-                     mtl, regex-compat
+   build-depends:    base >= 3 && < 5, bytestring, containers,
+                     hxt >= 9, mtl, regex-compat, zip-archive
    ghc-options:      -Wall
 
 executable           epubmeta
