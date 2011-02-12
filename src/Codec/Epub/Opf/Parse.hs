@@ -251,9 +251,9 @@ getBookData =
    XML string
 -}
 parseXmlToOpf :: (MonadIO m) => String -> m [Package]
-parseXmlToOpf opfContents =
+parseXmlToOpf contents =
    liftIO $ runX (
-      readString [withValidate no] opfContents
+      readString [withValidate no] contents
       >>> propagateNamespaces
       >>> getBookData
       )
@@ -263,8 +263,7 @@ parseXmlToOpf opfContents =
 parseEpubOpf :: (MonadIO m, MonadError String m) =>
    FilePath -> m Package
 parseEpubOpf zipPath = do
-   opfContents <- extractFileFromZip zipPath =<< opfPath zipPath
-   result <- parseXmlToOpf opfContents
+   result <- opfContents zipPath >>= parseXmlToOpf
 
    case result of
       (em : []) -> return em

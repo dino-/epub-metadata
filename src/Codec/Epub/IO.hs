@@ -7,7 +7,7 @@
 {- | Functions for doing some disk IO with ePub documents
 -}
 module Codec.Epub.IO
-   ( extractFileFromZip, opfPath )
+   ( opfContents )
    where
 
 import Codec.Archive.Zip
@@ -32,39 +32,43 @@ removeDoctype = flip (subRegex
    (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
-{- | Extract a file from a zipfile.
--}
-extractFileFromZip :: (MonadIO m, MonadError String m)
-   => FilePath    -- ^ path to zip file
-   -> FilePath    -- ^ path within zip file to extract
-   -> m String    -- ^ contents of expected file
-extractFileFromZip zipPath filePath = do
-   zipFileBytes <- liftIO $ B.readFile zipPath
-
-   let mbEntry = findEntryByPath filePath $ toArchive zipFileBytes
-
-   fileBytes <-
-      maybe (throwError $ "Unable to locate file " ++ filePath)
-         (return . B.unpack . fromEntry) mbEntry
-
-   return . removeEncoding . removeDoctype $ fileBytes
+-- | Extract a file from a zip archive throwing an error on failure
+fileFromArchive :: MonadError String m =>
+   FilePath -> Archive -> m String
+fileFromArchive filePath archive = do
+   let mbEntry = findEntryByPath filePath archive
+   maybe
+      (throwError $ "Unable to locate file " ++ filePath)
+      (return . B.unpack . fromEntry) mbEntry
 
 
--- | Get the path within an ePub file to the OPF Package Document
-opfPath :: (MonadError String m, MonadIO m)
+-- | Get the contents of the OPF Package Document from an ePub file
+opfContents :: (MonadError String m, MonadIO m)
    => FilePath    -- ^ path to ePub zip file
-   -> m String    -- ^ path within ePub to the OPF Package Document
-opfPath zipPath = do
-   containerContents <- extractFileFromZip zipPath
-      "META-INF/container.xml"
+   -> m String    -- ^ contents of the OPF Package Document
+opfContents zipPath = do
+   {- We need to first extract the container.xml file
+      It's required to have a certain path and name in the epub
+      and contains the path to what we really want, the .opf file.
+   -}
+   zipFileBytes <- liftIO $ B.readFile zipPath
+   let archive = toArchive zipFileBytes
+
+   let containerPath = "META-INF/container.xml"
+   containerDoc <- fileFromArchive containerPath archive
 
    result <- liftIO $ runX (
-      readString [withValidate no] containerContents
+      readString [withValidate no] containerDoc
       >>> deep (isElem >>> hasName "rootfile")
       >>> getAttrValue "full-path"
       )
 
-   case result of
+   rootPath <- case result of
       (p : []) -> return p
-      _        -> throwError
-         "ERROR: rootfile full-path missing from META-INF/container.xml"
+      _        -> throwError $
+         "ERROR: rootfile full-path missing from " ++ containerPath
+
+   -- Now that we have the path to the .opf file, extract it
+   rootDoc <- fileFromArchive rootPath archive
+
+   return . removeEncoding . removeDoctype $ rootDoc
