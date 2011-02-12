@@ -17,7 +17,7 @@ description:         Library and utility for parsing and manipulating ePub
                      utility to dump OPF package data to stdout in a 
                      human-readable form.
 category:            Codec, Text
-tested-with:         GHC>=6.12.1
+tested-with:         GHC >= 6.12.3
 
 library
    exposed-modules:  Codec.Epub.IO,
