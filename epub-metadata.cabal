@@ -7,15 +7,10 @@ license-file:        LICENSE
 copyright:           2010, 2011 Dino Morelli
 author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
-stability:           experimental
+stability:           stable
 homepage:            http://ui3.info/d/proj/epub-metadata.html
-synopsis:            Library and utility for parsing and manipulating ePub OPF package data
-description:         Library and utility for parsing and manipulating ePub 
-                     OPF package data. An attempt has been made here to 
-                     very thoroughly implement the OPF Package Document 
-                     specification. Also included is a command-line 
-                     utility to dump OPF package data to stdout in a 
-                     human-readable form.
+synopsis:            Library for parsing and manipulating ePub files and OPF package data
+description:         Library for parsing and manipulating ePub files and OPF package data. An attempt has been made here to very thoroughly implement the OPF Package Document specification.
 category:            Codec, Text
 tested-with:         GHC >= 6.12.3
 
@@ -37,10 +32,4 @@ library
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, bytestring, containers,
                      hxt >= 9, mtl, regex-compat, zip-archive
-   ghc-options:      -Wall
-
-executable           epubmeta
-   main-is:          Codec/Epub/Opf/Cli/epubmeta.hs
-   hs-source-dirs:   src
-   build-depends:    base >= 3 && < 5
    ghc-options:      -Wall
