@@ -15,7 +15,8 @@ category:            Codec, Text
 tested-with:         GHC >= 6.12.3
 
 library
-   exposed-modules:  Codec.Epub.IO,
+   exposed-modules:  Codec.Epub.Archive
+                     Codec.Epub.IO,
                      Codec.Epub.Opf.Common,
                      Codec.Epub.Opf.Format.Guide,
                      Codec.Epub.Opf.Format.Manifest,
@@ -31,5 +32,6 @@ library
                      Codec.Epub.Opf.Parse
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, bytestring, containers,
-                     hxt >= 9, mtl, regex-compat, zip-archive
+                     directory, hxt >= 9, mtl, regex-compat,
+                     zip-archive
    ghc-options:      -Wall
