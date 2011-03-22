@@ -32,6 +32,6 @@ library
                      Codec.Epub.Opf.Parse
    hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, bytestring, containers,
-                     directory, hxt >= 9, mtl, regex-compat,
+                     directory, filepath, hxt >= 9, mtl, regex-compat,
                      zip-archive
    ghc-options:      -Wall
