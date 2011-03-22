@@ -42,10 +42,9 @@ mkEpubArchive rootDir = do
 
    allFiles <- getRecursiveContents "."
 
-   foldM (flip id) emptyArchive
-      [ flip (addFilesToArchive []) ["mimetype"]
-      , flip (addFilesToArchive [OptRecursive]) allFiles
-      ]
+   flip (addFilesToArchive []) ["mimetype"] >=>
+      flip (addFilesToArchive [OptRecursive]) allFiles
+      $ emptyArchive
 
 
 -- | Write a zip Archive to disk using the specified filename
