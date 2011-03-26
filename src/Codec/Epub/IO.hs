@@ -7,13 +7,19 @@
 {- | Functions for doing some disk IO with ePub documents
 -}
 module Codec.Epub.IO
-   ( opfContents )
+   ( opfContentsFromZip
+   , opfContentsFromDir
+   , removeEncoding
+   , removeDoctype
+   )
    where
 
 import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
 import qualified Data.ByteString.Lazy.Char8 as B
+import System.Directory
+import System.FilePath
 import Text.Regex
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
@@ -32,6 +38,21 @@ removeDoctype = flip (subRegex
    (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
+locateRootFile :: (MonadIO m, MonadError String m) =>
+   FilePath -> String -> m FilePath
+locateRootFile containerPath containerDoc = do
+   result <- liftIO $ runX (
+      readString [withValidate no] containerDoc
+      >>> deep (isElem >>> hasName "rootfile")
+      >>> getAttrValue "full-path"
+      )
+
+   case result of
+      (p : []) -> return p
+      _        -> throwError $
+         "ERROR: rootfile full-path missing from " ++ containerPath
+
+
 -- | Extract a file from a zip archive throwing an error on failure
 fileFromArchive :: MonadError String m =>
    FilePath -> Archive -> m String
@@ -43,10 +64,10 @@ fileFromArchive filePath archive = do
 
 
 -- | Get the contents of the OPF Package Document from an ePub file
-opfContents :: (MonadError String m, MonadIO m)
+opfContentsFromZip :: (MonadError String m, MonadIO m)
    => FilePath    -- ^ path to ePub zip file
    -> m String    -- ^ contents of the OPF Package Document
-opfContents zipPath = do
+opfContentsFromZip zipPath = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
       and contains the path to what we really want, the .opf file.
@@ -57,18 +78,27 @@ opfContents zipPath = do
    let containerPath = "META-INF/container.xml"
    containerDoc <- fileFromArchive containerPath archive
 
-   result <- liftIO $ runX (
-      readString [withValidate no] containerDoc
-      >>> deep (isElem >>> hasName "rootfile")
-      >>> getAttrValue "full-path"
-      )
-
-   rootPath <- case result of
-      (p : []) -> return p
-      _        -> throwError $
-         "ERROR: rootfile full-path missing from " ++ containerPath
+   rootPath <- locateRootFile containerPath containerDoc
 
    -- Now that we have the path to the .opf file, extract it
-   rootDoc <- fileFromArchive rootPath archive
+   fileFromArchive rootPath archive
 
-   return . removeEncoding . removeDoctype $ rootDoc
+
+-- | Get the contents of the OPF Package Document from an ePub file
+opfContentsFromDir :: (MonadError String m, MonadIO m)
+   => FilePath    -- ^ directory path
+   -> m String    -- ^ contents of the OPF Package Document
+opfContentsFromDir dir = do
+   {- We need to first extract the container.xml file
+      It's required to have a certain path and name in the epub
+      and contains the path to what we really want, the .opf file.
+   -}
+   liftIO $ setCurrentDirectory dir
+
+   let containerPath = "META-INF/container.xml"
+   containerDoc <- liftIO $ readFile containerPath
+
+   rootPath <- locateRootFile (dir </> containerPath) containerDoc
+
+   -- Now that we have the path to the .opf file, load it
+   liftIO $ readFile rootPath

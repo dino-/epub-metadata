@@ -2,6 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+import Control.Monad.Error
 import System.FilePath
 import Test.HUnit ( Counts, Test (..), assertEqual, runTestTT )
 import Test.HUnit.Base ( Assertion )
@@ -27,9 +28,9 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
-   actual <- parseXmlToOpf xmlString
+   actual <- runErrorT $ parseXmlToOpf xmlString
    let expected =
-         [ Package
+         Right Package
             { opVersion = "2.0"
             , opUniqueId = "isbn"
             , opMeta = Metadata
@@ -118,7 +119,6 @@ testFull = TestCase $ do
                   }
                ]
             }
-         ]
    assertEqual "very full" expected actual
 
 
@@ -127,10 +127,10 @@ testFull = TestCase $ do
 -}
 testMinimal :: Test
 testMinimal = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testMinimal.opf"
-   actual <- parseXmlToOpf xmlString
+   xmlString <- liftIO $ readFile $ "testsuite" </> "testMinimal.opf"
+   actual <- runErrorT $ parseXmlToOpf xmlString
    let expected = 
-         [ Package 
+         Right Package 
             { opVersion = "2.0"
             , opUniqueId = "isbn"
             , opMeta = Metadata 
@@ -160,7 +160,6 @@ testMinimal = TestCase $ do
             , opSpine = Spine {spineToc = "ncx", spineItemrefs = []}
             , opGuide = []
             }
-         ]
    assertEqual "minimal" expected actual
 
 
@@ -170,9 +169,9 @@ testMinimal = TestCase $ do
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
-   actual <- parseXmlToOpf xmlString
+   actual <- runErrorT $ parseXmlToOpf xmlString
    let expected =
-         [ Package 
+         Right Package 
             { opVersion = ""
             , opUniqueId = ""
             , opMeta = emptyMetadata
@@ -180,5 +179,4 @@ testMissingAll = TestCase $ do
             , opSpine = Spine {spineToc = "", spineItemrefs = []}
             , opGuide = []
             }
-         ]
    assertEqual "missing all" expected actual

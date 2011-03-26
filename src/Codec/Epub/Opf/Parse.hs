@@ -250,22 +250,26 @@ getBookData =
 {- | Extract the ePub OPF Package data contained in the supplied 
    XML string
 -}
-parseXmlToOpf :: (MonadIO m) => String -> m [Package]
-parseXmlToOpf contents =
-   liftIO $ runX (
-      readString [withValidate no] contents
+parseXmlToOpf :: (MonadIO m, MonadError String m) =>
+   String -> m Package
+parseXmlToOpf contents = do
+   {- Improper encoding and schema declarations have been causing
+      havok with this parse, cruelly strip them out. -}
+   let cleanedContents = removeEncoding . removeDoctype $ contents
+   
+   result <- liftIO $ runX (
+      readString [withValidate no] cleanedContents
       >>> propagateNamespaces
       >>> getBookData
       )
+
+   case result of
+      (p : []) -> return p
+      _        -> throwError
+         "ERROR: Parse didn't result in a single document metadata"
 
 
 -- | Given the path to an ePub file, extract the OPF Package data
 parseEpubOpf :: (MonadIO m, MonadError String m) =>
    FilePath -> m Package
-parseEpubOpf zipPath = do
-   result <- opfContents zipPath >>= parseXmlToOpf
-
-   case result of
-      (em : []) -> return em
-      _         -> throwError
-         "ERROR: Parse didn't result in a single document metadata"
+parseEpubOpf zipPath = opfContentsFromZip zipPath >>= parseXmlToOpf
