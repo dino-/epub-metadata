@@ -272,4 +272,6 @@ parseXmlToOpf contents = do
 -- | Given the path to an ePub file, extract the OPF Package data
 parseEpubOpf :: (MonadIO m, MonadError String m) =>
    FilePath -> m Package
-parseEpubOpf zipPath = opfContentsFromZip zipPath >>= parseXmlToOpf
+parseEpubOpf zipPath = do
+   (_, contents) <- opfContentsFromZip zipPath
+   parseXmlToOpf contents

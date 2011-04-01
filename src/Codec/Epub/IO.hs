@@ -65,8 +65,8 @@ fileFromArchive filePath archive = do
 
 -- | Get the contents of the OPF Package Document from an ePub file
 opfContentsFromZip :: (MonadError String m, MonadIO m)
-   => FilePath    -- ^ path to ePub zip file
-   -> m String    -- ^ contents of the OPF Package Document
+   => FilePath                -- ^ path to ePub zip file
+   -> m (FilePath, String)    -- ^ contents of the OPF Package Document
 opfContentsFromZip zipPath = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
@@ -81,13 +81,15 @@ opfContentsFromZip zipPath = do
    rootPath <- locateRootFile containerPath containerDoc
 
    -- Now that we have the path to the .opf file, extract it
-   fileFromArchive rootPath archive
+   rootContents <- fileFromArchive rootPath archive
+
+   return (rootPath, rootContents)
 
 
 -- | Get the contents of the OPF Package Document from an ePub file
 opfContentsFromDir :: (MonadError String m, MonadIO m)
-   => FilePath    -- ^ directory path
-   -> m String    -- ^ contents of the OPF Package Document
+   => FilePath                -- ^ directory path
+   -> m (FilePath, String)    -- ^ contents of the OPF Package Document
 opfContentsFromDir dir = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
@@ -101,4 +103,6 @@ opfContentsFromDir dir = do
    rootPath <- locateRootFile (dir </> containerPath) containerDoc
 
    -- Now that we have the path to the .opf file, load it
-   liftIO $ readFile rootPath
+   rootContents <- liftIO $ readFile rootPath
+
+   return (rootPath, rootContents)
