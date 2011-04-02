@@ -4,6 +4,7 @@
 
 module Codec.Epub.Archive
    ( mkEpubArchive
+   , readArchive
    , writeArchive
    )
    where
@@ -45,6 +46,11 @@ mkEpubArchive rootDir = do
    flip (addFilesToArchive []) ["mimetype"] >=>
       flip (addFilesToArchive [OptRecursive]) allFiles
       $ emptyArchive
+
+
+-- | Read a zip Archive from disk
+readArchive :: FilePath -> IO Archive
+readArchive = fmap toArchive . B.readFile
 
 
 -- | Write a zip Archive to disk using the specified filename
