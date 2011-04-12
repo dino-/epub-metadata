@@ -8,6 +8,7 @@
 -}
 module Codec.Epub.IO
    ( opfContentsFromZip
+   , opfContentsFromBS
    , opfContentsFromDir
    , removeEncoding
    , removeDoctype
@@ -63,18 +64,17 @@ fileFromArchive filePath archive = do
       (return . B.unpack . fromEntry) mbEntry
 
 
--- | Get the contents of the OPF Package Document from an ePub file
-opfContentsFromZip :: (MonadError String m, MonadIO m)
-   => FilePath                -- ^ path to ePub zip file
-   -> m (FilePath, String)    -- ^ contents of the OPF Package Document
-opfContentsFromZip zipPath = do
+-- | Get the contents of the OPF Package Document from a ByteString
+opfContentsFromBS :: (MonadError String m, MonadIO m)
+   => B.ByteString            -- ^ contents of the zip file
+   -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
+opfContentsFromBS bytes = do
+   let archive = toArchive bytes
+
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
       and contains the path to what we really want, the .opf file.
    -}
-   zipFileBytes <- liftIO $ B.readFile zipPath
-   let archive = toArchive zipFileBytes
-
    let containerPath = "META-INF/container.xml"
    containerDoc <- fileFromArchive containerPath archive
 
@@ -87,9 +87,21 @@ opfContentsFromZip zipPath = do
 
 
 -- | Get the contents of the OPF Package Document from an ePub file
+opfContentsFromZip :: (MonadError String m, MonadIO m)
+   => FilePath                -- ^ path to ePub zip file
+   -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
+opfContentsFromZip zipPath = do
+   {- Lazily read this file into a ByteString, send to 
+      opfContentsFromBS
+   -}
+   zipFileBytes <- liftIO $ B.readFile zipPath
+   opfContentsFromBS zipFileBytes
+
+
+-- | Get the contents of the OPF Package Document from an ePub file
 opfContentsFromDir :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ directory path
-   -> m (FilePath, String)    -- ^ contents of the OPF Package Document
+   -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
 opfContentsFromDir dir = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
