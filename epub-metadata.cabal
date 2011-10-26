@@ -14,6 +14,10 @@ description:         Library for parsing and manipulating ePub files and OPF pac
 category:            Codec, Text
 tested-with:         GHC >= 7.0.3
 
+source-repository    head
+   type:             darcs
+   location:         http://ui3.info/darcs/epub-metadata/
+
 library
    exposed-modules:  Codec.Epub.Archive
                      Codec.Epub.IO,
