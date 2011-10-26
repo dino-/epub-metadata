@@ -19,7 +19,7 @@ tellTitle :: MonadWriter (Seq Char) m => MetaTitle -> m ()
 tellTitle (MetaTitle Nothing title) = tellSeq $ printf "title: %s\n" title
 tellTitle (MetaTitle lang title) =
    tellSeq $ printf "title\n%s%s" (formatSubline "lang" lang)
-      (formatSubline "title" (Just title))
+      (formatSubline "text" (Just title))
 
 
 tellCreator :: MonadWriter (Seq Char) m => MetaCreator -> m ()
@@ -29,7 +29,7 @@ tellCreator (MetaCreator role fileAs creator) =
    tellSeq $ printf "creator\n%s%s%s"
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
-      (formatSubline "creator" (Just creator))
+      (formatSubline "text" (Just creator))
 
 
 tellContributor :: MonadWriter (Seq Char) m => MetaCreator -> m ()
@@ -39,7 +39,7 @@ tellContributor (MetaCreator role fileAs contributor) =
    tellSeq $ printf "contributor\n%s%s%s"
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
-      (formatSubline "creator" (Just contributor))
+      (formatSubline "text" (Just contributor))
 
 
 tellDate :: MonadWriter (Seq Char) m => MetaDate -> m ()
@@ -48,7 +48,7 @@ tellDate (MetaDate Nothing date) =
 tellDate (MetaDate event date) =
    tellSeq $ printf "date\n%s%s"
       (formatSubline "event" event)
-      (formatSubline "date" (Just date))
+      (formatSubline "text" (Just date))
 
 
 tellType :: MonadWriter (Seq Char) m => Maybe String -> m ()
@@ -64,7 +64,7 @@ tellId (MetaId idVal scheme content) =
    tellSeq $ printf "identifier\n%s%s%s"
       (formatSubline "id" (Just idVal))
       (formatSubline "scheme" scheme)
-      (formatSubline "identifier" (Just content))
+      (formatSubline "text" (Just content))
 
 
 tellSource :: MonadWriter (Seq Char) m => Maybe String -> m ()
