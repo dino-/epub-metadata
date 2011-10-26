@@ -1,6 +1,6 @@
 name:                epub-metadata
 version:             2.2.0.1
-cabal-version:       >= 1.2
+cabal-version:       >= 1.8
 build-type:          Simple
 license:             BSD3
 license-file:        LICENSE
