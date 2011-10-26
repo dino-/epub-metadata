@@ -39,5 +39,6 @@ library
 test-suite           all-tests
    type:             exitcode-stdio-1.0
    main-is:          runtests.hs
-   build-depends:    base, HUnit
+   build-depends:    base >= 3 && < 5, bytestring, directory, filepath,
+                     HUnit, hxt >= 9, mtl, regex-compat, zip-archive
    hs-source-dirs:   src testsuite
