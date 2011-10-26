@@ -35,3 +35,9 @@ library
                      directory, filepath, hxt >= 9, mtl, regex-compat,
                      zip-archive
    ghc-options:      -Wall
+
+test-suite           all-tests
+   type:             exitcode-stdio-1.0
+   main-is:          runtests.hs
+   build-depends:    base, HUnit
+   hs-source-dirs:   src testsuite

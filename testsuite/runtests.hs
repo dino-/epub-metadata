@@ -3,15 +3,28 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 import Control.Monad.Error
+import System.Exit
 import System.FilePath
-import Test.HUnit ( Counts, Test (..), assertEqual, runTestTT )
+import Test.HUnit ( Counts (..), Test (..), assertEqual, runTestTT )
 import Test.HUnit.Base ( Assertion )
 
 import Codec.Epub.Opf.Package
 import Codec.Epub.Opf.Parse
 
 
-main = runTestTT tests >> return ()
+main :: IO ()
+main = do
+   counts <- runTestTT tests
+   exit $ testsPassed counts
+
+
+exit :: Bool -> IO ()
+exit True  = exitWith ExitSuccess
+exit False = exitWith $ ExitFailure 1
+
+
+testsPassed :: Counts -> Bool
+testsPassed (Counts _ _ e f) = (e == 0) && (f == 0)
 
 
 tests :: Test

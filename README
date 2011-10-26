@@ -5,13 +5,13 @@ Building:
 
       $ cabal install epub-metadata
 
-   Or the conventional way:
+   Or if you have the sources:
 
-      $ runhaskell Setup.hs configure
-      $ runhaskell Setup.hs build
-      $ runhaskell Setup.hs test
-      $ runhaskell Setup.hs haddock
-      $ runhaskell Setup.hs install
+      $ cabal configure --enable-tests
+      $ cabal build
+      $ cabal test
+      $ cabal haddock
+      $ cabal install
 
 
 -----
