@@ -35,10 +35,10 @@ library
                      Codec.Epub.Opf.Package.Metadata,
                      Codec.Epub.Opf.Package.Spine,
                      Codec.Epub.Opf.Parse
-   hs-source-dirs:   src
    build-depends:    base >= 3 && < 5, bytestring, containers,
                      directory, filepath, hxt >= 9, mtl, regex-compat,
                      zip-archive
+   hs-source-dirs:   src
    ghc-options:      -Wall
 
 test-suite           opf-parse
