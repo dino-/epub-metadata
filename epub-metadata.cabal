@@ -47,3 +47,4 @@ test-suite           opf-parse
    build-depends:    base >= 3 && < 5, bytestring, directory, filepath,
                      HUnit, hxt >= 9, mtl, regex-compat, zip-archive
    hs-source-dirs:   src testsuite
+   ghc-options:      -Wall

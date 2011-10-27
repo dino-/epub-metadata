@@ -6,7 +6,6 @@ import Control.Monad.Error
 import System.Exit
 import System.FilePath
 import Test.HUnit ( Counts (..), Test (..), assertEqual, runTestTT )
-import Test.HUnit.Base ( Assertion )
 
 import Codec.Epub.Opf.Package
 import Codec.Epub.Opf.Parse
