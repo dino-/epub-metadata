@@ -18,7 +18,9 @@ module Codec.Epub.IO
 import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Monad.Error
-import qualified Data.ByteString.Lazy.Char8 as B
+import qualified Data.ByteString.Char8 as BS
+import Data.ByteString.Lazy ( fromChunks )
+import qualified Data.ByteString.Lazy.Char8 as BL
 import System.Directory
 import System.FilePath
 import Text.Regex
@@ -61,15 +63,17 @@ fileFromArchive filePath archive = do
    let mbEntry = findEntryByPath filePath archive
    maybe
       (throwError $ "Unable to locate file " ++ filePath)
-      (return . B.unpack . fromEntry) mbEntry
+      (return . BL.unpack . fromEntry) mbEntry
 
 
 -- | Get the contents of the OPF Package Document from a ByteString
 opfContentsFromBS :: (MonadError String m, MonadIO m)
-   => B.ByteString            -- ^ contents of the zip file
+   => BS.ByteString           -- ^ contents of the zip file
    -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
-opfContentsFromBS bytes = do
-   let archive = toArchive bytes
+opfContentsFromBS strictBytes = do
+   -- Need to turn this strict byte string into a lazy one
+   let lazyBytes = fromChunks [strictBytes]
+   let archive = toArchive lazyBytes
 
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
@@ -91,10 +95,10 @@ opfContentsFromZip :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ path to ePub zip file
    -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
 opfContentsFromZip zipPath = do
-   {- Lazily read this file into a ByteString, send to 
+   {- Strictly read this file into a ByteString, send to 
       opfContentsFromBS
    -}
-   zipFileBytes <- liftIO $ B.readFile zipPath
+   zipFileBytes <- liftIO $ BS.readFile zipPath
    opfContentsFromBS zipFileBytes
 
 
