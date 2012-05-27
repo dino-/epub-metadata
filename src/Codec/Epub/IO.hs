@@ -17,6 +17,7 @@ module Codec.Epub.IO
 
 import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
+import Control.Exception
 import Control.Monad.Error
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
@@ -73,7 +74,9 @@ opfContentsFromBS :: (MonadError String m, MonadIO m)
 opfContentsFromBS strictBytes = do
    -- Need to turn this strict byte string into a lazy one
    let lazyBytes = fromChunks [strictBytes]
-   let archive = toArchive lazyBytes
+   result <- liftIO $ ( try $ evaluate
+      (toArchive lazyBytes) :: IO (Either SomeException Archive) )
+   archive <- either (throwError . show) return result
 
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub

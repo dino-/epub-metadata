@@ -5,8 +5,9 @@
 import Control.Monad.Error
 import System.Exit
 import System.FilePath
-import Test.HUnit ( Counts (..), Test (..), assertEqual, runTestTT )
+import Test.HUnit hiding ( counts )
 
+import Codec.Epub.IO
 import Codec.Epub.Opf.Package
 import Codec.Epub.Opf.Parse
 
@@ -31,6 +32,7 @@ tests = TestList
    [ testFull
    , testMinimal
    , testMissingAll
+   , testDamagedZip
    ]
 
 
@@ -192,3 +194,15 @@ testMissingAll = TestCase $ do
             , opGuide = []
             }
    assertEqual "missing all" expected actual
+
+
+{- Occasionally epub zip files come along that are damaged in this
+   way. It's not fatal to the UNIX zip utility or to book readers, but had
+   to be specially handled in the Haskell zip-archive library or it causes
+   a fatal exception.
+-}
+testDamagedZip :: Test
+testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
+   actual <- runErrorT $ opfContentsFromZip $ "testsuite"
+      </> "damagedZipCentralDir.epub"
+   actual @?= Left "Did not find end of central directory signature. Failed reading at byte position 138"
