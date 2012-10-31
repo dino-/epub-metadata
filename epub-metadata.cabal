@@ -12,7 +12,7 @@ homepage:            http://ui3.info/d/proj/epub-metadata.html
 synopsis:            Library for parsing and manipulating ePub files and OPF package data
 description:         Library for parsing and manipulating ePub files and OPF package data. An attempt has been made here to very thoroughly implement the OPF Package Document specification.
 category:            Codec, Text
-tested-with:         GHC >= 7.0.3
+tested-with:         GHC >= 7.6.1
 extra-source-files:  testsuite/*.hs, testsuite/*.opf
 
 source-repository    head
