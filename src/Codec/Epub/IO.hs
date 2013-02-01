@@ -41,7 +41,7 @@ removeIllegalStartChars = dropWhile (/= '<')
 -- | An evil hack to remove encoding from the document
 removeEncoding :: String -> String
 removeEncoding = flip (subRegex 
-   (mkRegexWithOpts " +encoding=\"UTF-8\"" False True)) ""
+   (mkRegexWithOpts " +encoding=\"UTF-8\"" False False)) ""
 
 
 -- | An evil hack to remove any <!DOCTYPE ...> from the document
