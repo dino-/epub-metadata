@@ -10,6 +10,7 @@ module Codec.Epub.IO
    ( opfContentsFromZip
    , opfContentsFromBS
    , opfContentsFromDir
+   , removeIllegalStartChars
    , removeEncoding
    , removeDoctype
    )
@@ -28,6 +29,13 @@ import Text.Regex
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
+
+
+-- | An evil hack to remove *ILLEGAL* characters before the XML
+-- | declaration. Why do people write software that does this?
+-- | Can't they follow directions?
+removeIllegalStartChars :: String -> String
+removeIllegalStartChars = dropWhile (/= '<')
 
 
 -- | An evil hack to remove encoding from the document

@@ -33,6 +33,7 @@ tests = TestList
    , testMinimal
    , testMissingAll
    , testDamagedZip
+   , testIllegalCharsBeforeDecl
    ]
 
 
@@ -206,3 +207,46 @@ testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
    actual <- runErrorT $ opfContentsFromZip $ "testsuite"
       </> "damagedZipCentralDir.epub"
    actual @?= Left "Did not find end of central directory signature. Failed reading at byte position 138"
+
+
+{- Found books coming from Barnes & Noble (for their NOOK reader) to
+   contain illegal characters before the XML declaration. This is
+   strictly not allowed by the XML specification. I am very
+   disappointed with Barnes & Noble for selling garbage like this.
+-}
+testIllegalCharsBeforeDecl :: Test
+testIllegalCharsBeforeDecl = TestCase $ do
+   xmlString <- readFile $
+      "testsuite" </> "testIllegalCharsBeforeDecl.opf"
+   actual <- runErrorT $ parseXmlToOpf xmlString
+   let expected =
+         Right Package
+            { opVersion = "2.0"
+            , opUniqueId = "uuid_id"
+            , opMeta = Metadata
+               { metaTitles = [MetaTitle Nothing "Foo Bar Baz"]
+               , metaCreators = []
+               , metaContributors = []
+               , metaSubjects = []
+               , metaDescription = Nothing
+               , metaPublisher = Nothing
+               , metaDates = []
+               , metaType = Nothing
+               , metaFormat = Nothing
+               , metaIds = [MetaId "uuid_id" (Just "uuid") "1122334455"]
+               , metaSource = Nothing
+               , metaLangs = ["en"]
+               , metaRelation = Nothing
+               , metaCoverage = Nothing
+               , metaRights = Nothing}
+               , opManifest =
+                  [ ManifestItem
+                     { mfiId = "ncx"
+                     , mfiHref = "toc.ncx"
+                     , mfiMediaType = "application/x-dtbncx+xml"
+                     }
+                  ]
+               , opSpine = Spine {spineToc = "ncx", spineItemrefs = []}
+               , opGuide = []
+            }
+   assertEqual "illegal chars before XML declaration" expected actual

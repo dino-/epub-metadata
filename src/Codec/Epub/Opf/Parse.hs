@@ -255,7 +255,8 @@ parseXmlToOpf :: (MonadIO m, MonadError String m) =>
 parseXmlToOpf contents = do
    {- Improper encoding and schema declarations have been causing
       havok with this parse, cruelly strip them out. -}
-   let cleanedContents = removeEncoding . removeDoctype $ contents
+   let cleanedContents = removeIllegalStartChars . removeEncoding
+         . removeDoctype $ contents
    
    result <- liftIO $ runX (
       readString [withValidate no] cleanedContents
