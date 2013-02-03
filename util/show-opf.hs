@@ -7,7 +7,7 @@
 import Control.Monad.Error ( runErrorT )
 import System.Environment ( getArgs )
 
-import Codec.Epub.Opf.Parse
+import Codec.Epub.Opf.Parse ( parseXmlToOpf )
 
 
 main :: IO ()
