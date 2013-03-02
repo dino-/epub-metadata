@@ -4,8 +4,8 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
-{- | Functions for doing some disk IO with ePub documents
--}
+-- | Functions for doing some disk IO with ePub documents
+
 module Codec.Epub.IO
    ( opfContentsFromZip
    , opfContentsFromBS
@@ -31,9 +31,10 @@ import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
 
 
--- | An evil hack to remove *ILLEGAL* characters before the XML
--- | declaration. Why do people write software that does this?
--- | Can't they follow directions?
+{- | An evil hack to remove *ILLEGAL* characters before the XML
+     declaration. Why do people write software that does this?
+     Can't they follow directions?
+-}
 removeIllegalStartChars :: String -> String
 removeIllegalStartChars = dropWhile (/= '<')
 
