@@ -76,7 +76,9 @@ fileFromArchive filePath archive = do
       (return . BL.unpack . fromEntry) mbEntry
 
 
--- | Get the contents of the OPF Package Document from a ByteString
+{- | Get the contents of the OPF Package Document from a ByteString
+     representing an EPUB (zip) file
+-}
 opfContentsFromBS :: (MonadError String m, MonadIO m)
    => BS.ByteString           -- ^ contents of the zip file
    -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
@@ -102,7 +104,7 @@ opfContentsFromBS strictBytes = do
    return (rootPath, rootContents)
 
 
--- | Get the contents of the OPF Package Document from an ePub file
+-- | Get the contents of the OPF Package Document from an EPUB (zip) file
 opfContentsFromZip :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ path to ePub zip file
    -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
@@ -114,7 +116,10 @@ opfContentsFromZip zipPath = do
    opfContentsFromBS zipFileBytes
 
 
--- | Get the contents of the OPF Package Document from an ePub file
+{- | Get the contents of the OPF Package Document from a directory
+     containing the files from an EPUB file (as in: it's been
+     unzipped into a dir)
+-}
 opfContentsFromDir :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ directory path
    -> m (FilePath, String)    -- ^ path and contents of the OPF Package Document
