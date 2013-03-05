@@ -50,29 +50,29 @@ testFull = TestCase $ do
             , opUniqueId = "isbn"
             , opMeta = Metadata
                { metaTitles =
-                  [ MetaTitle Nothing "Title Of This Book"
-                  , MetaTitle (Just "fr") "Titre De Ce Livre"
+                  [ Title Nothing "Title Of This Book"
+                  , Title (Just "fr") "Titre De Ce Livre"
                   ]
                , metaCreators = 
-                  [ MetaCreator
+                  [ Creator
                      (Just "aut")
                      (Just "Wiggins, Josephine B.")
                      "Josephine B. Wiggins"
-                  , MetaCreator
+                  , Creator
                      (Just "aut")
                      Nothing
                      "Horatio Cromwell"
-                  , MetaCreator
+                  , Creator
                      Nothing
                      Nothing
                      "Natalia Jenkins"
                   ]
                , metaContributors = 
-                  [ MetaCreator 
+                  [ Creator 
                      (Just "ill") 
                      (Just "Knickerbocker, Reginald Q.") 
                      "Reginald Q. Knickerbocker"
-                  , MetaCreator 
+                  , Creator 
                      (Just "edt") 
                      Nothing "Beverly Abercrombie"
                   ]
@@ -80,16 +80,16 @@ testFull = TestCase $ do
                , metaDescription = Just "This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata."
                , metaPublisher = Just "Fictional Books Ltd."
                , metaDates = 
-                  [ MetaDate (Just "published") "2010"
-                  , MetaDate (Just "created") "2010-05-07"
-                  , MetaDate (Just "modified") "2010-05-08T10:20:57"
-                  , MetaDate Nothing "2009"
+                  [ Date (Just "published") "2010"
+                  , Date (Just "created") "2010-05-07"
+                  , Date (Just "modified") "2010-05-08T10:20:57"
+                  , Date Nothing "2009"
                   ]
                , metaType = Just "test OPF Package Document"
                , metaFormat = Just "ePub publication"
                , metaIds = 
-                  [ MetaId "isbn" (Just "ISBN") "1-82057-821-9"
-                  , MetaId "other" Nothing "1386506873266"
+                  [ Identifier "isbn" (Just "ISBN") "1-82057-821-9"
+                  , Identifier "other" Nothing "1386506873266"
                   ]
                , metaSource = Just "document source"
                , metaLangs = ["en-us"]
@@ -149,7 +149,7 @@ testMinimal = TestCase $ do
             { opVersion = "2.0"
             , opUniqueId = "isbn"
             , opMeta = Metadata 
-               { metaTitles = [MetaTitle Nothing "Title Of This Book"]
+               { metaTitles = [Title Nothing "Title Of This Book"]
                , metaCreators = []
                , metaContributors = []
                , metaSubjects = []
@@ -158,7 +158,7 @@ testMinimal = TestCase $ do
                , metaDates = []
                , metaType = Nothing
                , metaFormat = Nothing
-               , metaIds = [MetaId "isbn" (Just "ISBN") "1-82057-821-9"]
+               , metaIds = [Identifier "isbn" (Just "ISBN") "1-82057-821-9"]
                , metaSource = Nothing
                , metaLangs = ["en-us"]
                , metaRelation = Nothing
@@ -224,7 +224,7 @@ testIllegalCharsBeforeDecl = TestCase $ do
             { opVersion = "2.0"
             , opUniqueId = "uuid_id"
             , opMeta = Metadata
-               { metaTitles = [MetaTitle Nothing "Foo Bar Baz"]
+               { metaTitles = [Title Nothing "Foo Bar Baz"]
                , metaCreators = []
                , metaContributors = []
                , metaSubjects = []
@@ -233,7 +233,7 @@ testIllegalCharsBeforeDecl = TestCase $ do
                , metaDates = []
                , metaType = Nothing
                , metaFormat = Nothing
-               , metaIds = [MetaId "uuid_id" (Just "uuid") "1122334455"]
+               , metaIds = [Identifier "uuid_id" (Just "uuid") "1122334455"]
                , metaSource = Nothing
                , metaLangs = ["en"]
                , metaRelation = Nothing

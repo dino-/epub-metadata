@@ -15,37 +15,37 @@ import Codec.Epub.Opf.Format.Util
 import Codec.Epub.Opf.Package.Metadata
 
 
-tellTitle :: MonadWriter (Seq Char) m => MetaTitle -> m ()
-tellTitle (MetaTitle Nothing title) = tellSeq $ printf "title: %s\n" title
-tellTitle (MetaTitle lang title) =
+tellTitle :: MonadWriter (Seq Char) m => Title -> m ()
+tellTitle (Title Nothing title) = tellSeq $ printf "title: %s\n" title
+tellTitle (Title lang title) =
    tellSeq $ printf "title\n%s%s" (formatSubline "lang" lang)
       (formatSubline "text" (Just title))
 
 
-tellCreator :: MonadWriter (Seq Char) m => MetaCreator -> m ()
-tellCreator (MetaCreator Nothing Nothing creator) =
+tellCreator :: MonadWriter (Seq Char) m => Creator -> m ()
+tellCreator (Creator Nothing Nothing creator) =
    tellSeq $ printf "creator: %s\n" creator
-tellCreator (MetaCreator role fileAs creator) =
+tellCreator (Creator role fileAs creator) =
    tellSeq $ printf "creator\n%s%s%s"
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
       (formatSubline "text" (Just creator))
 
 
-tellContributor :: MonadWriter (Seq Char) m => MetaCreator -> m ()
-tellContributor (MetaCreator Nothing Nothing contributor) =
+tellContributor :: MonadWriter (Seq Char) m => Creator -> m ()
+tellContributor (Creator Nothing Nothing contributor) =
    tellSeq $ printf "contributor: %s\n" contributor
-tellContributor (MetaCreator role fileAs contributor) =
+tellContributor (Creator role fileAs contributor) =
    tellSeq $ printf "contributor\n%s%s%s"
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
       (formatSubline "text" (Just contributor))
 
 
-tellDate :: MonadWriter (Seq Char) m => MetaDate -> m ()
-tellDate (MetaDate Nothing date) =
+tellDate :: MonadWriter (Seq Char) m => Date -> m ()
+tellDate (Date Nothing date) =
    tellSeq $ printf "date: %s\n" date
-tellDate (MetaDate event date) =
+tellDate (Date event date) =
    tellSeq $ printf "date\n%s%s"
       (formatSubline "event" event)
       (formatSubline "text" (Just date))
@@ -59,8 +59,8 @@ tellFormat :: MonadWriter (Seq Char) m => Maybe String -> m ()
 tellFormat = maybe (return ()) (tellSeq . (printf "format: %s\n"))
 
 
-tellId :: MonadWriter (Seq Char) m => MetaId -> m ()
-tellId (MetaId idVal scheme content) =
+tellId :: MonadWriter (Seq Char) m => Identifier -> m ()
+tellId (Identifier idVal scheme content) =
    tellSeq $ printf "identifier\n%s%s%s"
       (formatSubline "id" (Just idVal))
       (formatSubline "scheme" scheme)
