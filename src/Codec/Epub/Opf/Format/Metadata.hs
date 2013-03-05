@@ -51,14 +51,6 @@ tellDate (Date event date) =
       (formatSubline "text" (Just date))
 
 
-tellType :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellType = maybe (return ()) (tellSeq . (printf "type: %s\n"))
-
-
-tellFormat :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellFormat = maybe (return ()) (tellSeq . (printf "format: %s\n"))
-
-
 tellId :: MonadWriter (Seq Char) m => Identifier -> m ()
 tellId (Identifier idVal scheme content) =
    tellSeq $ printf "identifier\n%s%s%s"
@@ -67,36 +59,17 @@ tellId (Identifier idVal scheme content) =
       (formatSubline "text" (Just content))
 
 
-tellSource :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellSource = maybe (return ()) (tellSeq . (printf "source: %s\n"))
+tellDescription :: MonadWriter (Seq Char) m => Description -> m ()
+tellDescription (Description Nothing text) =
+   tellSeq $ printf "description: %s\n" text
+tellDescription (Description lang text) =
+   tellSeq $ printf "description\n%s%s"
+      (formatSubline "lang" lang)
+      (formatSubline "text" (Just text))
 
 
-tellSubject :: MonadWriter (Seq Char) m => String -> m ()
-tellSubject = tellSeq . (printf "subject: %s\n")
-
-
-tellDescription :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellDescription = maybe (return ()) (tellSeq . (printf "description: %s\n"))
-
-
-tellPublisher :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellPublisher = maybe (return ()) (tellSeq . (printf "publisher: %s\n"))
-
-
-tellLang :: MonadWriter (Seq Char) m => String -> m ()
-tellLang = tellSeq . (printf "language: %s\n")
-
-
-tellRelation :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellRelation = maybe (return ()) (tellSeq . (printf "relation: %s\n"))
-
-
-tellCoverage :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellCoverage = maybe (return ()) (tellSeq . (printf "coverage: %s\n"))
-
-
-tellRights :: MonadWriter (Seq Char) m => Maybe String -> m ()
-tellRights = maybe (return ()) (tellSeq . (printf "rights: %s\n"))
+tellSimpleString :: MonadWriter (Seq Char) m => String -> String -> m ()
+tellSimpleString label = tellSeq . (printf "%s: %s\n" label)
 
 
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
@@ -107,14 +80,14 @@ tellMetadata (Metadata titles creators contributors subjects desc
    mapM_ tellCreator creators
    mapM_ tellContributor contributors
    mapM_ tellDate dates
-   tellType mType
-   tellFormat format
+   mapM_ (tellSimpleString "type") mType
+   mapM_ (tellSimpleString "format") format
    mapM_ tellId ids
-   tellSource source
-   mapM_ tellSubject subjects
-   tellDescription desc
-   tellPublisher publisher
-   mapM_ tellLang langs
-   tellRelation relation
-   tellCoverage coverage
-   tellRights rights
+   mapM_ (tellSimpleString "source") source
+   mapM_ (tellSimpleString "subject") subjects
+   mapM_ tellDescription desc
+   mapM_ (tellSimpleString "publisher") publisher
+   mapM_ (tellSimpleString "language") langs
+   mapM_ (tellSimpleString "relation") relation
+   mapM_ (tellSimpleString "coverage") coverage
+   mapM_ (tellSimpleString "rights") rights

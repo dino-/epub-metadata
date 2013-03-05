@@ -11,11 +11,12 @@
 -}
 module Codec.Epub.Opf.Package
    ( Package (..)
-   , Title (..)
    , Creator (..)
    , Date (..)
+   , Description (..)
    , Identifier (..)
    , Metadata (..)
+   , Title (..)
    , ManifestItem (..)
    , SpineItemref (..)
    , Spine (..)

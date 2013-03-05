@@ -77,25 +77,49 @@ testFull = TestCase $ do
                      Nothing "Beverly Abercrombie"
                   ]
                , metaSubjects = ["Fiction","Science Fiction"]
-               , metaDescription = Just "This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata."
-               , metaPublisher = Just "Fictional Books Ltd."
+               , metaDescriptions =
+                  [ Description Nothing "This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata."
+                  , Description Nothing "An additional description"
+                  ]
+               , metaPublishers =
+                  [ "Fictional Books Ltd."
+                  , "An additional publisher"
+                  ]
                , metaDates = 
                   [ Date (Just "published") "2010"
                   , Date (Just "created") "2010-05-07"
                   , Date (Just "modified") "2010-05-08T10:20:57"
                   , Date Nothing "2009"
                   ]
-               , metaType = Just "test OPF Package Document"
-               , metaFormat = Just "ePub publication"
+               , metaTypes =
+                  [ "test OPF Package Document"
+                  , "an additional type"
+                  ]
+               , metaFormats =
+                  [ "ePub publication"
+                  , "an additional format"
+                  ]
                , metaIds = 
                   [ Identifier "isbn" (Just "ISBN") "1-82057-821-9"
                   , Identifier "other" Nothing "1386506873266"
                   ]
-               , metaSource = Just "document source"
-               , metaLangs = ["en-us"]
-               , metaRelation = Just "document relation"
-               , metaCoverage = Just "coverage information"
-               , metaRights = Just "Copyright: 2010 Dino Morelli, License: BSD3"
+               , metaSources =
+                  [ "document source"
+                  , "an additional source"
+                  ]
+               , metaLangs = ["en-US", "en-UK"]
+               , metaRelations =
+                  [ "document relation"
+                  , "an additional relation"
+                  ]
+               , metaCoverages =
+                  [ "coverage information"
+                  , "an additional coverage"
+                  ]
+               , metaRights =
+                  [ "Copyright: 2010 Dino Morelli, License: BSD3"
+                  , "an additional rights"
+                  ]
                }
             , opManifest = 
                [ ManifestItem 
@@ -153,17 +177,17 @@ testMinimal = TestCase $ do
                , metaCreators = []
                , metaContributors = []
                , metaSubjects = []
-               , metaDescription = Nothing
-               , metaPublisher = Nothing
+               , metaDescriptions = []
+               , metaPublishers = []
                , metaDates = []
-               , metaType = Nothing
-               , metaFormat = Nothing
+               , metaTypes = []
+               , metaFormats = []
                , metaIds = [Identifier "isbn" (Just "ISBN") "1-82057-821-9"]
-               , metaSource = Nothing
+               , metaSources = []
                , metaLangs = ["en-us"]
-               , metaRelation = Nothing
-               , metaCoverage = Nothing
-               , metaRights = Nothing
+               , metaRelations = []
+               , metaCoverages = []
+               , metaRights = []
                }
             , opManifest = 
                [ ManifestItem 
@@ -228,17 +252,17 @@ testIllegalCharsBeforeDecl = TestCase $ do
                , metaCreators = []
                , metaContributors = []
                , metaSubjects = []
-               , metaDescription = Nothing
-               , metaPublisher = Nothing
+               , metaDescriptions = []
+               , metaPublishers = []
                , metaDates = []
-               , metaType = Nothing
-               , metaFormat = Nothing
+               , metaTypes = []
+               , metaFormats = []
                , metaIds = [Identifier "uuid_id" (Just "uuid") "1122334455"]
-               , metaSource = Nothing
+               , metaSources = []
                , metaLangs = ["en"]
-               , metaRelation = Nothing
-               , metaCoverage = Nothing
-               , metaRights = Nothing}
+               , metaRelations = []
+               , metaCoverages = []
+               , metaRights = []}
                , opManifest =
                   [ ManifestItem
                      { mfiId = "ncx"

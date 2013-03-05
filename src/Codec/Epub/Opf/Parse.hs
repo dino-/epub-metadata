@@ -29,6 +29,7 @@ import Codec.Epub.Opf.Package
 -- HXT helpers
 
 {- Not used at this time. But may be used someday
+
 atTag :: (ArrowXml a) => String -> a (NTree XNode) XmlTree
 atTag tag = deep (isElem >>> hasName tag)
 -}
@@ -43,12 +44,16 @@ notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
 
+{- Not used at this time, we don't have any single but optional
+   tags any longer
+
 mbQTagText :: (ArrowXml a) => QName -> a (NTree XNode) (Maybe String)
 mbQTagText tag =
    ( atQTag tag >>>
      text >>> notNullA >>> arr Just )
    `orElse`
    (constA Nothing)
+-}
 
 
 mbGetAttrValue :: (ArrowXml a) =>
@@ -109,12 +114,16 @@ getSubject :: (ArrowXml a) => a (NTree XNode) String
 getSubject = atQTag (dcName "subject") >>> text
 
 
-getDescription :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getDescription = mbQTagText $ dcName "description"
+getDescription :: (ArrowXml a) => a (NTree XNode) Description
+getDescription = atQTag (dcName "description") >>>
+   proc x -> do
+      l <- mbGetQAttrValue (xmlName "lang") -< x
+      c <- text -< x
+      returnA -< Description l c
 
 
-getPublisher :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getPublisher = mbQTagText $ dcName "publisher"
+getPublisher :: (ArrowXml a) => a (NTree XNode) String
+getPublisher = atQTag (dcName "publisher") >>> text
 
 
 getDate :: (ArrowXml a) => a (NTree XNode) Date
@@ -125,12 +134,12 @@ getDate = atQTag (dcName "date") >>>
       returnA -< Date e c
 
 
-getType :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getType = mbQTagText $ dcName "type"
+getType :: (ArrowXml a) => a (NTree XNode) String
+getType = atQTag (dcName "type") >>> text
 
 
-getFormat :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getFormat = mbQTagText $ dcName "format"
+getFormat :: (ArrowXml a) => a (NTree XNode) String
+getFormat = atQTag (dcName "format") >>> text
 
 
 getId :: (ArrowXml a) => a (NTree XNode) Identifier
@@ -143,24 +152,24 @@ getId = atQTag (dcName "identifier") >>>
       returnA -< Identifier i s c
 
 
-getSource :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getSource = mbQTagText $ dcName "source"
+getSource :: (ArrowXml a) => a (NTree XNode) String
+getSource = atQTag (dcName "source") >>> text
 
 
 getLang :: (ArrowXml a) => a (NTree XNode) String
 getLang = atQTag (dcName "language") >>> text
 
 
-getRelation :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getRelation = mbQTagText $ dcName "relation"
+getRelation :: (ArrowXml a) => a (NTree XNode) String
+getRelation = atQTag (dcName "relation") >>> text
 
 
-getCoverage :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getCoverage = mbQTagText $ dcName "coverage"
+getCoverage :: (ArrowXml a) => a (NTree XNode) String
+getCoverage = atQTag (dcName "coverage") >>> text
 
 
-getRights :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-getRights = mbQTagText $ dcName "rights"
+getRights :: (ArrowXml a) => a (NTree XNode) String
+getRights = atQTag (dcName "rights") >>> text
 
 
 getMeta :: (ArrowXml a) => a (NTree XNode) Metadata
@@ -169,17 +178,17 @@ getMeta = atQTag (opfName "metadata") >>> ( unwrapArrow $ Metadata
    <*> (WrapArrow $ listA $ getCreator "creator")
    <*> (WrapArrow $ listA $ getCreator "contributor")
    <*> (WrapArrow $ listA getSubject)
-   <*> (WrapArrow $ getDescription)
-   <*> (WrapArrow $ getPublisher)
+   <*> (WrapArrow $ listA getDescription)
+   <*> (WrapArrow $ listA getPublisher)
    <*> (WrapArrow $ listA getDate)
-   <*> (WrapArrow $ getType)
-   <*> (WrapArrow $ getFormat)
+   <*> (WrapArrow $ listA getType)
+   <*> (WrapArrow $ listA getFormat)
    <*> (WrapArrow $ listA getId)
-   <*> (WrapArrow $ getSource)
+   <*> (WrapArrow $ listA getSource)
    <*> (WrapArrow $ listA getLang)
-   <*> (WrapArrow $ getRelation)
-   <*> (WrapArrow $ getCoverage)
-   <*> (WrapArrow $ getRights)
+   <*> (WrapArrow $ listA getRelation)
+   <*> (WrapArrow $ listA getCoverage)
+   <*> (WrapArrow $ listA getRights)
    )
 
 
