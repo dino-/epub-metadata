@@ -77,17 +77,17 @@ tellMetadata (Metadata titles creators contributors subjects desc
       publisher dates mType format ids source langs relation 
       coverage rights) = do
    mapM_ tellTitle titles
+   mapM_ tellDescription desc
+   mapM_ tellDate dates
    mapM_ tellCreator creators
    mapM_ tellContributor contributors
-   mapM_ tellDate dates
+   mapM_ (tellSimpleString "publisher") publisher
+   mapM_ tellId ids
+   mapM_ (tellSimpleString "language") langs
+   mapM_ (tellSimpleString "subject") subjects
    mapM_ (tellSimpleString "type") mType
    mapM_ (tellSimpleString "format") format
-   mapM_ tellId ids
    mapM_ (tellSimpleString "source") source
-   mapM_ (tellSimpleString "subject") subjects
-   mapM_ tellDescription desc
-   mapM_ (tellSimpleString "publisher") publisher
-   mapM_ (tellSimpleString "language") langs
    mapM_ (tellSimpleString "relation") relation
    mapM_ (tellSimpleString "coverage") coverage
    mapM_ (tellSimpleString "rights") rights
