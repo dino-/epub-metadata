@@ -1,5 +1,5 @@
 name:                epub-metadata
-version:             2.3.3
+version:             3.0
 cabal-version:       >= 1.8
 build-type:          Simple
 license:             BSD3
