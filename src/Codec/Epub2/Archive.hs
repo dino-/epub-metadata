@@ -2,7 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-module Codec.Epub.Archive
+module Codec.Epub2.Archive
    ( mkEpubArchive
    , readArchive
    , writeArchive

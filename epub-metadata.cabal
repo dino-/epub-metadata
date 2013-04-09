@@ -20,21 +20,21 @@ source-repository    head
    location:         http://ui3.info/darcs/epub-metadata/
 
 library
-   exposed-modules:  Codec.Epub.Archive
-                     Codec.Epub.IO,
-                     Codec.Epub.Opf.Common,
-                     Codec.Epub.Opf.Format.Guide,
-                     Codec.Epub.Opf.Format.Manifest,
-                     Codec.Epub.Opf.Format.Metadata,
-                     Codec.Epub.Opf.Format.Package,
-                     Codec.Epub.Opf.Format.Spine,
-                     Codec.Epub.Opf.Format.Util,
-                     Codec.Epub.Opf.Package,
-                     Codec.Epub.Opf.Package.Guide,
-                     Codec.Epub.Opf.Package.Manifest,
-                     Codec.Epub.Opf.Package.Metadata,
-                     Codec.Epub.Opf.Package.Spine,
-                     Codec.Epub.Opf.Parse
+   exposed-modules:  Codec.Epub2.Archive
+                     Codec.Epub2.IO,
+                     Codec.Epub2.Opf.Common,
+                     Codec.Epub2.Opf.Format.Guide,
+                     Codec.Epub2.Opf.Format.Manifest,
+                     Codec.Epub2.Opf.Format.Metadata,
+                     Codec.Epub2.Opf.Format.Package,
+                     Codec.Epub2.Opf.Format.Spine,
+                     Codec.Epub2.Opf.Format.Util,
+                     Codec.Epub2.Opf.Package,
+                     Codec.Epub2.Opf.Package.Guide,
+                     Codec.Epub2.Opf.Package.Manifest,
+                     Codec.Epub2.Opf.Package.Metadata,
+                     Codec.Epub2.Opf.Package.Spine,
+                     Codec.Epub2.Opf.Parse
    build-depends:    base >= 3 && < 5, bytestring, containers,
                      directory, filepath, hxt >= 9, mtl, regex-compat,
                      zip-archive

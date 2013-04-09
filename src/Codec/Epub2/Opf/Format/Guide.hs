@@ -5,14 +5,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for pretty-printing ePub metadata info
-module Codec.Epub.Opf.Format.Guide
+module Codec.Epub2.Opf.Format.Guide
    where
 
 import Control.Monad.Writer.Lazy
 import Text.Printf
 
-import Codec.Epub.Opf.Format.Util
-import Codec.Epub.Opf.Package.Guide
+import Codec.Epub2.Opf.Format.Util
+import Codec.Epub2.Opf.Package.Guide
 
 
 tellGuideRef :: MonadWriter (Seq Char) m => GuideRef -> m ()

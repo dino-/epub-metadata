@@ -5,14 +5,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for pretty-printing ePub metadata info
-module Codec.Epub.Opf.Format.Spine
+module Codec.Epub2.Opf.Format.Spine
    where
 
 import Control.Monad.Writer.Lazy
 import Text.Printf
 
-import Codec.Epub.Opf.Format.Util
-import Codec.Epub.Opf.Package.Spine
+import Codec.Epub2.Opf.Format.Util
+import Codec.Epub2.Opf.Package.Spine
 
 
 tellSpineItemref :: MonadWriter (Seq Char) m => SpineItemref -> m ()

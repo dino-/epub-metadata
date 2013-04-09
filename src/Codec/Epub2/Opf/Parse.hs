@@ -6,9 +6,9 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for extracting the metadata from an ePub file
-module Codec.Epub.Opf.Parse
+module Codec.Epub2.Opf.Parse
    ( parseXmlToOpf
-   , parseEpubOpf
+   , parseEpub2Opf
    )
    where
 
@@ -22,8 +22,8 @@ import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.DOM.TypeDefs
 
-import Codec.Epub.IO
-import Codec.Epub.Opf.Package
+import Codec.Epub2.IO
+import Codec.Epub2.Opf.Package
 
 
 -- HXT helpers
@@ -280,8 +280,8 @@ parseXmlToOpf contents = do
 
 
 -- | Given the path to an ePub file, extract the OPF Package data
-parseEpubOpf :: (MonadIO m, MonadError String m) =>
+parseEpub2Opf :: (MonadIO m, MonadError String m) =>
    FilePath -> m Package
-parseEpubOpf zipPath = do
+parseEpub2Opf zipPath = do
    (_, contents) <- opfContentsFromZip zipPath
    parseXmlToOpf contents

@@ -6,7 +6,7 @@
 
 -- | Functions for doing some disk IO with ePub documents
 
-module Codec.Epub.IO
+module Codec.Epub2.IO
    ( opfContentsFromZip
    , opfContentsFromBS
    , opfContentsFromDir

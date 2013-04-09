@@ -9,13 +9,13 @@
 
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
-module Codec.Epub.Opf.Package.Spine
+module Codec.Epub2.Opf.Package.Spine
    ( Spine (..)
    , SpineItemref (..)
    )
    where
 
-import Codec.Epub.Opf.Common
+import Codec.Epub2.Opf.Common
 
 
 -- | package\/spine\/itemref tag

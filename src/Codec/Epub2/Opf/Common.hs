@@ -9,7 +9,7 @@
 
    <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
 -}
-module Codec.Epub.Opf.Common
+module Codec.Epub2.Opf.Common
    where
 
 

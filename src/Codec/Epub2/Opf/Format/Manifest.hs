@@ -5,14 +5,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for pretty-printing ePub metadata info
-module Codec.Epub.Opf.Format.Manifest
+module Codec.Epub2.Opf.Format.Manifest
    where
 
 import Control.Monad.Writer.Lazy
 import Text.Printf
 
-import Codec.Epub.Opf.Format.Util
-import Codec.Epub.Opf.Package.Manifest
+import Codec.Epub2.Opf.Format.Util
+import Codec.Epub2.Opf.Package.Manifest
 
 
 tellManifestItem :: MonadWriter (Seq Char) m => ManifestItem -> m ()

@@ -7,9 +7,9 @@ import System.Exit
 import System.FilePath
 import Test.HUnit hiding ( counts )
 
-import Codec.Epub.IO
-import Codec.Epub.Opf.Package
-import Codec.Epub.Opf.Parse
+import Codec.Epub2.IO
+import Codec.Epub2.Opf.Package
+import Codec.Epub2.Opf.Parse
 
 
 main :: IO ()
