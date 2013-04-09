@@ -7,7 +7,7 @@
    These data types were constructed by studying the IDPF OPF 
    specification for ePub documents found here:
 
-   <http://www.idpf.org/2007/opf/OPF_2.0_final_spec.html>
+   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
 module Codec.Epub2.Opf.Common
    where
