@@ -41,9 +41,9 @@ library
    hs-source-dirs:   src
    ghc-options:      -Wall
 
-test-suite           opf-parse
+test-suite           test-epub-metadata
    type:             exitcode-stdio-1.0
-   main-is:          opf-parse.hs
+   main-is:          test-main.hs
    build-depends:    base >= 3 && < 5, bytestring, directory, filepath,
                      HUnit, hxt >= 9, mtl, regex-compat, zip-archive
    hs-source-dirs:   src testsuite
