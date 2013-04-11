@@ -41,10 +41,12 @@ mkEpubArchive :: FilePath -> IO Archive
 mkEpubArchive rootDir = do
    setCurrentDirectory rootDir
 
+   let mimetype = ["mimetype"]
    allFiles <- getRecursiveContents "."
+   let restFiles = allFiles \\ mimetype
 
-   flip (addFilesToArchive []) ["mimetype"] >=>
-      flip (addFilesToArchive [OptRecursive]) allFiles
+   flip (addFilesToArchive [OptRecursive]) restFiles >=>
+      flip (addFilesToArchive []) ["mimetype"]
       $ emptyArchive
 
 
