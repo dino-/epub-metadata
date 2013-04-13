@@ -13,7 +13,12 @@ synopsis:            Library for parsing and manipulating ePub files and OPF pac
 description:         Library for parsing and manipulating ePub files and OPF package data. An attempt has been made here to thoroughly implement the OPF Package Document specification.
 category:            Codec, Text
 tested-with:         GHC >= 7.6.2
-extra-source-files:  testsuite/*.epub, testsuite/*.hs, testsuite/*.opf
+extra-source-files:  testsuite/*.epub,
+                     testsuite/*.hs,
+                     testsuite/*.opf,
+                     testsuite/bookfiles/mimetype,
+                     testsuite/bookfiles/foo,
+                     testsuite/bookfiles/content/bar
 
 source-repository    head
    type:             darcs
