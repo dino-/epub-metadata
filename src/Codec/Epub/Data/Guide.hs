@@ -9,23 +9,16 @@
 
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
-module Codec.Epub2.Opf.Package.Manifest
-   ( ManifestItem (..)
+module Codec.Epub.Data.Guide
+   ( GuideRef (..)
    )
    where
 
-import Codec.Epub2.Opf.Common
 
-
--- | manifest attribute values
-type MFItemHref = String
-type MFItemMediaType = String
-
-
--- | package\/manifest\/item tag
-data ManifestItem = ManifestItem
-   { mfiId :: MFItemId  -- ^ id attr
-   , mfiHref :: MFItemHref  -- ^ href attr
-   , mfiMediaType :: MFItemMediaType  -- ^ media-type attr
+-- | package\/guide\/reference tag
+data GuideRef = GuideRef
+   { grType :: String  -- ^ type attr. Must follow 13th edition of the Chicago Manual of Style
+   , grTitle :: Maybe String  -- ^ title attr
+   , grHref :: String  -- ^ href attr. Must reference item in manifest
    }
    deriving (Eq, Show)

@@ -5,7 +5,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Functions shared by several formatting modules
-module Codec.Epub2.Opf.Format.Util
+module Codec.Epub.Format.Util
    ( formatSubline
    , tellSeq
    , Seq

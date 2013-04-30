@@ -11,7 +11,7 @@ import System.Directory
 import System.FilePath
 import Test.HUnit
 
-import Codec.Epub2.Archive
+import Codec.Epub.Archive
 
 
 tests :: Test

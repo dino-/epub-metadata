@@ -9,7 +9,7 @@
 
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
-module Codec.Epub2.Opf.Package.Metadata
+module Codec.Epub.Data.Metadata
    ( Creator (..)
    , Date (..)
    , Description (..)

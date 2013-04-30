@@ -10,9 +10,9 @@ import Control.Monad.Error
 import System.FilePath
 import Test.HUnit
 
-import Codec.Epub2.IO
-import Codec.Epub2.Opf.Package
-import Codec.Epub2.Opf.Parse
+import Codec.Epub.IO
+import Codec.Epub.Data.Package
+import Codec.Epub.Opf.Parse
 
 
 tests :: Test

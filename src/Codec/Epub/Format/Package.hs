@@ -5,7 +5,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for pretty-printing OPF package data
-module Codec.Epub2.Opf.Format.Package
+module Codec.Epub.Format.Package
    ( formatPackage
    )
    where
@@ -13,12 +13,12 @@ module Codec.Epub2.Opf.Format.Package
 import Control.Monad.Writer.Lazy
 import Data.Foldable ( toList )
 
-import Codec.Epub2.Opf.Format.Guide
-import Codec.Epub2.Opf.Format.Manifest
-import Codec.Epub2.Opf.Format.Metadata
-import Codec.Epub2.Opf.Format.Spine
-import Codec.Epub2.Opf.Format.Util
-import Codec.Epub2.Opf.Package
+import Codec.Epub.Format.Guide
+import Codec.Epub.Format.Manifest
+import Codec.Epub.Format.Metadata
+import Codec.Epub.Format.Spine
+import Codec.Epub.Format.Util
+import Codec.Epub.Data.Package
 
 
 tellPackage :: MonadWriter (Seq Char) m => (String, String) -> m ()

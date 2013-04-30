@@ -9,7 +9,7 @@
 
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
-module Codec.Epub2.Opf.Package
+module Codec.Epub.Data.Package
    ( Package (..)
    , Creator (..)
    , Date (..)
@@ -25,10 +25,10 @@ module Codec.Epub2.Opf.Package
    )
    where
 
-import Codec.Epub2.Opf.Package.Guide
-import Codec.Epub2.Opf.Package.Manifest
-import Codec.Epub2.Opf.Package.Metadata
-import Codec.Epub2.Opf.Package.Spine
+import Codec.Epub.Data.Guide
+import Codec.Epub.Data.Manifest
+import Codec.Epub.Data.Metadata
+import Codec.Epub.Data.Spine
 
 
 {- | package tag
