@@ -7,7 +7,7 @@ license-file:        LICENSE
 copyright:           2010-2013 Dino Morelli
 author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
-stability:           stable
+stability:           experimental
 homepage:            http://ui3.info/d/proj/epub-metadata.html
 synopsis:            Library for parsing EPUB document metdata
 description:         Library for parsing and manipulating EPUB document metadata. Supports EPUB versions 2 and 3.
