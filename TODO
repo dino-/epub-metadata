@@ -1,3 +1,13 @@
+- Change version to something more drastic like 4.0. Supporting epub3 is going to be a major upheaval.
+
+- Figure out a common data structure that can hold metadata for both epub2 and 3
+
+- Come up with a new module packaging hierarchy. Turns out the Epub2 sub-package was a bad idea and we won't be needing Opf either. Just focus on something simple.
+
+- Drop support (again. for now.) for anything but the Package and Metadata parts. I just don't see much value in reading and storing the manifest, spine, guide and bindings info.
+
+- Implement epub3 metadata parsing as a two-pass system. Gather up meta tags first into a map keyed by the id they refer to. During pass 2, look up relevant metadata for packing into the data structures.
+
 - Better errors on parse failure, this will emerge along with more unit testing
 
 - More unit testing
