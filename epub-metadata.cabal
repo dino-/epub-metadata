@@ -9,8 +9,8 @@ author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
 stability:           stable
 homepage:            http://ui3.info/d/proj/epub-metadata.html
-synopsis:            Library for parsing and manipulating EPUB files and OPF package data
-description:         Library for parsing and manipulating EPUB files and OPF package data. An attempt has been made here to thoroughly implement the OPF Package Document specification.
+synopsis:            Library for parsing EPUB document metdata
+description:         Library for parsing and manipulating EPUB document metadata. Supports EPUB versions 2 and 3.
 category:            Codec, Text
 tested-with:         GHC >= 7.6.2
 extra-source-files:  testsuite/*.epub,
