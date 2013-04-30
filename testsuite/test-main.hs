@@ -6,7 +6,9 @@ import System.Exit
 import Test.HUnit hiding ( counts )
 
 import qualified Archive
-import qualified OpfParse
+--import qualified OpfParse
+import qualified ParseMetadata
+import qualified ParsePackage
 
 
 main :: IO ()
@@ -27,5 +29,7 @@ testsPassed (Counts _ _ e f) = (e == 0) && (f == 0)
 tests :: Test
 tests = TestList
    [ Archive.tests
-   , OpfParse.tests
+   , ParseMetadata.tests
+   , ParsePackage.tests
+   -- , OpfParse.tests
    ]

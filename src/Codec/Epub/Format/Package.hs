@@ -13,12 +13,14 @@ module Codec.Epub.Format.Package
 import Control.Monad.Writer.Lazy
 import Data.Foldable ( toList )
 
+import Codec.Epub.Data.Package
+{-
 import Codec.Epub.Format.Guide
 import Codec.Epub.Format.Manifest
 import Codec.Epub.Format.Metadata
 import Codec.Epub.Format.Spine
+-}
 import Codec.Epub.Format.Util
-import Codec.Epub.Data.Package
 
 
 tellPackage :: MonadWriter (Seq Char) m => (String, String) -> m ()
@@ -29,6 +31,11 @@ tellPackage (version, uniqueId) = do
 
 
 formatPackage :: Bool -> Package -> String
+formatPackage showAll (Package v u) =
+   toList . execWriter $ do
+      tellPackage (v, u)
+{-
+formatPackage :: Bool -> Package -> String
 formatPackage showAll (Package v u meta ma sp gu) =
    toList . execWriter $ do
       tellPackage (v, u)
@@ -38,3 +45,4 @@ formatPackage showAll (Package v u meta ma sp gu) =
          tellManifest ma
          tellSpine sp
          tellGuide gu
+-}

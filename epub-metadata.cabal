@@ -39,7 +39,9 @@ library
                      Codec.Epub.Format.Spine
                      Codec.Epub.Format.Util
                      Codec.Epub.IO
-                     Codec.Epub.Opf.Parse
+                     Codec.Epub.Parse.Common
+                     Codec.Epub.Parse.Metadata
+                     Codec.Epub.Parse.Package
    build-depends:    base >= 3 && < 5, bytestring, containers,
                      directory, filepath, hxt >= 9, mtl, regex-compat,
                      zip-archive
