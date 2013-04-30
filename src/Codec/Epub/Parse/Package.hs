@@ -7,7 +7,7 @@
 
 -- | Module for extracting the package info from an EPUB file
 module Codec.Epub.Parse.Package
-   ( getPackage
+   ( packageP
    )
    where
 
@@ -17,11 +17,11 @@ import Text.XML.HXT.Arrow.XmlArrow
 import Text.XML.HXT.DOM.TypeDefs
 
 import Codec.Epub.Data.Package
-import Codec.Epub.Parse.Common
+import Codec.Epub.Parse.Util
 
 
-getPackage :: (ArrowXml a) => a (NTree XNode) Package
-getPackage = atQTag (opfName "package") >>>
+packageP :: (ArrowXml a) => a (NTree XNode) Package
+packageP = atQTag (opfName "package") >>>
    proc x -> do
       v <- getAttrValue "version" -< x
       u <- getAttrValue "unique-identifier" -< x

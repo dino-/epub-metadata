@@ -12,8 +12,7 @@ import Test.HUnit
 
 import Codec.Epub.IO
 import Codec.Epub.Data.Metadata
-import Codec.Epub.Parse.Common
-import Codec.Epub.Parse.Metadata
+import Codec.Epub.Parse
 
 
 tests :: Test
@@ -32,7 +31,7 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
-   actual <- runErrorT $ performParse getMetadata xmlString
+   actual <- runErrorT $ getMetadata xmlString
    let expected =
          Right Metadata
             { metaTitles =
@@ -116,7 +115,7 @@ testFull = TestCase $ do
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- liftIO $ readFile $ "testsuite" </> "testMinimal.opf"
-   actual <- runErrorT $ performParse getMetadata xmlString
+   actual <- runErrorT $ getMetadata xmlString
    let expected = 
          Right Metadata 
             { metaTitles = [Title Nothing "Title Of This Book"]
@@ -144,7 +143,7 @@ testMinimal = TestCase $ do
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
-   actual <- runErrorT $ performParse getMetadata xmlString
+   actual <- runErrorT $ getMetadata xmlString
    let expected = Right emptyMetadata
    assertEqual "missing all" expected actual
 
@@ -170,7 +169,7 @@ testIllegalCharsBeforeDecl :: Test
 testIllegalCharsBeforeDecl = TestCase $ do
    xmlString <- readFile $
       "testsuite" </> "testIllegalCharsBeforeDecl.opf"
-   actual <- runErrorT $ performParse getMetadata xmlString
+   actual <- runErrorT $ getMetadata xmlString
    let expected =
          Right Metadata
             { metaTitles = [Title Nothing "Foo Bar Baz"]

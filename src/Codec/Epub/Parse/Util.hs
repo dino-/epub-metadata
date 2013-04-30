@@ -6,32 +6,22 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Module for extracting the metadata from an ePub file
-module Codec.Epub.Parse.Common
+module Codec.Epub.Parse.Util
    ( atQTag
    , dcName
    , mbGetAttrValue
    , mbGetQAttrValue
    , notNullA
    , opfName
-   , performParse
    , text
    , xmlName
    )
    where
 
---import Control.Applicative
 import Control.Arrow.ListArrows
-import Control.Monad.Error
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
 import Text.XML.HXT.Arrow.XmlArrow
-import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
-import Text.XML.HXT.Arrow.XmlState.TypeDefs
-import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.DOM.TypeDefs
-
-import Codec.Epub.IO
---import Codec.Epub.Data.Package
 
 
 -- HXT helpers
@@ -89,36 +79,3 @@ dcName, opfName, xmlName :: String -> QName
 dcName local = mkQName "dc" local "http://purl.org/dc/elements/1.1/"
 opfName local = mkQName "opf" local "http://www.idpf.org/2007/opf"
 xmlName local = mkQName "xml" local "http://www.w3.org/XML/1998/namespace"
-
-
-{- | Extract the ePub OPF Package data contained in the supplied 
-   XML string
--}
-performParse :: (MonadIO m, MonadError String m) =>
-   IOSLA (XIOState ()) XmlTree b -> String -> m b
-performParse parser contents = do
-   {- Improper encoding and schema declarations have been causing
-      havok with this parse, cruelly strip them out. -}
-   let cleanedContents = removeIllegalStartChars . removeEncoding
-         . removeDoctype $ contents
-   
-   result <- liftIO $ runX (
-      readString [withValidate no] cleanedContents
-      >>> propagateNamespaces
-      >>> parser
-      )
-
-   case result of
-      (r : []) -> return r
-      _        -> throwError
-         "ERROR: FIXME with a better message"
-
-
--- | Given the path to an ePub file, extract the OPF Package data
-{-
-parseEpub2Opf :: (MonadIO m, MonadError String m) =>
-   FilePath -> m Package
-parseEpub2Opf zipPath = do
-   (_, contents) <- opfContentsFromZip zipPath
-   parseXmlToOpf contents
--}
