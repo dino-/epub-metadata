@@ -53,7 +53,7 @@ removeDoctype = flip (subRegex
 
 locateRootFile :: (MonadIO m, MonadError String m) =>
    FilePath -> String -> m FilePath
-locateRootFile containerPath containerDoc = do
+locateRootFile containerPath' containerDoc = do
    result <- liftIO $ runX (
       readString [withValidate no] containerDoc
       >>> deep (isElem >>> hasName "rootfile")
@@ -63,7 +63,7 @@ locateRootFile containerPath containerDoc = do
    case result of
       (p : []) -> return p
       _        -> throwError $
-         "ERROR: rootfile full-path missing from " ++ containerPath
+         "ERROR: rootfile full-path missing from " ++ containerPath'
 
 
 -- | Extract a file from a zip archive throwing an error on failure
@@ -74,6 +74,13 @@ fileFromArchive filePath archive = do
    maybe
       (throwError $ "Unable to locate file " ++ filePath)
       (return . BL.unpack . fromEntry) mbEntry
+
+
+{- | The static location of the container.xml, as specified by the
+     EPUB docs
+-}
+containerPath :: FilePath
+containerPath = "META-INF/container.xml"
 
 
 {- | Get the contents of the EPUB Package Document from a ByteString
@@ -93,7 +100,6 @@ getPkgXmlFromBS strictBytes = do
       It's required to have a certain path and name in the epub
       and contains the path to what we really want, the .opf file.
    -}
-   let containerPath = "META-INF/container.xml"
    containerDoc <- fileFromArchive containerPath archive
 
    rootPath <- locateRootFile containerPath containerDoc
@@ -130,7 +136,6 @@ getPkgXmlFromDir dir = do
    -}
    liftIO $ setCurrentDirectory dir
 
-   let containerPath = "META-INF/container.xml"
    containerDoc <- liftIO $ readFile containerPath
 
    rootPath <- locateRootFile (dir </> containerPath) containerDoc
