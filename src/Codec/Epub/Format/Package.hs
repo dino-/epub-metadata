@@ -14,12 +14,6 @@ import Control.Monad.Writer.Lazy
 import Data.Foldable ( toList )
 
 import Codec.Epub.Data.Package
-{-
-import Codec.Epub.Format.Guide
-import Codec.Epub.Format.Manifest
-import Codec.Epub.Format.Metadata
-import Codec.Epub.Format.Spine
--}
 import Codec.Epub.Format.Util
 
 
@@ -30,19 +24,6 @@ tellPackage (version, uniqueId) = do
    tellSeq $ formatSubline "unique-identifier" (Just uniqueId)
 
 
-formatPackage :: Bool -> Package -> String
-formatPackage showAll (Package v u) =
-   toList . execWriter $ do
-      tellPackage (v, u)
-{-
-formatPackage :: Bool -> Package -> String
-formatPackage showAll (Package v u meta ma sp gu) =
-   toList . execWriter $ do
-      tellPackage (v, u)
-      tellMetadata meta
-
-      when showAll $ do
-         tellManifest ma
-         tellSpine sp
-         tellGuide gu
--}
+formatPackage :: Package -> String
+formatPackage (Package v u) = toList . execWriter
+   $ tellPackage (v, u)

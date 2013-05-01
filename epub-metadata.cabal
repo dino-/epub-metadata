@@ -32,6 +32,7 @@ library
                      Codec.Epub.Data.Metadata
                      Codec.Epub.Data.Package
                      Codec.Epub.Data.Spine
+                     Codec.Epub.Format
                      Codec.Epub.Format.Guide
                      Codec.Epub.Format.Manifest
                      Codec.Epub.Format.Metadata

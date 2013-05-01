@@ -6,9 +6,12 @@
 
 -- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Format.Metadata
+   ( formatMetadata
+   )
    where
 
 import Control.Monad.Writer.Lazy
+import Data.Foldable ( toList )
 import Text.Printf
 
 import Codec.Epub.Format.Util
@@ -91,3 +94,8 @@ tellMetadata (Metadata titles creators contributors subjects desc
    mapM_ (tellSimpleString "relation") relation
    mapM_ (tellSimpleString "coverage") coverage
    mapM_ (tellSimpleString "rights") rights
+
+
+formatMetadata :: Metadata -> String
+formatMetadata meta = toList . execWriter
+   $ tellMetadata meta
