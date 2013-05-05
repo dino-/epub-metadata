@@ -44,6 +44,7 @@ library
                      Codec.Epub.Parse.Manifest
                      Codec.Epub.Parse.Metadata
                      Codec.Epub.Parse.Package
+                     Codec.Epub.Parse.Spine
                      Codec.Epub.Parse.Util
    build-depends:    base >= 3 && < 5, bytestring, containers,
                      directory, filepath, hxt >= 9, mtl, regex-compat,

@@ -10,6 +10,7 @@ import qualified Archive
 import qualified ParseMetadata
 import qualified ParsePackage
 import qualified ParseManifest
+import qualified ParseSpine
 
 
 main :: IO ()
@@ -33,5 +34,6 @@ tests = TestList
    , ParsePackage.tests
    , ParseMetadata.tests
    , ParseManifest.tests
+   , ParseSpine.tests
    -- , OpfParse.tests
    ]

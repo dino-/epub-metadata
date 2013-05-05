@@ -10,6 +10,7 @@ module Codec.Epub.Parse
    ( getManifest
    , getMetadata
    , getPackage
+   , getSpine
    )
    where
 
@@ -25,9 +26,11 @@ import Codec.Epub.IO
 import Codec.Epub.Data.Manifest
 import Codec.Epub.Data.Metadata
 import Codec.Epub.Data.Package
+import Codec.Epub.Data.Spine
 import Codec.Epub.Parse.Manifest
 import Codec.Epub.Parse.Metadata
 import Codec.Epub.Parse.Package
+import Codec.Epub.Parse.Spine
 
 
 {- | Extract the ePub OPF Package data contained in the supplied 
@@ -66,3 +69,8 @@ getMetadata = performParse metadataP
 getPackage :: (MonadIO m, MonadError String m) =>
    String -> m Package
 getPackage = performParse packageP
+
+
+getSpine :: (MonadIO m, MonadError String m) =>
+   String -> m Spine
+getSpine = performParse spineP
