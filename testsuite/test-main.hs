@@ -9,6 +9,7 @@ import qualified Archive
 --import qualified OpfParse
 import qualified ParseMetadata
 import qualified ParsePackage
+import qualified ParseManifest
 
 
 main :: IO ()
@@ -29,7 +30,8 @@ testsPassed (Counts _ _ e f) = (e == 0) && (f == 0)
 tests :: Test
 tests = TestList
    [ Archive.tests
-   , ParseMetadata.tests
    , ParsePackage.tests
+   , ParseMetadata.tests
+   , ParseManifest.tests
    -- , OpfParse.tests
    ]
