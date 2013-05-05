@@ -6,9 +6,12 @@
 
 -- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Format.Manifest
+   ( formatManifest
+   )
    where
 
 import Control.Monad.Writer.Lazy
+import Data.Foldable ( toList )
 import Text.Printf
 
 import Codec.Epub.Format.Util
@@ -25,3 +28,8 @@ tellManifest :: MonadWriter (Seq Char) m => [ManifestItem] -> m ()
 tellManifest mas = do
    tellSeq "manifest items:\n"
    mapM_ tellManifestItem mas
+
+
+formatManifest :: [ManifestItem] -> String
+formatManifest mf = toList . execWriter
+   $ tellManifest mf

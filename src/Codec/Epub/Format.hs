@@ -6,10 +6,12 @@
 
 -- | Module for pretty-printing OPF package data
 module Codec.Epub.Format
-   ( formatMetadata
+   ( formatManifest
+   , formatMetadata
    , formatPackage
    )
    where
 
+import Codec.Epub.Format.Manifest
 import Codec.Epub.Format.Metadata
 import Codec.Epub.Format.Package
