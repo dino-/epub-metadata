@@ -9,9 +9,11 @@ module Codec.Epub.Format
    ( formatManifest
    , formatMetadata
    , formatPackage
+   , formatSpine
    )
    where
 
 import Codec.Epub.Format.Manifest
 import Codec.Epub.Format.Metadata
 import Codec.Epub.Format.Package
+import Codec.Epub.Format.Spine

@@ -6,9 +6,12 @@
 
 -- | Module for pretty-printing ePub metadata info
 module Codec.Epub.Format.Spine
+   ( formatSpine
+   )
    where
 
 import Control.Monad.Writer.Lazy
+import Data.Foldable ( toList )
 import Text.Printf
 
 import Codec.Epub.Format.Util
@@ -31,3 +34,8 @@ tellSpine :: MonadWriter (Seq Char) m => Spine -> m ()
 tellSpine (Spine toc itemRefs) = do
    tellSeq $ printf "spine toc: %s, itemrefs:\n" toc
    mapM_ tellSpineItemref itemRefs
+
+
+formatSpine :: Spine -> String
+formatSpine sp = toList . execWriter
+   $ tellSpine sp
