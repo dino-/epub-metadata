@@ -10,7 +10,6 @@ import Control.Monad.Error
 import System.FilePath
 import Test.HUnit
 
-import Codec.Epub.IO
 import Codec.Epub.Data.Metadata
 import Codec.Epub.Parse
 
@@ -20,8 +19,6 @@ tests = TestList
    [ testFull
    , testMinimal
    , testMissingAll
-   , testDamagedZip
-   , testIllegalCharsBeforeDecl
    ]
 
 
@@ -146,46 +143,3 @@ testMissingAll = TestCase $ do
    actual <- runErrorT $ getMetadata xmlString
    let expected = Right emptyMetadata
    assertEqual "missing all" expected actual
-
-
-{- Occasionally epub zip files come along that are damaged in this
-   way. It's not fatal to the UNIX zip utility or to book readers, but had
-   to be specially handled in the Haskell zip-archive library or it causes
-   a fatal exception.
--}
-testDamagedZip :: Test
-testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
-   actual <- runErrorT $ getPkgXmlFromZip $ "testsuite"
-      </> "damagedZipCentralDir.epub"
-   actual @?= Left "Did not find end of central directory signature. Failed reading at byte position 138"
-
-
-{- Found books coming from Barnes & Noble (for their NOOK reader) to
-   contain illegal characters before the XML declaration. This is
-   strictly not allowed by the XML specification. I am very
-   disappointed with Barnes & Noble for selling garbage like this.
--}
-testIllegalCharsBeforeDecl :: Test
-testIllegalCharsBeforeDecl = TestCase $ do
-   xmlString <- readFile $
-      "testsuite" </> "testIllegalCharsBeforeDecl.opf"
-   actual <- runErrorT $ getMetadata xmlString
-   let expected =
-         Right Metadata
-            { metaTitles = [Title Nothing "Foo Bar Baz"]
-            , metaCreators = []
-            , metaContributors = []
-            , metaSubjects = []
-            , metaDescriptions = []
-            , metaPublishers = []
-            , metaDates = []
-            , metaTypes = []
-            , metaFormats = []
-            , metaIds = [Identifier "uuid_id" (Just "uuid") "1122334455"]
-            , metaSources = []
-            , metaLangs = ["en"]
-            , metaRelations = []
-            , metaCoverages = []
-            , metaRights = []
-            }
-   assertEqual "illegal chars before XML declaration" expected actual
