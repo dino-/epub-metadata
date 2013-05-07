@@ -41,6 +41,7 @@ library
                      Codec.Epub.Format.Util
                      Codec.Epub.IO
                      Codec.Epub.Parse
+                     Codec.Epub.Parse.Guide
                      Codec.Epub.Parse.Manifest
                      Codec.Epub.Parse.Metadata
                      Codec.Epub.Parse.Package

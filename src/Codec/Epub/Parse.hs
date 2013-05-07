@@ -7,7 +7,8 @@
 
 -- | Module for extracting the metadata from an ePub file
 module Codec.Epub.Parse
-   ( getManifest
+   ( getGuide
+   , getManifest
    , getMetadata
    , getPackage
    , getSpine
@@ -23,10 +24,12 @@ import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.DOM.TypeDefs
 
 import Codec.Epub.IO
+import Codec.Epub.Data.Guide
 import Codec.Epub.Data.Manifest
 import Codec.Epub.Data.Metadata
 import Codec.Epub.Data.Package
 import Codec.Epub.Data.Spine
+import Codec.Epub.Parse.Guide
 import Codec.Epub.Parse.Manifest
 import Codec.Epub.Parse.Metadata
 import Codec.Epub.Parse.Package
@@ -54,6 +57,11 @@ performParse parser contents = do
       (r : []) -> return r
       _        -> throwError
          "ERROR: FIXME with a better message"
+
+
+getGuide :: (MonadIO m, MonadError String m) =>
+   String -> m [GuideRef]
+getGuide = performParse guideP
 
 
 getManifest :: (MonadIO m, MonadError String m) =>

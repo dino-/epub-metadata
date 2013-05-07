@@ -7,6 +7,7 @@ import Test.HUnit hiding ( counts )
 
 import qualified Archive
 --import qualified OpfParse
+import qualified ParseGuide
 import qualified ParseMetadata
 import qualified ParsePackage
 import qualified ParseManifest
@@ -35,5 +36,6 @@ tests = TestList
    , ParseMetadata.tests
    , ParseManifest.tests
    , ParseSpine.tests
+   , ParseGuide.tests
    -- , OpfParse.tests
    ]
