@@ -47,7 +47,7 @@ testDamagedZip :: Test
 testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
    actual <- runErrorT $ getPkgXmlFromZip $ "testsuite"
       </> "damagedZipCentralDir.epub"
-   actual @?= Left "Did not find end of central directory signature. Failed reading at byte position 138"
+   actual @?= Left "Data.Binary.Get.runGet at position 138: Did not find end of central directory signature"
 
 
 {- Found books coming from Barnes & Noble (for their NOOK reader) to
