@@ -28,7 +28,7 @@ testSeveral = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testFull.opf"
    actual <- runErrorT $ getManifest xmlString
    let expected =
-         Right [ ManifestItem 
+         Right $ Manifest [ ManifestItem 
                   { mfiId = "ncx"
                   , mfiHref = "toc.ncx"
                   , mfiMediaType = "application/x-dtbncx+xml"
@@ -54,5 +54,5 @@ testMissing = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
    actual <- runErrorT $ getManifest xmlString
    let expected =
-         Right []
+         Right $ Manifest []
    assertEqual "missing entirely" expected actual

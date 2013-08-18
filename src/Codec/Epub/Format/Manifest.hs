@@ -30,6 +30,6 @@ tellManifest mas = do
    mapM_ tellManifestItem mas
 
 
-formatManifest :: [ManifestItem] -> String
-formatManifest mf = toList . execWriter
-   $ tellManifest mf
+formatManifest :: Manifest -> String
+formatManifest (Manifest mis) = toList . execWriter
+   $ tellManifest mis

@@ -65,7 +65,7 @@ getGuide = performParse guideP
 
 
 getManifest :: (MonadIO m, MonadError String m) =>
-   String -> m [ManifestItem]
+   String -> m Manifest
 getManifest = performParse manifestP
 
 

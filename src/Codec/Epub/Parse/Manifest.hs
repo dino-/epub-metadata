@@ -29,8 +29,8 @@ manifestItemP= atQTag (opfName "item") >>>
       returnA -< ManifestItem i h m
 
 
-manifestP :: (ArrowXml a) => a (NTree XNode) [ManifestItem]
+manifestP :: (ArrowXml a) => a (NTree XNode) Manifest
 manifestP = atQTag (opfName "manifest") >>>
    proc x -> do     
       l <- listA manifestItemP -< x
-      returnA -< l
+      returnA -< Manifest l

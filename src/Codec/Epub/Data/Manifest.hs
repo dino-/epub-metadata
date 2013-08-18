@@ -10,7 +10,8 @@
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
 module Codec.Epub.Data.Manifest
-   ( ManifestItem (..)
+   ( Manifest (..)
+   , ManifestItem (..)
    )
    where
 
@@ -28,4 +29,8 @@ data ManifestItem = ManifestItem
    , mfiHref :: MFItemHref  -- ^ href attr
    , mfiMediaType :: MFItemMediaType  -- ^ media-type attr
    }
+   deriving (Eq, Show)
+
+
+newtype Manifest = Manifest [ManifestItem]
    deriving (Eq, Show)
