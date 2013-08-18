@@ -2,8 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-{-# LANGUAGE Arrows #-}
-{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE Arrows, FlexibleContexts #-}
 
 -- | Module for extracting the metadata from an ePub file
 module Codec.Epub.Parse
