@@ -29,11 +29,9 @@
       <dc:subject>Fiction</dc:subject>
       <dc:subject>Science Fiction</dc:subject>
       <dc:type>test OPF Package Document</dc:type>
-      <dc:type>an additional type</dc:type>
       <dc:format>ePub publication</dc:format>
       <dc:format>an additional format</dc:format>
       <dc:source>document source</dc:source>
-      <dc:source>an additional source</dc:source>
       <dc:relation>document relation</dc:relation>
       <dc:relation>an additional relation</dc:relation>
       <dc:coverage>coverage information</dc:coverage>

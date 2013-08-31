@@ -32,19 +32,22 @@ testFull = TestCase $ do
    let expected =
          Right Metadata
             { metaTitles =
-               [ Title Nothing "Title Of This Book"
-               , Title (Just "fr") "Titre De Ce Livre"
+               [ Title Nothing "" Nothing "Title Of This Book"
+               , Title (Just "fr") "" Nothing "Titre De Ce Livre"
                ]
             , metaCreators = 
                [ Creator
                   (Just "aut")
                   (Just "Wiggins, Josephine B.")
+                  Nothing
                   "Josephine B. Wiggins"
                , Creator
                   (Just "aut")
                   Nothing
+                  Nothing
                   "Horatio Cromwell"
                , Creator
+                  Nothing
                   Nothing
                   Nothing
                   "Natalia Jenkins"
@@ -53,10 +56,13 @@ testFull = TestCase $ do
                [ Creator 
                   (Just "ill") 
                   (Just "Knickerbocker, Reginald Q.") 
+                  Nothing
                   "Reginald Q. Knickerbocker"
                , Creator 
                   (Just "edt") 
-                  Nothing "Beverly Abercrombie"
+                  Nothing
+                  Nothing
+                  "Beverly Abercrombie"
                ]
             , metaSubjects = ["Fiction","Science Fiction"]
             , metaDescriptions =
@@ -73,10 +79,7 @@ testFull = TestCase $ do
                , Date (Just "modified") "2010-05-08T10:20:57"
                , Date Nothing "2009"
                ]
-            , metaTypes =
-               [ "test OPF Package Document"
-               , "an additional type"
-               ]
+            , metaType = Just "test OPF Package Document"
             , metaFormats =
                [ "ePub publication"
                , "an additional format"
@@ -85,10 +88,7 @@ testFull = TestCase $ do
                [ Identifier "isbn" (Just "ISBN") "1-82057-821-9"
                , Identifier "other" Nothing "1386506873266"
                ]
-            , metaSources =
-               [ "document source"
-               , "an additional source"
-               ]
+            , metaSource = Just "document source"
             , metaLangs = ["en-US", "en-UK"]
             , metaRelations =
                [ "document relation"
@@ -115,17 +115,17 @@ testMinimal = TestCase $ do
    actual <- runErrorT $ getMetadata xmlString
    let expected = 
          Right Metadata 
-            { metaTitles = [Title Nothing "Title Of This Book"]
+            { metaTitles = [Title Nothing "" Nothing "Title Of This Book"]
             , metaCreators = []
             , metaContributors = []
             , metaSubjects = []
             , metaDescriptions = []
             , metaPublishers = []
             , metaDates = []
-            , metaTypes = []
+            , metaType = Nothing
             , metaFormats = []
             , metaIds = [Identifier "isbn" (Just "ISBN") "1-82057-821-9"]
-            , metaSources = []
+            , metaSource = Nothing
             , metaLangs = ["en-us"]
             , metaRelations = []
             , metaCoverages = []

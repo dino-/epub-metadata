@@ -9,6 +9,7 @@
 module Codec.Epub.Parse.Util
    ( atQTag
    , dcName
+   , mbQTagText
    , mbGetAttrValue
    , mbGetQAttrValue
    , notNullA
@@ -42,16 +43,12 @@ notNullA :: (ArrowList a) => a [b] [b]
 notNullA = isA $ not . null
 
 
-{- Not used at this time, we don't have any single but optional
-   tags any longer
-
 mbQTagText :: (ArrowXml a) => QName -> a (NTree XNode) (Maybe String)
 mbQTagText tag =
    ( atQTag tag >>>
      text >>> notNullA >>> arr Just )
    `orElse`
    (constA Nothing)
--}
 
 
 mbGetAttrValue :: (ArrowXml a) =>

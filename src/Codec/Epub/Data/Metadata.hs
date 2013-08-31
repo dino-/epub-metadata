@@ -10,7 +10,8 @@
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
 -}
 module Codec.Epub.Data.Metadata
-   ( Creator (..)
+   ( Refinement (..)
+   , Creator (..)
    , Date (..)
    , Description (..)
    , Identifier (..)
@@ -20,20 +21,47 @@ module Codec.Epub.Data.Metadata
    )
    where
 
+import Data.List ( find )
 
-{- | package\/metadata\/dc:creator tag, opf:role attr, opf:file-as attr,
-   content
+
+{- | Refinements represent meta tags within the metadata section
+     that refine other tags. These are used during the parsing phase
+     and are discarded as their information is slotted into the
+     data they refine (the types below like Creator, Title, etc..)
 -}
-data Creator = Creator (Maybe String) (Maybe String) String
+data Refinement = Refinement
+   { refId :: String
+   , refProp :: String
+   , refText :: String
+   }
+
+
+findByIdProp :: String -> String -> [Refinement] -> Maybe String
+findByIdProp i prop = maybe Nothing (Just . refText) .
+   find (\r -> refId r == i && refProp r == prop)
+
+
+{- | package\/metadata\/dc:creator or package\/metadata\/dc:contributor
+   tags
+-}
+data Creator = Creator
+   { creatorRole :: Maybe String
+   , creatorFileAs :: Maybe String
+   , creatorSeq :: Maybe Int
+   , creatorText :: String
+   }
    deriving (Eq, Show)
+
 
 -- | package\/metadata\/dc:date tag, opf:event attr, content
 data Date = Date (Maybe String) String
    deriving (Eq, Show)
 
+
 -- | package\/metadata\/dc:description tag, xml:lang attr, content
 data Description = Description (Maybe String) String
    deriving (Eq, Show)
+
 
 {- | package\/metadata\/dc:identifier tag, id attr, opf:scheme attr,
    content
@@ -41,46 +69,81 @@ data Description = Description (Maybe String) String
 data Identifier = Identifier String (Maybe String) String
    deriving (Eq, Show)
 
--- | package\/metadata\/dc:title tag, xml:lang attr, content
-data Title = Title (Maybe String) String
+
+-- | package\/metadata\/dc:title tag
+data Title = Title
+   { titleLang :: Maybe String
+   , titleType :: String
+   , titleSeq :: Maybe Int
+   , titleText :: String
+   }
    deriving (Eq, Show)
+
+
+{- For EPUB3, some information that is part of a title tag may be
+   present in one or more meta tags. This function will merge these
+   "refinements" into a list of Title data structures
+-}
+refineTitles :: [Refinement] -> [(String, Title)] -> [Title]
+refineTitles refinements idTs = setMain . assignSeqs . assignTypes $ idTs
+   where
+      assignTypes = map (\(i, t) ->
+         let newTy = maybe "" id $
+               findByIdProp i "title-type" refinements
+         in (i, t { titleType = newTy })
+         )
+
+      assignSeqs = map (\(i, t) ->
+         let sq = maybe Nothing (Just . read) $
+               findByIdProp i "display-seq" refinements
+         in t { titleSeq = sq }
+         )
+
+      setMain ts = if mainExists ts
+         then ts
+         else (head ts) { titleType = "main" } : tail ts
+
+         where mainExists = any (\t -> titleType t == "main")
+
 
 -- | package\/metadata tag
 data Metadata = Metadata
-   { metaTitles :: [Title]  -- ^ at least one required
-   , metaCreators :: [Creator]
-   , metaContributors :: [Creator]
-   , metaSubjects :: [String]  -- ^ dc:subject tags
-   , metaDescriptions :: [Description]
-   , metaPublishers :: [String]  -- ^ dc:publisher tags
-   , metaDates :: [Date]
-   , metaTypes :: [String]  -- ^ dc:type tags
-   , metaFormats :: [String]  -- ^ dc:format tags
-   , metaIds :: [Identifier]  -- ^ at least one required
-   , metaSources :: [String]  -- ^ dc:source tags
+   { metaIds :: [Identifier]  -- ^ at least one required
+   , metaTitles :: [Title]  -- ^ at least one required
    , metaLangs :: [String]  -- ^ dc:language tags, at least one required
-   , metaRelations :: [String]  -- ^ dc:relation tags
+   , metaContributors :: [Creator]
+   , metaCreators :: [Creator]
+   , metaDates :: [Date]
+   -- , metaModified :: Maybe String
+   , metaSource :: Maybe String  -- ^ dc:source tags
+   , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags
+   , metaDescriptions :: [Description]
+   , metaFormats :: [String]  -- ^ dc:format tags
+   , metaPublishers :: [String]  -- ^ dc:publisher tags
+   , metaRelations :: [String]  -- ^ dc:relation tags
    , metaRights :: [String]  -- ^ dc:rights tags
+   , metaSubjects :: [String]  -- ^ dc:subject tags
    }
    deriving (Eq, Show)
 
 -- | Note: This isn't valid as-is, some required values are empty lists!
 emptyMetadata :: Metadata
 emptyMetadata = Metadata
-   { metaTitles = []  -- one required
-   , metaCreators = []
-   , metaContributors = []
-   , metaSubjects = []
-   , metaDescriptions = []
-   , metaPublishers = []
-   , metaDates = []
-   , metaTypes = []
-   , metaFormats = []
-   , metaIds = []  -- one required
-   , metaSources = []
+   { metaIds = []  -- one required
+   , metaTitles = []  -- one required
    , metaLangs = []  -- one required
-   , metaRelations = []
+   , metaContributors = []
+   , metaCreators = []
+   , metaDates = []
+   -- , metaModified = Nothing
+   , metaSource = Nothing
+   , metaType = Nothing
    , metaCoverages = []
+   , metaDescriptions = []
+   , metaFormats = []
+   , metaPublishers = []
+   , metaRelations = []
    , metaRights = []
+   , metaSubjects = []
    }

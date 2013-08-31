@@ -19,30 +19,34 @@ import Codec.Epub.Data.Metadata
 
 
 tellTitle :: MonadWriter (Seq Char) m => Title -> m ()
-tellTitle (Title Nothing title) = tellSeq $ printf "title: %s\n" title
-tellTitle (Title lang title) =
-   tellSeq $ printf "title\n%s%s" (formatSubline "lang" lang)
-      (formatSubline "text" (Just title))
+tellTitle title =
+   tellSeq $ printf "title\n%s%s%s%s"
+      (formatSubline "text" (Just $ titleText title))
+      (formatSubline "lang" (titleLang title))
+      (formatSubline "title-type" (Just $ titleType title))
+      (formatSubline "display-seq" (show `fmap` titleSeq title))
 
 
 tellCreator :: MonadWriter (Seq Char) m => Creator -> m ()
-tellCreator (Creator Nothing Nothing creator) =
+tellCreator (Creator Nothing Nothing Nothing creator) =
    tellSeq $ printf "creator: %s\n" creator
-tellCreator (Creator role fileAs creator) =
-   tellSeq $ printf "creator\n%s%s%s"
+tellCreator (Creator role fileAs dseq creator) =
+   tellSeq $ printf "creator\n%s%s%s%s"
+      (formatSubline "text" (Just creator))
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
-      (formatSubline "text" (Just creator))
+      (formatSubline "display-seq" (show `fmap` dseq))
 
 
 tellContributor :: MonadWriter (Seq Char) m => Creator -> m ()
-tellContributor (Creator Nothing Nothing contributor) =
+tellContributor (Creator Nothing Nothing Nothing contributor) =
    tellSeq $ printf "contributor: %s\n" contributor
-tellContributor (Creator role fileAs contributor) =
-   tellSeq $ printf "contributor\n%s%s%s"
+tellContributor (Creator role fileAs dseq contributor) =
+   tellSeq $ printf "contributor\n%s%s%s%s"
+      (formatSubline "text" (Just contributor))
       (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
-      (formatSubline "text" (Just contributor))
+      (formatSubline "display-seq" (show `fmap` dseq))
 
 
 tellDate :: MonadWriter (Seq Char) m => Date -> m ()
@@ -75,10 +79,14 @@ tellSimpleString :: MonadWriter (Seq Char) m => String -> String -> m ()
 tellSimpleString label = tellSeq . (printf "%s: %s\n" label)
 
 
+tellSimpleMbString :: MonadWriter (Seq Char) m => String
+   -> Maybe String -> m ()
+tellSimpleMbString _     Nothing  = return ()
+tellSimpleMbString label (Just s) = tellSimpleString label s
+
+
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
-tellMetadata (Metadata titles creators contributors subjects desc 
-      publisher dates mType format ids source langs relation 
-      coverage rights) = do
+tellMetadata (Metadata ids titles langs contributors creators dates source mType coverage desc format publisher relation rights subjects) = do
    mapM_ tellTitle titles
    mapM_ tellDescription desc
    mapM_ tellDate dates
@@ -88,9 +96,9 @@ tellMetadata (Metadata titles creators contributors subjects desc
    mapM_ tellId ids
    mapM_ (tellSimpleString "language") langs
    mapM_ (tellSimpleString "subject") subjects
-   mapM_ (tellSimpleString "type") mType
+   tellSimpleMbString "type" mType
    mapM_ (tellSimpleString "format") format
-   mapM_ (tellSimpleString "source") source
+   tellSimpleMbString "source" source
    mapM_ (tellSimpleString "relation") relation
    mapM_ (tellSimpleString "coverage") coverage
    mapM_ (tellSimpleString "rights") rights

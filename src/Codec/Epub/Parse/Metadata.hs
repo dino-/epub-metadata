@@ -26,7 +26,7 @@ titleP = atQTag (dcName "title") >>>
    proc x -> do
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
-      returnA -< Title l c
+      returnA -< Title l "" Nothing c
 
 
 {- Since creators and contributors have the same exact XML structure,
@@ -36,7 +36,8 @@ creatorP :: (ArrowXml a) => String -> a (NTree XNode) Creator
 creatorP tag = atQTag (dcName tag) >>> ( unwrapArrow $ Creator
    <$> (WrapArrow $ mbGetQAttrValue (opfName "role"))
    <*> (WrapArrow $ mbGetQAttrValue (opfName "file-as"))
-   <*> (WrapArrow $ text)
+   <*> (WrapArrow $ constA Nothing)  -- meta display-seq goes here, fill in later
+   <*> (WrapArrow text)
    )
 
 
@@ -64,8 +65,8 @@ dateP = atQTag (dcName "date") >>>
       returnA -< Date e c
 
 
-typeP :: (ArrowXml a) => a (NTree XNode) String
-typeP = atQTag (dcName "type") >>> text
+typeP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+typeP = mbQTagText $ dcName "type"
 
 
 formatP :: (ArrowXml a) => a (NTree XNode) String
@@ -82,8 +83,8 @@ idP = atQTag (dcName "identifier") >>>
       returnA -< Identifier i s c
 
 
-sourceP :: (ArrowXml a) => a (NTree XNode) String
-sourceP = atQTag (dcName "source") >>> text
+sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+sourceP = mbQTagText $ dcName "source"
 
 
 langP :: (ArrowXml a) => a (NTree XNode) String
@@ -104,19 +105,19 @@ rightsP = atQTag (dcName "rights") >>> text
 
 metadataP :: (ArrowXml a) => a (NTree XNode) Metadata
 metadataP = atQTag (opfName "metadata") >>> ( unwrapArrow $ Metadata
-   <$> (WrapArrow $ listA titleP)
-   <*> (WrapArrow $ listA $ creatorP "creator")
-   <*> (WrapArrow $ listA $ creatorP "contributor")
-   <*> (WrapArrow $ listA subjectP)
-   <*> (WrapArrow $ listA descriptionP)
-   <*> (WrapArrow $ listA publisherP)
-   <*> (WrapArrow $ listA dateP)
-   <*> (WrapArrow $ listA typeP)
-   <*> (WrapArrow $ listA formatP)
-   <*> (WrapArrow $ listA idP)
-   <*> (WrapArrow $ listA sourceP)
+   <$> (WrapArrow $ listA idP)
+   <*> (WrapArrow $ listA titleP)
    <*> (WrapArrow $ listA langP)
-   <*> (WrapArrow $ listA relationP)
+   <*> (WrapArrow $ listA $ creatorP "contributor")
+   <*> (WrapArrow $ listA $ creatorP "creator")
+   <*> (WrapArrow $ listA dateP)
+   <*> (WrapArrow sourceP)
+   <*> (WrapArrow typeP)
    <*> (WrapArrow $ listA coverageP)
+   <*> (WrapArrow $ listA descriptionP)
+   <*> (WrapArrow $ listA formatP)
+   <*> (WrapArrow $ listA publisherP)
+   <*> (WrapArrow $ listA relationP)
    <*> (WrapArrow $ listA rightsP)
+   <*> (WrapArrow $ listA subjectP)
    )
