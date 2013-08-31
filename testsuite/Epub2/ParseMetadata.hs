@@ -2,7 +2,7 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-module ParseMetadata
+module Epub2.ParseMetadata
    ( tests )
    where
 
@@ -27,7 +27,7 @@ tests = TestList
 -}
 testFull :: Test
 testFull = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testFull.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
    actual <- runErrorT $ getMetadata xmlString
    let expected =
          Right Metadata
@@ -111,7 +111,7 @@ testFull = TestCase $ do
 -}
 testMinimal :: Test
 testMinimal = TestCase $ do
-   xmlString <- liftIO $ readFile $ "testsuite" </> "testMinimal.opf"
+   xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
    actual <- runErrorT $ getMetadata xmlString
    let expected = 
          Right Metadata 
@@ -139,7 +139,7 @@ testMinimal = TestCase $ do
 -}
 testMissingAll :: Test
 testMissingAll = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
    actual <- runErrorT $ getMetadata xmlString
    let expected = Right emptyMetadata
    assertEqual "missing all" expected actual

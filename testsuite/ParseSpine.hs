@@ -26,7 +26,7 @@ tests = TestList
 -}
 testFull :: Test
 testFull = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testFull.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
    actual <- runErrorT $ getSpine xmlString
    let expected =
          Right Spine
@@ -43,7 +43,7 @@ testFull = TestCase $ do
 -}
 testMinimal :: Test
 testMinimal = TestCase $ do
-   xmlString <- liftIO $ readFile $ "testsuite" </> "testMinimal.opf"
+   xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
    actual <- runErrorT $ getSpine xmlString
    let expected = Right Spine {spineToc = "ncx", spineItemrefs = []}
    assertEqual "minimal" expected actual
@@ -53,7 +53,7 @@ testMinimal = TestCase $ do
 -}
 testMissingAll :: Test
 testMissingAll = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
    actual <- runErrorT $ getSpine xmlString
    let expected = Right Spine {spineToc = "", spineItemrefs = []}
    assertEqual "missing all" expected actual

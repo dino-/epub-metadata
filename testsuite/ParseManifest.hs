@@ -25,7 +25,7 @@ tests = TestList
 -}
 testSeveral :: Test
 testSeveral = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testFull.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
    actual <- runErrorT $ getManifest xmlString
    let expected =
          Right $ Manifest [ ManifestItem 
@@ -51,7 +51,7 @@ testSeveral = TestCase $ do
 -}
 testMissing :: Test
 testMissing = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "testMissingAll.opf"
+   xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
    actual <- runErrorT $ getManifest xmlString
    let expected =
          Right $ Manifest []
