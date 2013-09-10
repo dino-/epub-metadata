@@ -1,31 +1,13 @@
 - Add new field for modified, which is that special meta tag (see doc/dev/notes)
 
-- Rename tests to reflect epub2
-
-- Unit tests for new fields in Metadata
-
-- Work on parsing without any meta tag pass to start with
-
-- Parsing epub3
-
-- Refine for all metas, not just title
-
 - Format ordering
-
-- Figure out a common data structure that can hold metadata for both epub2 and 3
 
 - Need more API docs. Detail the differences between epub2 and epub3 in the data structures, where the fields come from and which are only one or the other.
 
-- Implement epub3 metadata parsing as a two-pass system. Gather up meta tags first into a map keyed by the id they refer to. During pass 2, look up relevant metadata for packing into the data structures.
-
-- Separate sub-parts Metadata, Manifest, Spine and Guide from Package. Make these all basically equally-independent things that can be parsed for, as much as is possible.
+- Need to assess the API documentation from the top, add a whole lot more of it, and provide very clear examples of how to use this
 
 - Separate some of the Metadata sub-types into their own modules, starting with Title. We've got some utility functions now for this, will help to clean it up some more.
 
 - Better errors on parse failure, this will emerge along with more unit testing
 
 - More unit testing
-
-- Bring the remaining sections into the new code, parsing, testing and formatting. For Manifest, Spine and Guide
-
-- Need to assess the API documentation from the top, add a whole lot more of it, and provide very clear examples of how to use this

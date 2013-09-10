@@ -21,24 +21,26 @@ import Codec.Epub.Data.Metadata
 import Codec.Epub.Parse.Util
 
 
-titleP :: (ArrowXml a) => a (NTree XNode) Title
+titleP :: (ArrowXml a) => a (NTree XNode) (String, Title)
 titleP = atQTag (dcName "title") >>>
    proc x -> do
+      i <- mbGetAttrValue "id" -< x
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
-      returnA -< Title l "" Nothing c
+      returnA -< ((maybe "" id i), Title l "" Nothing c)
 
 
 {- Since creators and contributors have the same exact XML structure,
    this arrow is used to get either of them
 -}
-creatorP :: (ArrowXml a) => String -> a (NTree XNode) Creator
-creatorP tag = atQTag (dcName tag) >>> ( unwrapArrow $ Creator
-   <$> (WrapArrow $ mbGetQAttrValue (opfName "role"))
-   <*> (WrapArrow $ mbGetQAttrValue (opfName "file-as"))
-   <*> (WrapArrow $ constA Nothing)  -- meta display-seq goes here, fill in later
-   <*> (WrapArrow text)
-   )
+creatorP :: (ArrowXml a) => String -> a (NTree XNode) (String, Creator)
+creatorP tag = atQTag (dcName tag) >>>
+   proc x -> do
+      i <- mbGetAttrValue "id" -< x
+      r <- mbGetQAttrValue (opfName "role") -< x
+      f <- mbGetQAttrValue (opfName "file-as") -< x
+      t <- text -< x
+      returnA -< ((maybe "" id i), Creator r f Nothing t)
 
 
 subjectP :: (ArrowXml a) => a (NTree XNode) String
@@ -74,13 +76,12 @@ formatP = atQTag (dcName "format") >>> text
 
 
 idP :: (ArrowXml a) => a (NTree XNode) Identifier
-idP = atQTag (dcName "identifier") >>>
-   proc x -> do
-      mbi <- mbGetAttrValue "id" -< x
-      s <- mbGetQAttrValue (opfName "scheme") -< x
-      c <- text -< x
-      let i = maybe "[WARNING: missing required id attribute]" id mbi
-      returnA -< Identifier i s c
+idP = atQTag (dcName "identifier") >>> ( unwrapArrow $ Identifier
+   <$> (WrapArrow $ mbGetAttrValue "id")
+   <*> (WrapArrow $ constA Nothing)
+   <*> (WrapArrow $ mbGetQAttrValue (opfName "scheme"))  -- An attr in epub2
+   <*> (WrapArrow $ text)
+   )
 
 
 sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
@@ -103,21 +104,24 @@ rightsP :: (ArrowXml a) => a (NTree XNode) String
 rightsP = atQTag (dcName "rights") >>> text
 
 
-metadataP :: (ArrowXml a) => a (NTree XNode) Metadata
-metadataP = atQTag (opfName "metadata") >>> ( unwrapArrow $ Metadata
-   <$> (WrapArrow $ listA idP)
-   <*> (WrapArrow $ listA titleP)
-   <*> (WrapArrow $ listA langP)
-   <*> (WrapArrow $ listA $ creatorP "contributor")
-   <*> (WrapArrow $ listA $ creatorP "creator")
-   <*> (WrapArrow $ listA dateP)
-   <*> (WrapArrow sourceP)
-   <*> (WrapArrow typeP)
-   <*> (WrapArrow $ listA coverageP)
-   <*> (WrapArrow $ listA descriptionP)
-   <*> (WrapArrow $ listA formatP)
-   <*> (WrapArrow $ listA publisherP)
-   <*> (WrapArrow $ listA relationP)
-   <*> (WrapArrow $ listA rightsP)
-   <*> (WrapArrow $ listA subjectP)
-   )
+metadataP :: (ArrowXml a) => [Refinement] -> a (NTree XNode) Metadata
+metadataP refinements =
+   atQTag (opfName "metadata") >>> ( unwrapArrow $ Metadata
+      <$> (WrapArrow $ listA $ idP >>. map (refineIdentifier refinements))
+      <*> (WrapArrow $ listA $ titleP >>. map (refineTitle refinements))
+      <*> (WrapArrow $ listA langP)
+      <*> (WrapArrow $ listA $ creatorP "contributor" >>.
+         map (refineCreator refinements))
+      <*> (WrapArrow $ listA $ creatorP "creator" >>.
+         map (refineCreator refinements))
+      <*> (WrapArrow $ listA dateP)
+      <*> (WrapArrow sourceP)
+      <*> (WrapArrow typeP)
+      <*> (WrapArrow $ listA coverageP)
+      <*> (WrapArrow $ listA descriptionP)
+      <*> (WrapArrow $ listA formatP)
+      <*> (WrapArrow $ listA publisherP)
+      <*> (WrapArrow $ listA relationP)
+      <*> (WrapArrow $ listA rightsP)
+      <*> (WrapArrow $ listA subjectP)
+      )

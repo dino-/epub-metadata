@@ -8,6 +8,7 @@ import Test.HUnit hiding ( counts )
 import qualified Archive
 import qualified Epub2.ParseGuide
 import qualified Epub2.ParseMetadata
+import qualified Epub3.ParseMetadata
 import qualified ParsePackage
 import qualified ParseManifest
 import qualified ParseSpine
@@ -33,6 +34,7 @@ tests = TestList
    [ Archive.tests
    , Epub2.ParseGuide.tests
    , Epub2.ParseMetadata.tests
+   , Epub3.ParseMetadata.tests
    , ParsePackage.tests
    , ParseManifest.tests
    , ParseSpine.tests

@@ -16,9 +16,11 @@ tested-with:         GHC >= 7.6.2
 extra-source-files:  testsuite/*.epub,
                      testsuite/*.hs,
                      testsuite/*.opf,
-                     testsuite/bookfiles/mimetype,
                      testsuite/bookfiles/foo,
-                     testsuite/bookfiles/content/bar
+                     testsuite/bookfiles/mimetype,
+                     testsuite/bookfiles/content/bar,
+                     testsuite/Epub2/*.hs,
+                     testsuite/Epub3/*.hs
 
 source-repository    head
    type:             darcs
@@ -47,8 +49,14 @@ library
                      Codec.Epub.Parse.Package
                      Codec.Epub.Parse.Spine
                      Codec.Epub.Parse.Util
-   build-depends:    base >= 3 && < 5, bytestring, containers,
-                     directory, filepath, hxt >= 9, mtl, regex-compat,
+   build-depends:    base >= 3 && < 5,
+                     bytestring,
+                     containers,
+                     directory,
+                     filepath,
+                     hxt >= 9,
+                     mtl,
+                     regex-compat,
                      zip-archive
    hs-source-dirs:   src
    ghc-options:      -Wall
@@ -56,7 +64,14 @@ library
 test-suite           test-epub-metadata
    type:             exitcode-stdio-1.0
    main-is:          test-main.hs
-   build-depends:    base >= 3 && < 5, bytestring, directory, filepath,
-                     HUnit, hxt >= 9, mtl, regex-compat, zip-archive
+   build-depends:    base >= 3 && < 5,
+                     bytestring,
+                     directory,
+                     filepath,
+                     HUnit,
+                     hxt >= 9,
+                     mtl,
+                     regex-compat,
+                     zip-archive
    hs-source-dirs:   src testsuite
    ghc-options:      -Wall

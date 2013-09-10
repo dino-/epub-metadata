@@ -85,8 +85,8 @@ testFull = TestCase $ do
                , "an additional format"
                ]
             , metaIds = 
-               [ Identifier "isbn" (Just "ISBN") "1-82057-821-9"
-               , Identifier "other" Nothing "1386506873266"
+               [ Identifier (Just "isbn") Nothing (Just "ISBN") "1-82057-821-9"
+               , Identifier (Just "other") Nothing Nothing "1386506873266"
                ]
             , metaSource = Just "document source"
             , metaLangs = ["en-US", "en-UK"]
@@ -103,7 +103,7 @@ testFull = TestCase $ do
                , "an additional rights"
                ]
             }
-   assertEqual "very full" expected actual
+   assertEqual "epub2 - very full" expected actual
 
 
 {- Test the absolute minimum set of fields allowed while remaining 
@@ -124,7 +124,8 @@ testMinimal = TestCase $ do
             , metaDates = []
             , metaType = Nothing
             , metaFormats = []
-            , metaIds = [Identifier "isbn" (Just "ISBN") "1-82057-821-9"]
+            , metaIds = [Identifier (Just "isbn") Nothing
+               (Just "ISBN") "1-82057-821-9"]
             , metaSource = Nothing
             , metaLangs = ["en-us"]
             , metaRelations = []

@@ -18,9 +18,13 @@ module Codec.Epub.Data.Metadata
    , Metadata (..)
    , Title (..)
    , emptyMetadata
+   , refineCreator
+   , refineIdentifier
+   , refineTitle
    )
    where
 
+import Control.Monad ( mplus )
 import Data.List ( find )
 
 
@@ -30,15 +34,15 @@ import Data.List ( find )
      data they refine (the types below like Creator, Title, etc..)
 -}
 data Refinement = Refinement
-   { refId :: String
-   , refProp :: String
-   , refText :: String
+   { refId :: String  -- ^ id attribute
+   , refProp :: String  -- ^ property attribute
+   , refScheme :: String  -- ^ scheme attribute
+   , refText :: String  -- ^ content
    }
 
 
-findByIdProp :: String -> String -> [Refinement] -> Maybe String
-findByIdProp i prop = maybe Nothing (Just . refText) .
-   find (\r -> refId r == i && refProp r == prop)
+findByIdProp :: String -> String -> [Refinement] -> Maybe Refinement
+findByIdProp i prop = find (\r -> refId r == i && refProp r == prop)
 
 
 {- | package\/metadata\/dc:creator or package\/metadata\/dc:contributor
@@ -53,6 +57,29 @@ data Creator = Creator
    deriving (Eq, Show)
 
 
+refineCreator :: [Refinement] -> (String, Creator) -> Creator
+refineCreator refinements (elid, creator) =
+   assignSeq . assignFileAs . assignRole $ creator
+
+   where
+      assignRole creator' =
+         let existingRole = creatorRole creator'
+             metaRole = maybe Nothing (Just . refText) $
+               findByIdProp elid "role" refinements
+         in creator' { creatorRole = existingRole `mplus` metaRole }
+
+      assignFileAs creator' =
+         let existingFileAs = creatorFileAs creator'
+             metaFileAs = maybe Nothing (Just . refText) $
+               findByIdProp elid "file-as" refinements
+         in creator' { creatorFileAs = existingFileAs `mplus` metaFileAs }
+
+      assignSeq creator' =
+         let sq = maybe Nothing (Just . read . refText) $
+               findByIdProp elid "display-seq" refinements
+         in creator' { creatorSeq = sq }
+
+
 -- | package\/metadata\/dc:date tag, opf:event attr, content
 data Date = Date (Maybe String) String
    deriving (Eq, Show)
@@ -63,47 +90,55 @@ data Description = Description (Maybe String) String
    deriving (Eq, Show)
 
 
-{- | package\/metadata\/dc:identifier tag, id attr, opf:scheme attr,
-   content
--}
-data Identifier = Identifier String (Maybe String) String
+-- | package\/metadata\/dc:identifier tag
+data Identifier = Identifier
+   { idId :: Maybe String  -- ^ id attribute
+   , idType :: Maybe String  -- ^ identifier-type property from meta tag
+   , idScheme :: Maybe String  -- ^ scheme from attribute or meta tag
+   , idText :: String  -- ^ identifier text
+   }
    deriving (Eq, Show)
+
+
+refineIdentifier :: [Refinement] -> Identifier -> Identifier
+refineIdentifier refinements ident = assignScheme . assignType $ ident
+   where
+      meta = findByIdProp (maybe "" id $ idId ident)
+         "identifier-type" refinements
+
+      assignType ident' = ident' { idType = refText `fmap` meta }
+
+      assignScheme ident' =
+         let existingScheme = idScheme ident'
+         in ident' { idScheme = existingScheme `mplus`
+               (refScheme `fmap` meta) }
 
 
 -- | package\/metadata\/dc:title tag
 data Title = Title
-   { titleLang :: Maybe String
-   , titleType :: String
-   , titleSeq :: Maybe Int
-   , titleText :: String
+   { titleLang :: Maybe String  -- ^ lang attributed
+   , titleType :: String  -- ^ title-type property from meta tag
+   , titleSeq :: Maybe Int  -- ^ display-sequence property from meta
+   , titleText :: String  -- ^ title text
    }
    deriving (Eq, Show)
 
 
 {- For EPUB3, some information that is part of a title tag may be
-   present in one or more meta tags. This function will merge these
-   "refinements" into a list of Title data structures
+   present in one or more meta tags. This function will merge any 
+   relevent "refinements" into a Title data structure
 -}
-refineTitles :: [Refinement] -> [(String, Title)] -> [Title]
-refineTitles refinements idTs = setMain . assignSeqs . assignTypes $ idTs
+refineTitle :: [Refinement] -> (String, Title) -> Title
+refineTitle refinements (elid, title) = assignSeq . assignType $ title
    where
-      assignTypes = map (\(i, t) ->
-         let newTy = maybe "" id $
-               findByIdProp i "title-type" refinements
-         in (i, t { titleType = newTy })
-         )
+      assignType title' =
+         let newTy = maybe "" refText $ findByIdProp elid "title-type" refinements
+         in title' { titleType = newTy }
 
-      assignSeqs = map (\(i, t) ->
-         let sq = maybe Nothing (Just . read) $
-               findByIdProp i "display-seq" refinements
-         in t { titleSeq = sq }
-         )
-
-      setMain ts = if mainExists ts
-         then ts
-         else (head ts) { titleType = "main" } : tail ts
-
-         where mainExists = any (\t -> titleType t == "main")
+      assignSeq title' =
+         let sq = maybe Nothing (Just . read . refText) $
+               findByIdProp elid "display-seq" refinements
+         in title' { titleSeq = sq }
 
 
 -- | package\/metadata tag

@@ -33,8 +33,8 @@ tellCreator (Creator Nothing Nothing Nothing creator) =
 tellCreator (Creator role fileAs dseq creator) =
    tellSeq $ printf "creator\n%s%s%s%s"
       (formatSubline "text" (Just creator))
-      (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
+      (formatSubline "role" role)
       (formatSubline "display-seq" (show `fmap` dseq))
 
 
@@ -44,8 +44,8 @@ tellContributor (Creator Nothing Nothing Nothing contributor) =
 tellContributor (Creator role fileAs dseq contributor) =
    tellSeq $ printf "contributor\n%s%s%s%s"
       (formatSubline "text" (Just contributor))
-      (formatSubline "role" role)
       (formatSubline "file-as" fileAs)
+      (formatSubline "role" role)
       (formatSubline "display-seq" (show `fmap` dseq))
 
 
@@ -59,11 +59,12 @@ tellDate (Date event date) =
 
 
 tellId :: MonadWriter (Seq Char) m => Identifier -> m ()
-tellId (Identifier idVal scheme content) =
-   tellSeq $ printf "identifier\n%s%s%s"
-      (formatSubline "id" (Just idVal))
-      (formatSubline "scheme" scheme)
-      (formatSubline "text" (Just content))
+tellId ident =
+   tellSeq $ printf "identifier\n%s%s%s%s"
+      (formatSubline "id" (idId ident))
+      (formatSubline "identifier-type" (idType ident))
+      (formatSubline "scheme" (idScheme ident))
+      (formatSubline "text" (Just . idText $ ident))
 
 
 tellDescription :: MonadWriter (Seq Char) m => Description -> m ()

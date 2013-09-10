@@ -32,6 +32,7 @@ import Codec.Epub.Parse.Guide
 import Codec.Epub.Parse.Manifest
 import Codec.Epub.Parse.Metadata
 import Codec.Epub.Parse.Package
+import Codec.Epub.Parse.Refinements
 import Codec.Epub.Parse.Spine
 
 
@@ -68,9 +69,18 @@ getManifest :: (MonadIO m, MonadError String m) =>
 getManifest = performParse manifestP
 
 
+{- | Parsing the metadata is a two-pass process
+   First we need to parse the meta tags only, referred to in this
+   code as 'refinements'
+   Second we parse the metadata tags themselves, passing in the
+   refinements so their info can be merged during parse
+-}
 getMetadata :: (MonadIO m, MonadError String m) =>
    String -> m Metadata
-getMetadata = performParse metadataP
+getMetadata opfContents = do
+   refinements <- performParse refinementsP opfContents
+   rawMd <- performParse (metadataP refinements) opfContents
+   return rawMd
 
 
 getPackage :: (MonadIO m, MonadError String m) =>
