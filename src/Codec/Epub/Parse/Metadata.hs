@@ -21,6 +21,15 @@ import Codec.Epub.Data.Metadata
 import Codec.Epub.Parse.Util
 
 
+idP :: (ArrowXml a) => a (NTree XNode) Identifier
+idP = atQTag (dcName "identifier") >>> ( unwrapArrow $ Identifier
+   <$> (WrapArrow $ mbGetAttrValue "id")
+   <*> (WrapArrow $ constA Nothing)
+   <*> (WrapArrow $ mbGetQAttrValue (opfName "scheme"))  -- An attr in epub2
+   <*> (WrapArrow $ text)
+   )
+
+
 titleP :: (ArrowXml a) => a (NTree XNode) (String, Title)
 titleP = atQTag (dcName "title") >>>
    proc x -> do
@@ -28,6 +37,10 @@ titleP = atQTag (dcName "title") >>>
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
       returnA -< ((maybe "" id i), Title l "" Nothing c)
+
+
+langP :: (ArrowXml a) => a (NTree XNode) String
+langP = atQTag (dcName "language") >>> text
 
 
 {- Since creators and contributors have the same exact XML structure,
@@ -43,8 +56,24 @@ creatorP tag = atQTag (dcName tag) >>>
       returnA -< ((maybe "" id i), Creator r f Nothing t)
 
 
-subjectP :: (ArrowXml a) => a (NTree XNode) String
-subjectP = atQTag (dcName "subject") >>> text
+dateP :: (ArrowXml a) => a (NTree XNode) Date
+dateP = atQTag (dcName "date") >>>
+   proc x -> do
+      e <- mbGetQAttrValue (opfName "event") -< x
+      c <- text -< x
+      returnA -< Date e c
+
+
+sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+sourceP = mbQTagText $ dcName "source"
+
+
+typeP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
+typeP = mbQTagText $ dcName "type"
+
+
+coverageP :: (ArrowXml a) => a (NTree XNode) String
+coverageP = atQTag (dcName "coverage") >>> text
 
 
 descriptionP :: (ArrowXml a) => a (NTree XNode) Description
@@ -55,53 +84,24 @@ descriptionP = atQTag (dcName "description") >>>
       returnA -< Description l c
 
 
-publisherP :: (ArrowXml a) => a (NTree XNode) String
-publisherP = atQTag (dcName "publisher") >>> text
-
-
-dateP :: (ArrowXml a) => a (NTree XNode) Date
-dateP = atQTag (dcName "date") >>>
-   proc x -> do
-      e <- mbGetQAttrValue (opfName "event") -< x
-      c <- text -< x
-      returnA -< Date e c
-
-
-typeP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-typeP = mbQTagText $ dcName "type"
-
-
 formatP :: (ArrowXml a) => a (NTree XNode) String
 formatP = atQTag (dcName "format") >>> text
 
 
-idP :: (ArrowXml a) => a (NTree XNode) Identifier
-idP = atQTag (dcName "identifier") >>> ( unwrapArrow $ Identifier
-   <$> (WrapArrow $ mbGetAttrValue "id")
-   <*> (WrapArrow $ constA Nothing)
-   <*> (WrapArrow $ mbGetQAttrValue (opfName "scheme"))  -- An attr in epub2
-   <*> (WrapArrow $ text)
-   )
-
-
-sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-sourceP = mbQTagText $ dcName "source"
-
-
-langP :: (ArrowXml a) => a (NTree XNode) String
-langP = atQTag (dcName "language") >>> text
+publisherP :: (ArrowXml a) => a (NTree XNode) String
+publisherP = atQTag (dcName "publisher") >>> text
 
 
 relationP :: (ArrowXml a) => a (NTree XNode) String
 relationP = atQTag (dcName "relation") >>> text
 
 
-coverageP :: (ArrowXml a) => a (NTree XNode) String
-coverageP = atQTag (dcName "coverage") >>> text
-
-
 rightsP :: (ArrowXml a) => a (NTree XNode) String
 rightsP = atQTag (dcName "rights") >>> text
+
+
+subjectP :: (ArrowXml a) => a (NTree XNode) String
+subjectP = atQTag (dcName "subject") >>> text
 
 
 metadataP :: (ArrowXml a) => [Refinement] -> a (NTree XNode) Metadata

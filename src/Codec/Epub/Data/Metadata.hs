@@ -11,16 +11,16 @@
 -}
 module Codec.Epub.Data.Metadata
    ( Refinement (..)
+   , Identifier (..)
+   , Title (..)
    , Creator (..)
    , Date (..)
    , Description (..)
-   , Identifier (..)
    , Metadata (..)
-   , Title (..)
    , emptyMetadata
-   , refineCreator
    , refineIdentifier
    , refineTitle
+   , refineCreator
    )
    where
 
@@ -43,51 +43,6 @@ data Refinement = Refinement
 
 findByIdProp :: String -> String -> [Refinement] -> Maybe Refinement
 findByIdProp i prop = find (\r -> refId r == i && refProp r == prop)
-
-
-{- | package\/metadata\/dc:creator or package\/metadata\/dc:contributor
-   tags
--}
-data Creator = Creator
-   { creatorRole :: Maybe String
-   , creatorFileAs :: Maybe String
-   , creatorSeq :: Maybe Int
-   , creatorText :: String
-   }
-   deriving (Eq, Show)
-
-
-refineCreator :: [Refinement] -> (String, Creator) -> Creator
-refineCreator refinements (elid, creator) =
-   assignSeq . assignFileAs . assignRole $ creator
-
-   where
-      assignRole creator' =
-         let existingRole = creatorRole creator'
-             metaRole = maybe Nothing (Just . refText) $
-               findByIdProp elid "role" refinements
-         in creator' { creatorRole = existingRole `mplus` metaRole }
-
-      assignFileAs creator' =
-         let existingFileAs = creatorFileAs creator'
-             metaFileAs = maybe Nothing (Just . refText) $
-               findByIdProp elid "file-as" refinements
-         in creator' { creatorFileAs = existingFileAs `mplus` metaFileAs }
-
-      assignSeq creator' =
-         let sq = maybe Nothing (Just . read . refText) $
-               findByIdProp elid "display-seq" refinements
-         in creator' { creatorSeq = sq }
-
-
--- | package\/metadata\/dc:date tag, opf:event attr, content
-data Date = Date (Maybe String) String
-   deriving (Eq, Show)
-
-
--- | package\/metadata\/dc:description tag, xml:lang attr, content
-data Description = Description (Maybe String) String
-   deriving (Eq, Show)
 
 
 -- | package\/metadata\/dc:identifier tag
@@ -139,6 +94,51 @@ refineTitle refinements (elid, title) = assignSeq . assignType $ title
          let sq = maybe Nothing (Just . read . refText) $
                findByIdProp elid "display-seq" refinements
          in title' { titleSeq = sq }
+
+
+{- | package\/metadata\/dc:creator or package\/metadata\/dc:contributor
+   tags
+-}
+data Creator = Creator
+   { creatorRole :: Maybe String
+   , creatorFileAs :: Maybe String
+   , creatorSeq :: Maybe Int
+   , creatorText :: String
+   }
+   deriving (Eq, Show)
+
+
+refineCreator :: [Refinement] -> (String, Creator) -> Creator
+refineCreator refinements (elid, creator) =
+   assignSeq . assignFileAs . assignRole $ creator
+
+   where
+      assignRole creator' =
+         let existingRole = creatorRole creator'
+             metaRole = maybe Nothing (Just . refText) $
+               findByIdProp elid "role" refinements
+         in creator' { creatorRole = existingRole `mplus` metaRole }
+
+      assignFileAs creator' =
+         let existingFileAs = creatorFileAs creator'
+             metaFileAs = maybe Nothing (Just . refText) $
+               findByIdProp elid "file-as" refinements
+         in creator' { creatorFileAs = existingFileAs `mplus` metaFileAs }
+
+      assignSeq creator' =
+         let sq = maybe Nothing (Just . read . refText) $
+               findByIdProp elid "display-seq" refinements
+         in creator' { creatorSeq = sq }
+
+
+-- | package\/metadata\/dc:date tag, opf:event attr, content
+data Date = Date (Maybe String) String
+   deriving (Eq, Show)
+
+
+-- | package\/metadata\/dc:description tag, xml:lang attr, content
+data Description = Description (Maybe String) String
+   deriving (Eq, Show)
 
 
 -- | package\/metadata tag
