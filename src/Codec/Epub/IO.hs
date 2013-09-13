@@ -58,18 +58,18 @@ fileFromArchive filePath archive = do
 
 
 {- | The static location of the container.xml, as specified by the
-     EPUB docs
+     epub docs
 -}
 containerPath :: FilePath
 containerPath = "META-INF/container.xml"
 
 
-{- | Get the contents of the EPUB Package Document from a ByteString
-     representing an EPUB (zip) file
+{- | Get the contents of the epub Package Document from a ByteString
+     representing an epub (zip) file
 -}
 getPkgXmlFromBS :: (MonadError String m, MonadIO m)
    => BS.ByteString           -- ^ contents of the zip file
-   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
 getPkgXmlFromBS strictBytes = do
    -- Need to turn this strict byte string into a lazy one
    let lazyBytes = fromChunks [strictBytes]
@@ -91,10 +91,10 @@ getPkgXmlFromBS strictBytes = do
    return (rootPath, rootContents)
 
 
--- | Get the contents of the EPUB Package Document from an EPUB (zip) file
+-- | Get the contents of the epub Package Document from an epub (zip) file
 getPkgXmlFromZip :: (MonadError String m, MonadIO m)
-   => FilePath                -- ^ path to ePub zip file
-   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
+   => FilePath                -- ^ path to epub zip file
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
 getPkgXmlFromZip zipPath = do
    {- Strictly read this file into a ByteString, send to 
       getPkgXmlFromBS
@@ -103,13 +103,13 @@ getPkgXmlFromZip zipPath = do
    getPkgXmlFromBS zipFileBytes
 
 
-{- | Get the contents of the EPUB Package Document from a directory
-     containing the files from an EPUB file (as in: it's been
+{- | Get the contents of the epub Package Document from a directory
+     containing the files from an epub file (as in: it's been
      unzipped into a dir)
 -}
 getPkgXmlFromDir :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ directory path
-   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
 getPkgXmlFromDir dir = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
