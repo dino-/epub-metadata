@@ -88,7 +88,7 @@ containerPath = "META-INF/container.xml"
 -}
 getPkgXmlFromBS :: (MonadError String m, MonadIO m)
    => BS.ByteString           -- ^ contents of the zip file
-   -> m (FilePath, String)    -- ^ path and contents of the EPUB Package Document
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
 getPkgXmlFromBS strictBytes = do
    -- Need to turn this strict byte string into a lazy one
    let lazyBytes = fromChunks [strictBytes]
@@ -113,7 +113,7 @@ getPkgXmlFromBS strictBytes = do
 -- | Get the contents of the EPUB Package Document from an EPUB (zip) file
 getPkgXmlFromZip :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ path to ePub zip file
-   -> m (FilePath, String)    -- ^ path and contents of the EPUB Package Document
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
 getPkgXmlFromZip zipPath = do
    {- Strictly read this file into a ByteString, send to 
       getPkgXmlFromBS
@@ -128,7 +128,7 @@ getPkgXmlFromZip zipPath = do
 -}
 getPkgXmlFromDir :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ directory path
-   -> m (FilePath, String)    -- ^ path and contents of the EPUB Package Document
+   -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the EPUB Package Document
 getPkgXmlFromDir dir = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
