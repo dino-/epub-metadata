@@ -70,6 +70,7 @@ testFull = TestCase $ do
                   "Natalia Jenkins"
                ]
             , metaDates = [ Date Nothing "2012" ]
+            , metaModified = Just "2013-08-31T13:06:32Z"
             , metaSource = Just "document source"
             , metaType = Just "test OPF Package Document"
             , metaCoverages =

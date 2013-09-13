@@ -20,6 +20,7 @@ module Codec.Epub.Data.Metadata
    , emptyMetadata
    , refineIdentifier
    , refineTitle
+   , getModified
    , refineCreator
    )
    where
@@ -136,6 +137,11 @@ data Date = Date (Maybe String) String
    deriving (Eq, Show)
 
 
+getModified :: [Refinement] -> Maybe String
+getModified refinements =
+   refText `fmap` findByIdProp "" "dcterms:modified" refinements
+
+
 -- | package\/metadata\/dc:description tag, xml:lang attr, content
 data Description = Description (Maybe String) String
    deriving (Eq, Show)
@@ -149,7 +155,7 @@ data Metadata = Metadata
    , metaContributors :: [Creator]
    , metaCreators :: [Creator]
    , metaDates :: [Date]
-   -- , metaModified :: Maybe String
+   , metaModified :: Maybe String  -- ^ meta tag with property dcterms:modified, present in epub3 documents
    , metaSource :: Maybe String  -- ^ dc:source tags
    , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags
@@ -171,7 +177,7 @@ emptyMetadata = Metadata
    , metaContributors = []
    , metaCreators = []
    , metaDates = []
-   -- , metaModified = Nothing
+   , metaModified = Nothing
    , metaSource = Nothing
    , metaType = Nothing
    , metaCoverages = []

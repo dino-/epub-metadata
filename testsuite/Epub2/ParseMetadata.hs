@@ -79,6 +79,7 @@ testFull = TestCase $ do
                , Date (Just "modified") "2010-05-08T10:20:57"
                , Date Nothing "2009"
                ]
+            , metaModified = Nothing
             , metaType = Just "test OPF Package Document"
             , metaFormats =
                [ "ePub publication"
@@ -122,6 +123,7 @@ testMinimal = TestCase $ do
             , metaDescriptions = []
             , metaPublishers = []
             , metaDates = []
+            , metaModified = Nothing
             , metaType = Nothing
             , metaFormats = []
             , metaIds = [Identifier (Just "isbn") Nothing

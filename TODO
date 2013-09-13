@@ -1,4 +1,4 @@
-- Add new field for modified, which is that special meta tag (see doc/dev/notes)
+- May need to add a special function that will try to locate modified even in the metaDate field (which is what an epub2 might look like)
 
 - Format ordering
 

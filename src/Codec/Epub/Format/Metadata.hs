@@ -87,10 +87,11 @@ tellSimpleMbString label (Just s) = tellSimpleString label s
 
 
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
-tellMetadata (Metadata ids titles langs contributors creators dates source mType coverage desc format publisher relation rights subjects) = do
+tellMetadata (Metadata ids titles langs contributors creators dates modified source mType coverage desc format publisher relation rights subjects) = do
    mapM_ tellTitle titles
    mapM_ tellDescription desc
    mapM_ tellDate dates
+   tellSimpleMbString "modified" modified
    mapM_ tellCreator creators
    mapM_ tellContributor contributors
    mapM_ (tellSimpleString "publisher") publisher

@@ -115,6 +115,7 @@ metadataP refinements =
       <*> (WrapArrow $ listA $ creatorP "creator" >>.
          map (refineCreator refinements))
       <*> (WrapArrow $ listA dateP)
+      <*> (WrapArrow $ constA $ getModified refinements)
       <*> (WrapArrow sourceP)
       <*> (WrapArrow typeP)
       <*> (WrapArrow $ listA coverageP)
