@@ -2,12 +2,18 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-{- | Data types for working with the metadata of ePub documents
+{- | Data types for working with the metadata of epub documents
 
-   These data types were constructed by studying the IDPF OPF 
-   specification for ePub documents found here:
+   Both versions of epub (2.x and 3.x) are supported by this software.
+
+   These data types were constructed by studying the IDPF
+   specifications for epub documents found here
 
    <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
+
+   and here
+
+   <http://www.idpf.org/epub/30/spec/epub30-publications.html>
 -}
 module Codec.Epub.Data.Metadata
    ( Refinement (..)
