@@ -12,7 +12,6 @@ import System.Directory
 import System.FilePath
 import Test.HUnit
 
-import Codec.Epub.Archive
 import Codec.Epub.Data.Package
 import Codec.Epub.IO
 import Codec.Epub.Parse

@@ -4,12 +4,15 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Functions for doing some disk IO with ePub documents
+-- | Functions for performing some IO operations on epub files
 
 module Codec.Epub.IO
    ( getPkgXmlFromZip
    , getPkgXmlFromBS
    , getPkgXmlFromDir
+   , mkEpubArchive
+   , readArchive
+   , writeArchive
    )
    where
 
@@ -19,7 +22,9 @@ import Control.Exception
 import Control.Monad.Error
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
+import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 as BL
+import Data.List
 import System.Directory
 import System.FilePath
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
@@ -120,3 +125,46 @@ getPkgXmlFromDir dir = do
    rootContents <- liftIO $ readFile rootPath
 
    return (rootPath, rootContents)
+
+
+{- Recursively get a list of all files starting with the supplied
+   parent directory. Excluding the directories themselves and ANY 
+   dotfiles.
+-}
+getRecursiveContents :: FilePath -> IO [FilePath]
+getRecursiveContents parent = do
+   fullContents <- getDirectoryContents parent
+   let contents = filter (not . isPrefixOf ".") fullContents
+   paths <- forM contents $ \name -> do
+      let path = parent </> name
+      isDirectory <- doesDirectoryExist path
+      if isDirectory
+         then getRecursiveContents path
+         else return [path]
+   return $ concat paths
+
+
+{- | Construct a zip Archive containing epub book data from the 
+     specified directory
+-}
+mkEpubArchive :: FilePath -> IO Archive
+mkEpubArchive rootDir = do
+   setCurrentDirectory rootDir
+
+   let mimetype = ["mimetype"]
+   allFiles <- getRecursiveContents "."
+   let restFiles = allFiles \\ mimetype
+
+   flip (addFilesToArchive [OptRecursive]) restFiles >=>
+      flip (addFilesToArchive []) ["mimetype"]
+      $ emptyArchive
+
+
+-- | Read a zip Archive from disk
+readArchive :: FilePath -> IO Archive
+readArchive = fmap toArchive . B.readFile
+
+
+-- | Write a zip Archive to disk using the specified filename
+writeArchive :: FilePath -> Archive -> IO ()
+writeArchive zipPath = (B.writeFile zipPath) . fromArchive
