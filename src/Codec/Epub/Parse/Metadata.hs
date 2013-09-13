@@ -36,7 +36,7 @@ titleP = atQTag (dcName "title") >>>
       i <- mbGetAttrValue "id" -< x
       l <- mbGetQAttrValue (xmlName "lang") -< x
       c <- text -< x
-      returnA -< ((maybe "" id i), Title l "" Nothing c)
+      returnA -< ((maybe "" id i), Title l Nothing Nothing c)
 
 
 langP :: (ArrowXml a) => a (NTree XNode) String

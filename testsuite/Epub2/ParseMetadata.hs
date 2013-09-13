@@ -32,8 +32,8 @@ testFull = TestCase $ do
    let expected =
          Right Metadata
             { metaTitles =
-               [ Title Nothing "" Nothing "Title Of This Book"
-               , Title (Just "fr") "" Nothing "Titre De Ce Livre"
+               [ Title Nothing Nothing Nothing "Title Of This Book"
+               , Title (Just "fr") Nothing Nothing "Titre De Ce Livre"
                ]
             , metaCreators = 
                [ Creator
@@ -116,7 +116,8 @@ testMinimal = TestCase $ do
    actual <- runErrorT $ getMetadata xmlString
    let expected = 
          Right Metadata 
-            { metaTitles = [Title Nothing "" Nothing "Title Of This Book"]
+            { metaTitles = [Title Nothing Nothing Nothing
+               "Title Of This Book"]
             , metaCreators = []
             , metaContributors = []
             , metaSubjects = []

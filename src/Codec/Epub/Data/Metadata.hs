@@ -79,7 +79,7 @@ refineIdentifier refinements ident = assignScheme . assignType $ ident
 -- | package\/metadata\/dc:title tag
 data Title = Title
    { titleLang :: Maybe String  -- ^ lang attributed
-   , titleType :: String  -- ^ title-type property from meta tag
+   , titleType :: Maybe String  -- ^ title-type property from meta tag
    , titleSeq :: Maybe Int  -- ^ display-sequence property from meta
    , titleText :: String  -- ^ title text
    }
@@ -94,7 +94,8 @@ refineTitle :: [Refinement] -> (String, Title) -> Title
 refineTitle refinements (elid, title) = assignSeq . assignType $ title
    where
       assignType title' =
-         let newTy = maybe "" refText $ findByIdProp elid "title-type" refinements
+         let newTy = refText `fmap`
+               findByIdProp elid "title-type" refinements
          in title' { titleType = newTy }
 
       assignSeq title' =

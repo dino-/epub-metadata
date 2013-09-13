@@ -35,9 +35,9 @@ testFull = TestCase $ do
                   (Just "some-scheme") "1386506873266"
                ]
             , metaTitles =
-               [ Title Nothing "main" (Just 1) "Title Of This Book"
-               , Title Nothing "subtitle" (Just 2) "The Subtitle"
-               , Title (Just "fr") "" Nothing "Titre De Ce Livre"
+               [ Title Nothing (Just "main") (Just 1) "Title Of This Book"
+               , Title Nothing (Just "subtitle") (Just 2) "The Subtitle"
+               , Title (Just "fr") Nothing Nothing "Titre De Ce Livre"
                ]
             , metaLangs = ["en-US", "en-UK"]
             , metaContributors =

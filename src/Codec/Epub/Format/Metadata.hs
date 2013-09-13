@@ -23,7 +23,7 @@ tellTitle title =
    tellSeq $ printf "title\n%s%s%s%s"
       (formatSubline "text" (Just $ titleText title))
       (formatSubline "lang" (titleLang title))
-      (formatSubline "title-type" (Just $ titleType title))
+      (formatSubline "title-type" (titleType title))
       (formatSubline "display-seq" (show `fmap` titleSeq title))
 
 
