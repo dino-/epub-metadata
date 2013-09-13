@@ -10,9 +10,6 @@ module Codec.Epub.IO
    ( getPkgXmlFromZip
    , getPkgXmlFromBS
    , getPkgXmlFromDir
-   , removeIllegalStartChars
-   , removeEncoding
-   , removeDoctype
    )
    where
 
@@ -25,30 +22,9 @@ import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy.Char8 as BL
 import System.Directory
 import System.FilePath
-import Text.Regex
+import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
-import Text.XML.HXT.Arrow.ReadDocument ( readString )
-
-
-{- | An evil hack to remove *ILLEGAL* characters before the XML
-     declaration. Why do people write software that does this?
-     Can't they follow directions?
--}
-removeIllegalStartChars :: String -> String
-removeIllegalStartChars = dropWhile (/= '<')
-
-
--- | An evil hack to remove encoding from the document
-removeEncoding :: String -> String
-removeEncoding = flip (subRegex 
-   (mkRegexWithOpts " +encoding=\"UTF-8\"" False False)) ""
-
-
--- | An evil hack to remove any <!DOCTYPE ...> from the document
-removeDoctype :: String -> String
-removeDoctype = flip (subRegex 
-   (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
 locateRootFile :: (MonadIO m, MonadError String m) =>
