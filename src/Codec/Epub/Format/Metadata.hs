@@ -19,6 +19,8 @@ import Codec.Epub.Data.Metadata
 
 
 tellTitle :: MonadWriter (Seq Char) m => Title -> m ()
+tellTitle (Title Nothing Nothing Nothing text) =
+   tellSeq $ printf "title: %s\n" text
 tellTitle title =
    tellSeq $ printf "title\n%s%s%s%s"
       (formatSubline "text" (Just $ titleText title))
