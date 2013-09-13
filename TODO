@@ -1,7 +1,5 @@
 - May need to add a special function that will try to locate modified even in the metaDate field (which is what an epub2 might look like)
 
-- Format ordering
-
 - Need more API docs. Detail the differences between epub2 and epub3 in the data structures, where the fields come from and which are only one or the other.
 
 - Need to assess the API documentation from the top, add a whole lot more of it, and provide very clear examples of how to use this
