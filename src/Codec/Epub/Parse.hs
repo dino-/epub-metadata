@@ -91,7 +91,7 @@ getManifest = performParse manifestP
 
 {- | Parsing the metadata is a two-pass process
    First we need to parse the meta tags only, referred to in this
-   code as 'refinements'
+   code as 'refinements.'
    Second we parse the metadata tags themselves, passing in the
    refinements so their info can be merged during parse
 -}

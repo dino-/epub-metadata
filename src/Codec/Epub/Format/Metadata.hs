@@ -108,6 +108,8 @@ tellMetadata (Metadata ids titles langs contributors creators dates modified sou
    mapM_ (tellSimpleString "subject") subjects
 
 
+{- | Format an epub Metadata structure for pretty printing
+-}
 formatMetadata :: Metadata -> String
 formatMetadata meta = toList . execWriter
    $ tellMetadata meta

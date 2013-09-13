@@ -5,15 +5,6 @@
 {- | Data types for working with the metadata of epub documents
 
    Both versions of epub (2.x and 3.x) are supported by this software.
-
-   These data types were constructed by studying the IDPF
-   specifications for epub documents found here
-
-   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
-
-   and here
-
-   <http://www.idpf.org/epub/30/spec/epub30-publications.html>
 -}
 module Codec.Epub.Data.Metadata
    ( Refinement (..)
@@ -36,9 +27,9 @@ import Data.List ( find )
 
 
 {- | Refinements represent meta tags within the metadata section
-     that refine other tags. These are used during the parsing phase
-     and are discarded as their information is slotted into the
-     data they refine (the types below like Creator, Title, etc..)
+   that refine other tags. These are used during the parsing phase
+   and are discarded as their information is slotted into the data
+   they refine (the types below like Creator, Title, etc..)
 -}
 data Refinement = Refinement
    { refId :: String  -- ^ id attribute
@@ -62,6 +53,9 @@ data Identifier = Identifier
    deriving (Eq, Show)
 
 
+{- | Used internally by Codec.Epub.Parse.Metadata to merge epub3 meta
+   tag info into the data gathered from an identifier tag
+-}
 refineIdentifier :: [Refinement] -> Identifier -> Identifier
 refineIdentifier refinements ident = assignScheme . assignType $ ident
    where
@@ -86,9 +80,8 @@ data Title = Title
    deriving (Eq, Show)
 
 
-{- For EPUB3, some information that is part of a title tag may be
-   present in one or more meta tags. This function will merge any 
-   relevent "refinements" into a Title data structure
+{- | Used internally by Codec.Epub.Parse.Metadata to merge epub3 meta
+   tag info into the data gathered from a title tag
 -}
 refineTitle :: [Refinement] -> (String, Title) -> Title
 refineTitle refinements (elid, title) = assignSeq . assignType $ title
@@ -116,6 +109,9 @@ data Creator = Creator
    deriving (Eq, Show)
 
 
+{- | Used internally by Codec.Epub.Parse.Metadata to merge epub3 meta
+   tag info into the data gathered from contributor and creator tags
+-}
 refineCreator :: [Refinement] -> (String, Creator) -> Creator
 refineCreator refinements (elid, creator) =
    assignSeq . assignFileAs . assignRole $ creator
@@ -144,6 +140,10 @@ data Date = Date (Maybe String) String
    deriving (Eq, Show)
 
 
+{- | Used internally by Codec.Epub.Parse.Metadata to populate the
+   metadata modified field with data extracted from the epub3 meta
+   tag with property dcterms:modified
+-}
 getModified :: [Refinement] -> Maybe String
 getModified refinements =
    refText `fmap` findByIdProp "" "dcterms:modified" refinements
@@ -162,7 +162,7 @@ data Metadata = Metadata
    , metaContributors :: [Creator]
    , metaCreators :: [Creator]
    , metaDates :: [Date]
-   , metaModified :: Maybe String  -- ^ meta tag with property dcterms:modified, present in epub3 documents
+   , metaModified :: Maybe String  -- ^ meta tag with property dcterms:modified, present only in epub3 documents
    , metaSource :: Maybe String  -- ^ dc:source tags
    , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags
