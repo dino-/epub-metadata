@@ -5,7 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the metadata from an ePub file
+-- | Module for extracting the metadata from an epub file
 module Codec.Epub.Parse.Util
    ( atQTag
    , dcName
@@ -64,7 +64,7 @@ mbGetQAttrValue qn =
    `orElse` (constA Nothing)
 
 
-{- ePub parsing helpers
+{- epub parsing helpers
 
    Note that these URIs could conceivably change in the future
    Is it ok that they're hardcoded like this?

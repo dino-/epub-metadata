@@ -4,7 +4,7 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for pretty-printing ePub metadata info
+-- | Module for pretty-printing epub metadata info
 module Codec.Epub.Format.Metadata
    ( formatMetadata
    )

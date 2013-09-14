@@ -5,7 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the package info from an EPUB file
+-- | Module for extracting the package info from an epub file
 module Codec.Epub.Parse.Package
    ( packageP
    )

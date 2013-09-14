@@ -4,7 +4,7 @@
 
 {-# LANGUAGE Arrows, FlexibleContexts #-}
 
--- | Module for extracting the metadata from an ePub file
+-- | Module for extracting the metadata from an epub file
 module Codec.Epub.Parse
    ( getGuide
    , getManifest
@@ -56,7 +56,7 @@ removeDoctype = flip (subRegex
    (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
-{- | Extract the ePub OPF Package data contained in the supplied 
+{- | Extract the epub OPF Package data contained in the supplied 
    XML string
 -}
 performParse :: (MonadIO m, MonadError String m) =>

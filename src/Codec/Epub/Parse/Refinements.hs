@@ -5,7 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the metadata from an EPUB file
+-- | Module for extracting the metadata from an epub file
 module Codec.Epub.Parse.Refinements
    ( refinementsP
    )

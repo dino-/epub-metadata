@@ -5,7 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the manifest from an EPUB file
+-- | Module for extracting the manifest from an epub file
 module Codec.Epub.Parse.Manifest
    ( manifestP
    )
