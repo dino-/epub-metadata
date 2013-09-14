@@ -7,13 +7,13 @@
 -- | Helper functions used by the other parsing modules
 module Codec.Epub.Parse.Util
    ( atQTag
-   , dcName
    , mbQTagText
    , mbGetAttrValue
    , mbGetQAttrValue
    , notNullA
-   , opfName
    , text
+   , dcName
+   , opfName
    , xmlName
    )
    where
