@@ -14,11 +14,13 @@ module Codec.Epub.Data.Guide
    )
    where
 
+import Codec.Epub.Data.Common
+
 
 -- | package\/guide\/reference tag
 data GuideRef = GuideRef
-   { grType :: String  -- ^ type attr. Must follow 13th edition of the Chicago Manual of Style
-   , grTitle :: Maybe String  -- ^ title attr
-   , grHref :: String  -- ^ href attr. Must reference item in manifest
+   { grType :: String  -- ^ type attribute. Must follow 13th edition of the Chicago Manual of Style
+   , grTitle :: Maybe String  -- ^ title attribute
+   , grHref :: MFItemId  -- ^ href attribute. Must reference an item in the manifest
    }
    deriving (Eq, Show)
