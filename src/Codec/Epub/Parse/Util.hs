@@ -56,7 +56,7 @@ notNullA = isA $ not . null
 mbQTagText :: (ArrowXml a) => QName -> a (NTree XNode) (Maybe String)
 mbQTagText tag =
    ( atQTag tag >>>
-     text >>> notNullA >>> arr Just )
+     text >>> notNullA >>^ Just )
    `orElse`
    (constA Nothing)
 
@@ -67,7 +67,7 @@ mbQTagText tag =
 mbGetAttrValue :: (ArrowXml a) =>
    String -> a XmlTree (Maybe String)
 mbGetAttrValue n =
-   (getAttrValue n >>> notNullA >>> arr Just)
+   (getAttrValue n >>> notNullA >>^ Just)
    `orElse` (constA Nothing)
 
 
@@ -77,7 +77,7 @@ mbGetAttrValue n =
 mbGetQAttrValue :: (ArrowXml a) =>
    QName -> a XmlTree (Maybe String)
 mbGetQAttrValue qn =
-   (getQAttrValue qn >>> notNullA >>> arr Just)
+   (getQAttrValue qn >>> notNullA >>^ Just)
    `orElse` (constA Nothing)
 
 
