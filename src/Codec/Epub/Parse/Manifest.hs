@@ -3,7 +3,6 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 {-# LANGUAGE Arrows #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 -- | Parsing for the manifest section of the OPF Package XML Document
 module Codec.Epub.Parse.Manifest
