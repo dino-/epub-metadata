@@ -29,7 +29,8 @@ source-repository    head
    location:         http://ui3.info/darcs/epub-metadata/
 
 library
-   exposed-modules:  Codec.Epub.Data.Common
+   exposed-modules:  Codec.Epub
+                     Codec.Epub.Data.Common
                      Codec.Epub.Data.Guide
                      Codec.Epub.Data.Manifest
                      Codec.Epub.Data.Metadata
