@@ -4,10 +4,7 @@
 
 {- | Data types for working with the metadata of epub documents
 
-   These data types were constructed by studying the IDPF OPF 
-   specification for epub documents found here:
-
-   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
+   This contains the manifest information from an epub document.
 -}
 module Codec.Epub.Data.Manifest
    ( Manifest (..)
@@ -25,9 +22,9 @@ type MFItemMediaType = String
 
 -- | package\/manifest\/item tag
 data ManifestItem = ManifestItem
-   { mfiId :: MFItemId  -- ^ id attr
-   , mfiHref :: MFItemHref  -- ^ href attr
-   , mfiMediaType :: MFItemMediaType  -- ^ media-type attr
+   { mfiId :: MFItemId  -- ^ id attribute
+   , mfiHref :: MFItemHref  -- ^ href attribute
+   , mfiMediaType :: MFItemMediaType  -- ^ media-type attribute
    }
    deriving (Eq, Show)
 

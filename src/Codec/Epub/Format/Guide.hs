@@ -4,7 +4,10 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for pretty-printing epub metadata info
+{- | Module for pretty-printing epub guide info
+
+   Used internally by Codec.Epub.Format
+-}
 module Codec.Epub.Format.Guide
    where
 

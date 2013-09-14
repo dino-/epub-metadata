@@ -3,9 +3,8 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 {-# LANGUAGE Arrows #-}
-{-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the manifest from an epub file
+-- | Parsing for the guide section of the OPF Package XML Document
 module Codec.Epub.Parse.Guide
    ( guideP
    )

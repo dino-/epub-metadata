@@ -4,7 +4,10 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for pretty-printing epub metadata info
+{- | Module for pretty-printing epub spine info
+
+   Used internally by Codec.Epub.Format
+-}
 module Codec.Epub.Format.Spine
    ( formatSpine
    )
@@ -36,6 +39,8 @@ tellSpine (Spine toc itemRefs) = do
    mapM_ tellSpineItemref itemRefs
 
 
+{- | Format an epub Spine structure for pretty printing
+-}
 formatSpine :: Spine -> String
 formatSpine sp = toList . execWriter
    $ tellSpine sp

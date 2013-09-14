@@ -4,10 +4,7 @@
 
 {- | Data types for working with the metadata of epub documents
 
-   These data types were constructed by studying the IDPF OPF 
-   specification for epub documents found here:
-
-   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
+   This module helps to avoid circular imports for definitions needed by two or more other modules in this library.
 -}
 module Codec.Epub.Data.Common
    where

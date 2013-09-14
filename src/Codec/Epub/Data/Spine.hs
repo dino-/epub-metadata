@@ -4,10 +4,7 @@
 
 {- | Data types for working with the metadata of epub documents
 
-   These data types were constructed by studying the IDPF OPF 
-   specification for epub documents found here:
-
-   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
+   The spine represents a default ordering of items in the manifest.
 -}
 module Codec.Epub.Data.Spine
    ( Spine (..)
@@ -20,15 +17,15 @@ import Codec.Epub.Data.Common
 
 -- | package\/spine\/itemref tag
 data SpineItemref = SpineItemref
-   { siIdRef  :: MFItemId  -- ^ idref attr. Must reference item in manifest
-   , siLinear :: Maybe Bool  -- ^ linear attr
+   { siIdRef  :: MFItemId  -- ^ idref attribute. Must reference an item in the manifest
+   , siLinear :: Maybe Bool  -- ^ linear attribute
    }
    deriving (Eq, Show)
 
 
 -- | package\/spine tag
 data Spine = Spine
-   { spineToc    :: MFItemId  -- ^ toc attr. Must reference the NCX in the manifest
-   , spineItemrefs :: [ SpineItemref ] -- one required
+   { spineToc    :: MFItemId  -- ^ toc attribute. Must reference the NCX in the manifest
+   , spineItemrefs :: [SpineItemref] -- ^ at least one required
    }
    deriving (Eq, Show)

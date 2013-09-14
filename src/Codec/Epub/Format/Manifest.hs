@@ -4,7 +4,10 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for pretty-printing epub metadata info
+{- | Module for pretty-printing epub manifest info
+
+   Used internally by Codec.Epub.Format
+-}
 module Codec.Epub.Format.Manifest
    ( formatManifest
    )
@@ -30,6 +33,8 @@ tellManifest mas = do
    mapM_ tellManifestItem mas
 
 
+{- | Format an epub Manifest structure for pretty printing
+-}
 formatManifest :: Manifest -> String
 formatManifest (Manifest mis) = toList . execWriter
    $ tellManifest mis

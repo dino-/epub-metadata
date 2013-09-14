@@ -4,10 +4,9 @@
 
 {- | Data type for working with epub package info
 
-   This data type was constructed by studying the IDPF OPF 
-   specification for epub documents found here:
-
-   <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm>
+   This contains the package section from an epub document. In the
+   OPF XML document, this tag contains the other tags (metadata,
+   manifest...)
 -}
 module Codec.Epub.Data.Package
    ( Package (..)

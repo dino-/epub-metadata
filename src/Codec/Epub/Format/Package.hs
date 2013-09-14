@@ -4,7 +4,10 @@
 
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for pretty-printing OPF package data
+{- | Module for pretty-printing epub package info
+
+   Used internally by Codec.Epub.Format
+-}
 module Codec.Epub.Format.Package
    ( formatPackage
    )
@@ -24,6 +27,8 @@ tellPackage (version, uniqueId) = do
    tellSeq $ formatSubline "unique-identifier" (Just uniqueId)
 
 
+{- | Format an epub Package structure for pretty printing
+-}
 formatPackage :: Package -> String
 formatPackage (Package v u) = toList . execWriter
    $ tellPackage (v, u)

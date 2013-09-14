@@ -3,9 +3,10 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 {-# LANGUAGE Arrows #-}
-{-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the metadata from an epub file
+{- | Parsing for meta tags in the metadata section of the OPF
+   Package XML Document
+-}
 module Codec.Epub.Parse.Refinements
    ( refinementsP
    )

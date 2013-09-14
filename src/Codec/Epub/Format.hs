@@ -2,9 +2,12 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-{-# LANGUAGE FlexibleContexts #-}
+{- | Module for pretty-printing epub meta-information
 
--- | Module for pretty-printing OPF package data
+   Defined here is the Formattable typeclass and instances for the
+   top-level epub data structures. The intention is that consumers
+   use the format function on any of these otherwise disparate types.
+-}
 module Codec.Epub.Format
    ( Formattable (..)
    )

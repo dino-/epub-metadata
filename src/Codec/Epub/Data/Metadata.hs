@@ -4,7 +4,9 @@
 
 {- | Data types for working with the metadata of epub documents
 
-   Both versions of epub (2.x and 3.x) are supported by this software.
+   This module defines the Metadata structure which contains most of the taxonomic information about the literary work. Metadata is probably the most important data structure in this library.
+
+   Both commonly-used versions of epub (2.x and 3.x) are supported by these types.
 -}
 module Codec.Epub.Data.Metadata
    ( Refinement (..)
@@ -30,15 +32,21 @@ import Data.List ( find )
    that refine other tags. These are used during the parsing phase
    and are discarded as their information is slotted into the data
    they refine (the types below like Creator, Title, etc..)
+
+   This is specific to epub3
 -}
 data Refinement = Refinement
    { refId :: String  -- ^ id attribute
    , refProp :: String  -- ^ property attribute
    , refScheme :: String  -- ^ scheme attribute
-   , refText :: String  -- ^ content
+   , refText :: String  -- ^ meta tag text
    }
 
 
+{- Used for locating specific meta information in a list of
+   Refinements. The data from these meta tags is related to other
+   tags by an XML id attribute.
+-}
 findByIdProp :: String -> String -> [Refinement] -> Maybe Refinement
 findByIdProp i prop = find (\r -> refId r == i && refProp r == prop)
 
@@ -48,7 +56,7 @@ data Identifier = Identifier
    { idId :: Maybe String  -- ^ id attribute
    , idType :: Maybe String  -- ^ identifier-type property from meta tag
    , idScheme :: Maybe String  -- ^ scheme from attribute or meta tag
-   , idText :: String  -- ^ identifier text
+   , idText :: String  -- ^ identifier tag text
    }
    deriving (Eq, Show)
 
@@ -75,7 +83,7 @@ data Title = Title
    { titleLang :: Maybe String  -- ^ lang attributed
    , titleType :: Maybe String  -- ^ title-type property from meta tag
    , titleSeq :: Maybe Int  -- ^ display-sequence property from meta
-   , titleText :: String  -- ^ title text
+   , titleText :: String  -- ^ title tag text
    }
    deriving (Eq, Show)
 
@@ -99,12 +107,14 @@ refineTitle refinements (elid, title) = assignSeq . assignType $ title
 
 {- | package\/metadata\/dc:creator or package\/metadata\/dc:contributor
    tags
+
+   This structure is used for both contributor and creator as they are exactly the same.
 -}
 data Creator = Creator
-   { creatorRole :: Maybe String
-   , creatorFileAs :: Maybe String
-   , creatorSeq :: Maybe Int
-   , creatorText :: String
+   { creatorRole :: Maybe String  -- ^ role from attribute or meta tag
+   , creatorFileAs :: Maybe String  -- ^ file-as from attribute or meta tag
+   , creatorSeq :: Maybe Int  -- ^ display-sequence property from meta
+   , creatorText :: String  -- ^ creator or contributor tag text
    }
    deriving (Eq, Show)
 
@@ -135,7 +145,7 @@ refineCreator refinements (elid, creator) =
          in creator' { creatorSeq = sq }
 
 
--- | package\/metadata\/dc:date tag, opf:event attr, content
+-- | package\/metadata\/dc:date tag, opf:event attribute, text
 data Date = Date (Maybe String) String
    deriving (Eq, Show)
 
@@ -149,12 +159,17 @@ getModified refinements =
    refText `fmap` findByIdProp "" "dcterms:modified" refinements
 
 
--- | package\/metadata\/dc:description tag, xml:lang attr, content
+-- | package\/metadata\/dc:description tag, xml:lang attribute, text
 data Description = Description (Maybe String) String
    deriving (Eq, Show)
 
 
--- | package\/metadata tag
+{- | package\/metadata tag
+
+   As stated above, this is perhaps the most useful data structure
+   in this library. It contains most of the information tools will
+   want to use to organize epub documents.
+-}
 data Metadata = Metadata
    { metaIds :: [Identifier]  -- ^ at least one required
    , metaTitles :: [Title]  -- ^ at least one required

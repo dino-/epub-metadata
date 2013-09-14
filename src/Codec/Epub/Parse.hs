@@ -4,7 +4,9 @@
 
 {-# LANGUAGE Arrows, FlexibleContexts #-}
 
--- | Module for extracting the metadata from an epub file
+{- | The main parsing interface, these get* functions are intended
+   to be used by consumers of this library
+-}
 module Codec.Epub.Parse
    ( getGuide
    , getManifest
@@ -36,27 +38,27 @@ import Codec.Epub.Parse.Refinements
 import Codec.Epub.Parse.Spine
 
 
-{- | An evil hack to remove *ILLEGAL* characters before the XML
-     declaration. Why do people write software that does this?
-     Can't they follow directions?
+{- An evil hack to remove *ILLEGAL* characters before the XML
+   declaration. Why do people write software that does this?
+   Can't they follow directions?
 -}
 removeIllegalStartChars :: String -> String
 removeIllegalStartChars = dropWhile (/= '<')
 
 
--- | An evil hack to remove encoding from the document
+-- An evil hack to remove encoding from the document
 removeEncoding :: String -> String
 removeEncoding = flip (subRegex 
    (mkRegexWithOpts " +encoding=\"UTF-8\"" False False)) ""
 
 
--- | An evil hack to remove any \<!DOCTYPE ...\> from the document
+-- An evil hack to remove any \<!DOCTYPE ...\> from the document
 removeDoctype :: String -> String
 removeDoctype = flip (subRegex 
    (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
 
 
-{- | Extract the epub OPF Package data contained in the supplied 
+{- Extract the epub OPF Package data contained in the supplied 
    XML string
 -}
 performParse :: (MonadIO m, MonadError String m) =>
@@ -79,17 +81,26 @@ performParse parser contents = do
          "ERROR: FIXME with a better message"
 
 
+{- | Parse epub guide items from a String representing the epub XML
+   Package Document
+-}
 getGuide :: (MonadIO m, MonadError String m) =>
    String -> m [GuideRef]
 getGuide = performParse guideP
 
 
+{- | Parse epub manifest data from a String representing the epub XML
+   Package Document
+-}
 getManifest :: (MonadIO m, MonadError String m) =>
    String -> m Manifest
 getManifest = performParse manifestP
 
 
-{- | Parsing the metadata is a two-pass process
+{- | Parse epub metadata from a String representing the epub XML
+   Package Document
+-}
+{- Parsing the metadata is a two-pass process
    First we need to parse the meta tags only, referred to in this
    code as 'refinements.'
    Second we parse the metadata tags themselves, passing in the
@@ -103,11 +114,17 @@ getMetadata opfContents = do
    return rawMd
 
 
+{- | Parse epub package info from a String representing the epub XML
+   Package Document
+-}
 getPackage :: (MonadIO m, MonadError String m) =>
    String -> m Package
 getPackage = performParse packageP
 
 
+{- | Parse epub spine info from a String representing the epub XML
+   Package Document
+-}
 getSpine :: (MonadIO m, MonadError String m) =>
    String -> m Spine
 getSpine = performParse spineP

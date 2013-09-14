@@ -5,7 +5,7 @@
 {-# LANGUAGE Arrows #-}
 {-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the manifest from an epub file
+-- | Parsing for the manifest section of the OPF Package XML Document
 module Codec.Epub.Parse.Manifest
    ( manifestP
    )

@@ -3,9 +3,8 @@
 -- Author: Dino Morelli <dino@ui3.info>
 
 {-# LANGUAGE Arrows #-}
-{-# LANGUAGE FlexibleContexts #-}
 
--- | Module for extracting the package info from an epub file
+-- | Parsing for the package section of the OPF Package XML Document
 module Codec.Epub.Parse.Package
    ( packageP
    )
