@@ -28,7 +28,7 @@ testEpub2 = TestCase $ do
    actual <- runErrorT $ getPackage xmlString
    let expected = 
          Right Package 
-            { opVersion = "2.0"
-            , opUniqueId = "isbn"
+            { pkgVersion = "2.0"
+            , pkgUniqueId = "isbn"
             }
    assertEqual "epub2 package info" expected actual

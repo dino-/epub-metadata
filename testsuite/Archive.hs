@@ -60,5 +60,5 @@ testIllegalCharsBeforeDecl = TestCase $ do
       "testsuite" </> "testIllegalCharsBeforeDecl.opf"
    actual <- runErrorT $ getPackage xmlString
    let expected =
-         Right Package {opVersion = "2.0", opUniqueId = "uuid_id"}
+         Right Package {pkgVersion = "2.0", pkgUniqueId = "uuid_id"}
    assertEqual "illegal chars before XML declaration" expected actual

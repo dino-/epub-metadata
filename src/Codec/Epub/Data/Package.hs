@@ -18,7 +18,7 @@ module Codec.Epub.Data.Package
 {- | package tag
 -}
 data Package = Package
-   { opVersion :: String  -- ^ version attr
-   , opUniqueId :: String  -- ^ unique-identifier attr
+   { pkgVersion :: String  -- ^ version attribute. This contains which epub specification version (2.x or 3.x) this document conforms to.
+   , pkgUniqueId :: String  -- ^ unique-identifier attribute. This should relate to one metaIdentifier in the Metadata and is intended to represent this book's unique identifier.
    }
    deriving (Eq, Show)
