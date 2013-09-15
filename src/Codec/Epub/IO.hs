@@ -8,8 +8,9 @@
 
 module Codec.Epub.IO
    ( getPkgXmlFromZip
-   , getPkgXmlFromBS
-   , getPkgXmlFromDir
+   , getPkgPathXmlFromZip
+   , getPkgPathXmlFromBS
+   , getPkgPathXmlFromDir
    , mkEpubArchive
    , readArchive
    , writeArchive
@@ -64,13 +65,13 @@ containerPath :: FilePath
 containerPath = "META-INF/container.xml"
 
 
-{- | Get the contents of the epub Package Document from a ByteString
-     representing an epub (zip) file
+{- | Get the path and contents of the epub Package Document from
+   a ByteString representing an epub (zip) file
 -}
-getPkgXmlFromBS :: (MonadError String m, MonadIO m)
+getPkgPathXmlFromBS :: (MonadError String m, MonadIO m)
    => BS.ByteString           -- ^ contents of the zip file
    -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
-getPkgXmlFromBS strictBytes = do
+getPkgPathXmlFromBS strictBytes = do
    -- Need to turn this strict byte string into a lazy one
    let lazyBytes = fromChunks [strictBytes]
    result <- liftIO $ ( try $ evaluate
@@ -91,26 +92,35 @@ getPkgXmlFromBS strictBytes = do
    return (rootPath, rootContents)
 
 
--- | Get the contents of the epub Package Document from an epub (zip) file
-getPkgXmlFromZip :: (MonadError String m, MonadIO m)
+{- | Get the path and contents of the epub Package Document from
+   an epub (zip) file
+-}
+getPkgPathXmlFromZip :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ path to epub zip file
    -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
-getPkgXmlFromZip zipPath = do
+getPkgPathXmlFromZip zipPath = do
    {- Strictly read this file into a ByteString, send to 
-      getPkgXmlFromBS
+      getPkgPathXmlFromBS
    -}
    zipFileBytes <- liftIO $ BS.readFile zipPath
-   getPkgXmlFromBS zipFileBytes
+   getPkgPathXmlFromBS zipFileBytes
 
 
-{- | Get the contents of the epub Package Document from a directory
-     containing the files from an epub file (as in: it's been
-     unzipped into a dir)
+-- | Get the contents of the epub Package Document from an epub (zip) file
+getPkgXmlFromZip :: (MonadError String m, MonadIO m)
+   => FilePath  -- ^ path to epub zip file
+   -> m String  -- ^ contents of the epub Package Document
+getPkgXmlFromZip zipPath = snd `liftM` getPkgPathXmlFromZip zipPath
+
+
+{- | Get the path and contents of the epub Package Document from
+   a directory containing the files from an epub file (as in:
+   it's been unzipped into a dir)
 -}
-getPkgXmlFromDir :: (MonadError String m, MonadIO m)
+getPkgPathXmlFromDir :: (MonadError String m, MonadIO m)
    => FilePath                -- ^ directory path
    -> m (FilePath, String)    -- ^ path (within the epub archive) and contents of the epub Package Document
-getPkgXmlFromDir dir = do
+getPkgPathXmlFromDir dir = do
    {- We need to first extract the container.xml file
       It's required to have a certain path and name in the epub
       and contains the path to what we really want, the .opf file.

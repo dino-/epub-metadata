@@ -10,13 +10,13 @@ main = do
 
    result <- runErrorT $ do
 
-      -- Use one of the getPkgXmlFrom* actions to extract the
-      -- Package Document as an XML string
+      -- Use the getPkgXmlFromZip action to extract the Package
+      -- Document as an XML string. There are also other actions
+      -- for reading from ByteStringS and directories.
       --
       -- See Codec.Epub.IO
 
-      (_pathToXmlInEpub, xmlString) <- getPkgXmlFromZip
-         "/path/to/book.epub"
+      xmlString <- getPkgXmlFromZip "/path/to/book.epub"
 
       -- Now the sections of meta-information about the book can
       -- be extracted from that XML using functions like getPackage,
