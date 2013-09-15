@@ -2,8 +2,6 @@
 
 - Need more API docs. Detail the differences between epub2 and epub3 in the data structures, where the fields come from and which are only one or the other.
 
-- Need to assess the API documentation from the top, add a whole lot more of it, and provide very clear examples of how to use this
-
 - Separate some of the Metadata sub-types into their own modules, starting with Title. We've got some utility functions now for this, will help to clean it up some more.
 
 - Better errors on parse failure, this will emerge along with more unit testing
