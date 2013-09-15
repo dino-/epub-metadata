@@ -2,6 +2,8 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
+{-# LANGUAGE FlexibleInstances #-}
+
 {- | Module for pretty-printing epub meta-information
 
    Defined here is the Formattable typeclass and instances for the
@@ -13,10 +15,12 @@ module Codec.Epub.Format
    )
    where
 
+import Codec.Epub.Data.Guide
 import Codec.Epub.Data.Manifest
 import Codec.Epub.Data.Metadata
 import Codec.Epub.Data.Package
 import Codec.Epub.Data.Spine
+import Codec.Epub.Format.Guide
 import Codec.Epub.Format.Manifest
 import Codec.Epub.Format.Metadata
 import Codec.Epub.Format.Package
@@ -26,6 +30,9 @@ import Codec.Epub.Format.Spine
 class Formattable a where
    format :: a -> String
 
+
+instance Formattable [GuideRef] where
+   format = formatGuide
 
 instance Formattable Manifest where
    format = formatManifest

@@ -9,9 +9,12 @@
    Used internally by Codec.Epub.Format
 -}
 module Codec.Epub.Format.Guide
+   ( formatGuide
+   )
    where
 
 import Control.Monad.Writer.Lazy
+import Data.Foldable ( toList )
 import Text.Printf
 
 import Codec.Epub.Format.Util
@@ -32,3 +35,9 @@ tellGuide []  = return ()
 tellGuide grs = do
    tellSeq "guide items:\n"
    mapM_ tellGuideRef grs
+
+
+{- | Format an epub Guide structure for pretty printing
+-}
+formatGuide :: [GuideRef] -> String
+formatGuide guideRefs = toList . execWriter $ tellGuide guideRefs
