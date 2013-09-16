@@ -9,13 +9,13 @@
    Both commonly-used versions of epub (2.x and 3.x) are supported by these types.
 -}
 module Codec.Epub.Data.Metadata
-   ( Refinement (..)
+   ( Metadata (..)
    , Identifier (..)
    , Title (..)
    , Creator (..)
    , Date (..)
    , Description (..)
-   , Metadata (..)
+   , Refinement (..)
    , emptyMetadata
    , refineIdentifier
    , refineTitle
@@ -80,7 +80,7 @@ refineIdentifier refinements ident = assignScheme . assignType $ ident
 
 -- | package\/metadata\/dc:title tag
 data Title = Title
-   { titleLang :: Maybe String  -- ^ lang attributed
+   { titleLang :: Maybe String  -- ^ lang attribute
    , titleType :: Maybe String  -- ^ title-type property from meta tag
    , titleSeq :: Maybe Int  -- ^ display-sequence property from meta
    , titleText :: String  -- ^ title tag text
@@ -166,9 +166,9 @@ data Description = Description (Maybe String) String
 
 {- | package\/metadata tag
 
-   As stated above, this is perhaps the most useful data structure
-   in this library. It contains most of the information tools will
-   want to use to organize epub documents.
+   This is perhaps the most useful data structure in this library. It
+   contains most of the information tools will want to use to
+   organize epub documents.
 -}
 data Metadata = Metadata
    { metaIds :: [Identifier]  -- ^ at least one required
