@@ -6,6 +6,10 @@
 
 {- | The main parsing interface, these get* functions are intended
    to be used by consumers of this library
+
+   This module is called Parse because it invokes the XML parsing
+   machinery of this library, but consumers of the library do not
+   have to interact with HXT, Arrows or XML directly.
 -}
 module Codec.Epub.Parse
    ( getGuide
