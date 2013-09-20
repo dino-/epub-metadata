@@ -40,11 +40,12 @@ Why didn't I just use existing solutions?
       specification. Unable to manipulate data that is represented as
       attributes of tags in the OPF spec.
 
-      Astonishingly slow performance. The command-line tool in this
-      new Haskell project is more than 45 times faster at parsing
-      and displaying ePub metadata. I'm going to blame Python here for
-      Calibre's performance. This has had a big impact on projects where
-      I've been processing hundreds of ePubs in batch operations.
+      Astonishingly slow performance. A command-line renaming
+      tool built with epub-metadata is more than 45 times faster
+      at parsing and displaying epub metadata. I'm going to blame
+      Python here for Calibre's performance. This has had a big
+      impact on projects where I've been processing hundreds of
+      epubs in batch operations.
 
       To be fair, an effort is being made in Calibre to work with both
       epub and Sony LRF book documents. That is going to naturally require
@@ -61,8 +62,8 @@ Why didn't I just use existing solutions?
 
       Examining Codec.Ebook.OPF.Types, most of the metadata fields
       from the OPF Package Document spec are missing or aren't modeled
-      thoroughly. I felt to contribute to this project, I would have
-      had to significantly rip up the types and redesign them.
+      thoroughly. I felt that to contribute to this project, I would
+      have had to significantly rip up the types and redesign them.
 
       At this time I felt it was a better solution for me to start fresh
       with modelling these types and code to manipulate them. That said,
