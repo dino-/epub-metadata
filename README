@@ -65,28 +65,8 @@ Why didn't I just use existing solutions?
       thoroughly. I felt that to contribute to this project, I would
       have had to significantly rip up the types and redesign them.
 
-      At this time I felt it was a better solution for me to start fresh
-      with modelling these types and code to manipulate them. That said,
-      I would be very interested in combining the epub and epub-metadata
-      projects at some point in some way that makes sense.
-
-
------
-A word about the version numbering scheme:
-
-   4-part: major.minor.status.build
-   3-part: major.status.build
-
-   status:
-      0 alpha
-      1 beta
-      2 release candidate
-      3 release
-
-   examples:
-      1.3.0.2         v1.3 alpha build 2
-      1.2.1.0         v1.2 beta build 0
-      4.2.24          v4 release candidate build 24
-      2.10.3.5        v2.10 release build 5 (say they were bug fixes)
-      1.5.2.20090818  Can even use a date for build
-                      v1.5 release candidate 2009-08-18 build
+      At this time it seemed like a better solution for me to
+      start fresh with modelling the types and code to manipulate
+      them. That said, I would be very interested in combining the
+      epub and epub-metadata projects at some point in some way
+      that makes sense.
