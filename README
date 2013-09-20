@@ -1,4 +1,12 @@
 -----
+Using this library:
+
+   Please see the Haddock documentation and/or source code for
+   Codec.Epub which should be in src/Codec/Epub.hs
+
+   This file has a working example of using this library.
+
+-----
 Building:
 
    Easy with cabal-install, of course:

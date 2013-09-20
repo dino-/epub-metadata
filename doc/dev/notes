@@ -37,10 +37,3 @@ epub3                                  epub2
 [2] modified metadata looks like this:
 
    <meta property="dcterms:modified">2011-01-01T12:00:00Z</meta>
-
------
-For general documentation:
-
-- Try to explain what this library is for, from a high level
-
-- Worth saying that the primary purpose is to extract and manipulate epub2 and epub3 metadata. And some limited support is included for the other portions of epub like the manifest, spine, etc.

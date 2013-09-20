@@ -2,7 +2,12 @@
 -- License: BSD3 (see LICENSE)
 -- Author: Dino Morelli <dino@ui3.info>
 
-{- | Overview docs and usage examples go here
+{- |
+   This is a library for parsing and manipulating epub document metadata. Almost all of the data stored in the epub Package Document can be worked with using this API. This includes the most useful block of data, the epub metadata. This library supports epub versions 2 and 3.
+
+   This library was constructed by studying the IDPF specifications for epub documents found here <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm> and here <http://www.idpf.org/epub/30/spec/epub30-publications.html>
+
+   Consumers of epub-metadata will likely need this module, which re-exports the most useful parts concerning disk IO, parsing of the XML into Codec.Epub.Data.* data structures and formatting these data structures to be pretty-printed. Please also see Codec.Epub.Data.Metadata etc.
 -}
 module Codec.Epub (
    -- * Epub
