@@ -18,7 +18,7 @@ Building:
 Why was this done?
 
    The motivation for this project grew out of my desire to take charge
-   of missing or incorrect ePub metadata in books I have purchased. I
+   of missing or incorrect epub metadata in books I have purchased. I
    started out using the Calibre open source tools for examining this
    info. Limitations and incomplete implementation of those tools led
    me here to build a more complete implementation in the programming
@@ -47,17 +47,17 @@ Why didn't I just use existing solutions?
       I've been processing hundreds of ePubs in batch operations.
 
       To be fair, an effort is being made in Calibre to work with both
-      ePub and Sony LRF book documents. That is going to naturally require
+      epub and Sony LRF book documents. That is going to naturally require
       a lowest-common-denominator approach. My focus here was to work
-      with ePub only, and thoroughly support the OPF specification.
+      with epub only, and support a large amount of the OPF specification.
 
 
-   - epub on Hackage, EPUB E-Book construction support library
+   - epub on Hackage, epub E-Book construction support library
 
       The focus of this project seems to be with building new documents,
       not parsing existing files. And there is a specific attempt to
       do more than the metadata, to gather up the content and other
-      metafiles that make up an ePub for creation.
+      metafiles that make up an epub for creation.
 
       Examining Codec.Ebook.OPF.Types, most of the metadata fields
       from the OPF Package Document spec are missing or aren't modeled
