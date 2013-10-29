@@ -1,23 +1,26 @@
 % epubmetadata-De.tex
 \begin{hcarentry}{epub-metadata}
 \report{Dino Morelli}%05/11
-\status{stable, actively developed}
+\status{experimental, actively developed}
 \makeheader
 
-See: \url{http://www.haskell.org/communities/05-2011/html/report.html#sect6.2.4}.
+Library for parsing and manipulating epub OPF package data. Now with epub3 support.
 
-% Library for parsing and manipulating ePub files and OPF package data. An attempt has been made here to very thoroughly implement the OPF Package Document specification.
-% 
-% epub-metadata is available from Hackage and the Darcs repository below.
-% 
-% See also epub-tools \cref{epubtools}.
-% 
-% \FurtherReading
-% \begin{compactitem}
-% \item Project page:
-% \url{http://ui3.info/d/proj/epub-metadata.html}
-% 
-% \item Source repository:
-% \texttt{darcs get} \url{http://ui3.info/darcs/epub-metadata}
-% \end{compactitem}
+* Added support for epub3 documents. This was done using a single set of datatypes, not specific to either epub2 or epub3.
+* Redesigned the book file querying API to be an edsl. Actions are to be combined together based on what the developer needs from the document.
+* Data structures to contain epub metadata "sections" were redesigned to no longer be nested. Part of this change includes a typeclass-based pretty-print API for displaying this data.
+* Documentation rewrites and additions, including a working code example in the API docs.
+
+epub-metadata is available from Hackage and the Darcs repository below.
+
+See also epub-tools \cref{epubtools}.
+
+\FurtherReading
+\begin{compactitem}
+\item Project page:
+\url{http://ui3.info/d/proj/epub-metadata.html}
+
+\item Source repository:
+\texttt{darcs get} \url{http://ui3.info/darcs/epub-metadata}
+\end{compactitem}
 \end{hcarentry}
