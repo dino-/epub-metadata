@@ -31,7 +31,7 @@ import Data.List ( find )
 {- | Refinements represent meta tags within the metadata section
    that refine other tags. These are used during the parsing phase
    and are discarded as their information is slotted into the data
-   they refine (the types below like Creator, Title, etc..)
+   they refine (CreatorS, TitleS, IdentifierS, etc..)
 
    This is specific to epub3
 -}
