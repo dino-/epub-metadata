@@ -1,3 +1,9 @@
+- Seeing a problem where the container doc (which contains the location of the package document) is malformed. The code to protect for this is located in Codec.Epub.Parse but needs to be common to that module and Codec.Epub.IO as well so we can use it on ALL XML documents we read.
+
+   An idea: as part of this fix, is there a way to communicate that this occurred back to consumers of the API? I'd like this to generate a warning at least in my own tools.
+
+   Relevant modules: Codec.Epub.Parse, Codec.Epub.IO
+
 - May need to add a special function that will try to locate modified even in the metaDate field (which is what an epub2 might look like)
 
 - Need more API docs. Detail the differences between epub2 and epub3 in the data structures, where the fields come from and which are only one or the other.
