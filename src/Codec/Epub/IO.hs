@@ -32,6 +32,8 @@ import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 
+import Codec.Epub.Util
+
 
 locateRootFile :: (MonadIO m, MonadError String m) =>
    FilePath -> String -> m FilePath
@@ -84,7 +86,10 @@ getPkgPathXmlFromBS strictBytes = do
    -}
    containerDoc <- fileFromArchive containerPath archive
 
-   rootPath <- locateRootFile containerPath containerDoc
+   let cleanedContents = removeIllegalStartChars . removeEncoding
+         . removeDoctype $ containerDoc
+
+   rootPath <- locateRootFile containerPath cleanedContents
 
    -- Now that we have the path to the .opf file, extract it
    rootContents <- fileFromArchive rootPath archive

@@ -22,7 +22,6 @@ module Codec.Epub.Parse
 
 import Control.Arrow.ListArrows
 import Control.Monad.Error
-import Text.Regex
 import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.XmlState.TypeDefs
@@ -40,26 +39,7 @@ import Codec.Epub.Parse.Metadata
 import Codec.Epub.Parse.Package
 import Codec.Epub.Parse.Refinements
 import Codec.Epub.Parse.Spine
-
-
-{- An evil hack to remove *ILLEGAL* characters before the XML
-   declaration. Why do people write software that does this?
-   Can't they follow directions?
--}
-removeIllegalStartChars :: String -> String
-removeIllegalStartChars = dropWhile (/= '<')
-
-
--- An evil hack to remove encoding from the document
-removeEncoding :: String -> String
-removeEncoding = flip (subRegex 
-   (mkRegexWithOpts " +encoding=\"UTF-8\"" False False)) ""
-
-
--- An evil hack to remove any \<!DOCTYPE ...\> from the document
-removeDoctype :: String -> String
-removeDoctype = flip (subRegex 
-   (mkRegexWithOpts "<!DOCTYPE [^>]*>" False True)) ""
+import Codec.Epub.Util
 
 
 {- Extract the epub OPF Package data contained in the supplied 

@@ -55,6 +55,7 @@ library
                      Codec.Epub.Parse.Refinements
                      Codec.Epub.Parse.Spine
                      Codec.Epub.Parse.Util
+                     Codec.Epub.Util
    build-depends:    base >= 3 && < 5,
                      bytestring,
                      containers,
