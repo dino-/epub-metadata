@@ -88,7 +88,7 @@ And once you have it, building the usual way:
 
 ## Installing
 
-- Build and install with cabal-install:
+Build and install with cabal-install:
   `$ cabal update ; cabal install epub-metadata`
 
 
