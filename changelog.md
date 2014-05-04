@@ -1,3 +1,12 @@
+4.1 (2014-05-04)
+
+   * Fix for Simplifier ticks exhausted problem that was exposed
+     after upgrade to GHC 7.8.2
+   * Added README.md and changelog.md files, better docs!
+   * Some documentation fixes
+   * Fixed a bug reading books where the container XML document is malformed
+
+
 4.0 (2013-09-20)
 
    * Added support for epub3 documents. This was done using a single
