@@ -73,7 +73,7 @@ I experienced various problems using this software, such as:
 ## Getting source
 
 - Download the cabalized source package [from Hackage](http://hackage.haskell.org/package/epub-metadata)
-- Download the cabalized source tarball [from here](http://ui3.info/d/proj/epub-metadata/epub-metadata-4.0.tar.gz)
+- Download the cabalized source tarball [from here](http://ui3.info/d/proj/epub-metadata/epub-metadata-4.1.tar.gz)
 - Get the source with darcs: `$ darcs get http://ui3.info/darcs/epub-metadata`
 - If you're just looking, [browse the source](http://ui3.info/darcs/epub-metadata)
 
