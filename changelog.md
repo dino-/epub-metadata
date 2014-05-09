@@ -1,3 +1,8 @@
+4.2 (2014-05-09)
+
+   * Added many files missing from extra-source-files
+
+
 4.1 (2014-05-04)
 
    * Fix for Simplifier ticks exhausted problem that was exposed
