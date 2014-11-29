@@ -65,7 +65,7 @@ I experienced various problems using this software, such as:
 ### Using this library
 
    Please see the [Haddock documentation](http://hackage.haskell.org/package/epub-metadata-4.0/docs/Codec-Epub.html) or source code for
-   [Codec.Epub](http://ui3.info/darcs/epub-metadata/src/Codec/Epub.hs)
+   [Codec.Epub](http://hub.darcs.net/dino/epub-metadata/browse/src/Codec/Epub.hs)
 
    This file has a working example of using this library.
 
@@ -74,8 +74,8 @@ I experienced various problems using this software, such as:
 
 - Download the cabalized source package [from Hackage](http://hackage.haskell.org/package/epub-metadata)
 - Download the cabalized source tarball [from here](http://ui3.info/d/proj/epub-metadata/epub-metadata-4.2.tar.gz)
-- Get the source with darcs: `$ darcs get http://ui3.info/darcs/epub-metadata`
-- If you're just looking, [browse the source](http://ui3.info/darcs/epub-metadata)
+- Get the source with darcs: `$ darcs get http://hub.darcs.net/dino/epub-metadata`
+- If you're just looking, [browse the source](http://hub.darcs.net/dino/epub-metadata)
 
 And once you have it, building the usual way:
 
