@@ -79,11 +79,11 @@ I experienced various problems using this software, such as:
 
 And once you have it, building the usual way:
 
->     $ cabal configure --enable-tests
->     $ cabal build
->     $ cabal test
->     $ cabal haddock
->     $ cabal install
+    $ cabal configure --enable-tests
+    $ cabal build
+    $ cabal test
+    $ cabal haddock
+    $ cabal install
 
 
 ## Installing
