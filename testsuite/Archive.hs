@@ -6,7 +6,7 @@ module Archive
    where
 
 import Codec.Archive.Zip
-import Control.Monad.Error
+import Control.Monad.Except
 import System.Directory
 import System.FilePath
 import Test.HUnit
@@ -43,7 +43,7 @@ testMkArchive = TestCase $ do
 -}
 testDamagedZip :: Test
 testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
-   actual <- runErrorT $ getPkgXmlFromZip $ "testsuite"
+   actual <- runExceptT $ getPkgXmlFromZip $ "testsuite"
       </> "damagedZipCentralDir.epub"
    actual @?= Left "Data.Binary.Get.runGet at position 138: Did not find end of central directory signature"
 
@@ -57,7 +57,7 @@ testIllegalCharsBeforeDecl :: Test
 testIllegalCharsBeforeDecl = TestCase $ do
    xmlString <- readFile $
       "testsuite" </> "testIllegalCharsBeforeDecl.opf"
-   actual <- runErrorT $ getPackage xmlString
+   actual <- runExceptT $ getPackage xmlString
    let expected =
          Right Package {pkgVersion = "2.0", pkgUniqueId = "uuid_id"}
    assertEqual "illegal chars before XML declaration" expected actual

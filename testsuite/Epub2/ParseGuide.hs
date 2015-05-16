@@ -5,7 +5,7 @@ module Epub2.ParseGuide
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -25,7 +25,7 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
-   actual <- runErrorT $ getGuide xmlString
+   actual <- runExceptT $ getGuide xmlString
    let expected =
          Right [ GuideRef
                   { grType = "title-page"
@@ -46,6 +46,6 @@ testFull = TestCase $ do
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
-   actual <- runErrorT $ getGuide xmlString
+   actual <- runExceptT $ getGuide xmlString
    let expected = Right []
    assertEqual "minimal guide" expected actual

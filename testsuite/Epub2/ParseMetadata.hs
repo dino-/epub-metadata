@@ -5,7 +5,7 @@ module Epub2.ParseMetadata
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -27,7 +27,7 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
-   actual <- runErrorT $ getMetadata xmlString
+   actual <- runExceptT $ getMetadata xmlString
    let expected =
          Right Metadata
             { metaTitles =
@@ -112,7 +112,7 @@ testFull = TestCase $ do
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
-   actual <- runErrorT $ getMetadata xmlString
+   actual <- runExceptT $ getMetadata xmlString
    let expected = 
          Right Metadata 
             { metaTitles = [Title Nothing Nothing Nothing
@@ -143,6 +143,6 @@ testMinimal = TestCase $ do
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
-   actual <- runErrorT $ getMetadata xmlString
+   actual <- runExceptT $ getMetadata xmlString
    let expected = Right emptyMetadata
    assertEqual "missing all" expected actual

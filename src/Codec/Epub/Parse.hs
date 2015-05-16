@@ -20,7 +20,7 @@ module Codec.Epub.Parse
    where
 
 import Control.Arrow.ListArrows
-import Control.Monad.Error
+import Control.Monad.Except
 import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.XmlState.TypeDefs

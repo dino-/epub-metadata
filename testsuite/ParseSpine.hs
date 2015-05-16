@@ -5,7 +5,7 @@ module ParseSpine
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -26,7 +26,7 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
-   actual <- runErrorT $ getSpine xmlString
+   actual <- runExceptT $ getSpine xmlString
    let expected =
          Right Spine
             { spineToc = "ncx"
@@ -43,7 +43,7 @@ testFull = TestCase $ do
 testMinimal :: Test
 testMinimal = TestCase $ do
    xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
-   actual <- runErrorT $ getSpine xmlString
+   actual <- runExceptT $ getSpine xmlString
    let expected = Right Spine {spineToc = "ncx", spineItemrefs = []}
    assertEqual "minimal" expected actual
 
@@ -53,6 +53,6 @@ testMinimal = TestCase $ do
 testMissingAll :: Test
 testMissingAll = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
-   actual <- runErrorT $ getSpine xmlString
+   actual <- runExceptT $ getSpine xmlString
    let expected = Right Spine {spineToc = "", spineItemrefs = []}
    assertEqual "missing all" expected actual

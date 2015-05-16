@@ -5,7 +5,7 @@ module ParseManifest
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -25,7 +25,7 @@ tests = TestList
 testSeveral :: Test
 testSeveral = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
-   actual <- runErrorT $ getManifest xmlString
+   actual <- runExceptT $ getManifest xmlString
    let expected =
          Right $ Manifest [ ManifestItem 
                   { mfiId = "ncx"
@@ -51,7 +51,7 @@ testSeveral = TestCase $ do
 testMissing :: Test
 testMissing = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
-   actual <- runErrorT $ getManifest xmlString
+   actual <- runExceptT $ getManifest xmlString
    let expected =
          Right $ Manifest []
    assertEqual "missing entirely" expected actual

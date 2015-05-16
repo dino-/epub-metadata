@@ -19,7 +19,7 @@ module Codec.Epub.IO
 import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Exception
-import Control.Monad.Error
+import Control.Monad.Except
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B

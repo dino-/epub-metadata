@@ -5,7 +5,7 @@ module Epub3.ParseMetadata
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -25,7 +25,7 @@ tests = TestList
 testFull :: Test
 testFull = TestCase $ do
    xmlString <- readFile $ "testsuite" </> "epub3-full.opf"
-   actual <- runErrorT $ getMetadata xmlString
+   actual <- runExceptT $ getMetadata xmlString
    let expected =
          Right Metadata
             { metaIds =

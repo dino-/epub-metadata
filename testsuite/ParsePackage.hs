@@ -5,7 +5,7 @@ module ParsePackage
    ( tests )
    where
 
-import Control.Monad.Error
+import Control.Monad.Except
 import System.FilePath
 import Test.HUnit
 
@@ -24,7 +24,7 @@ tests = TestList
 testEpub2 :: Test
 testEpub2 = TestCase $ do
    xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
-   actual <- runErrorT $ getPackage xmlString
+   actual <- runExceptT $ getPackage xmlString
    let expected = 
          Right Package 
             { pkgVersion = "2.0"
