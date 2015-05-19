@@ -73,7 +73,7 @@ I experienced various problems using this software, such as:
 ## Getting source
 
 - Download the cabalized source package [from Hackage](http://hackage.haskell.org/package/epub-metadata)
-- Download the cabalized source tarball [from here](http://ui3.info/d/proj/epub-metadata/epub-metadata-4.2.tar.gz)
+- Get the source with cabal-install: `$ cabal get epub-metadata`
 - Get the source with darcs: `$ darcs get http://hub.darcs.net/dino/epub-metadata`
 - If you're just looking, [browse the source](http://hub.darcs.net/dino/epub-metadata)
 

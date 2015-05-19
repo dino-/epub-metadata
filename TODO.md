@@ -8,6 +8,3 @@
   will help to clean it up some more.
 - Better errors on parse failure, this will emerge along with more unit testing
 - More unit testing
-- Clean up README.md to no longer refer to ui3.info so much. And
-  remove that source tarball link stuff. This is handled neatly by
-  cabal, isn't it?
