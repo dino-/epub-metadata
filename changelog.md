@@ -1,3 +1,13 @@
+4.3 (2015-05-25)
+
+   * Replaced deprecated Control.Monad.Error with
+     Control.Monad.Except
+   * Updated cabal homepage, tested-with and source-repository
+   * Cleaned out ui3.info stuff from the README
+   * Updated boringfile with cabal sandbox filespecs
+   * TODO is now a Markdown document
+
+
 4.2 (2014-05-09)
 
    * Added many files missing from extra-source-files
