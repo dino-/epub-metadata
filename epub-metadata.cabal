@@ -30,7 +30,7 @@ extra-source-files:  changelog.md
                      testsuite/bookfiles/content/bar
                      testsuite/Epub2/*.hs
                      testsuite/Epub3/*.hs
-                     TODO
+                     TODO.md
                      util/gentags.sh
                      util/prefs/boring
                      util/show-opf.hs
