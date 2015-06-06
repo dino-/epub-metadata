@@ -3,7 +3,7 @@
 
 ## Synopsis
 
-Library for parsing epub document metadata
+Library for parsing epub document metadata (Haskell)
 
 
 ## Description
