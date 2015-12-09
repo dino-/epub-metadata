@@ -69,7 +69,7 @@ library
                      filepath,
                      hxt >= 9,
                      mtl,
-                     regex-compat,
+                     regex-compat-tdfa,
                      zip-archive
    hs-source-dirs:   src
    ghc-options:      -Wall
@@ -86,7 +86,7 @@ test-suite           test-epub-metadata
                      HUnit,
                      hxt >= 9,
                      mtl,
-                     regex-compat,
+                     regex-compat-tdfa,
                      zip-archive
    hs-source-dirs:   src testsuite
    other-modules:    Archive
