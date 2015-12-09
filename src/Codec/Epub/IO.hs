@@ -23,7 +23,7 @@ import Control.Monad.Except
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B
-import qualified Data.ByteString.Lazy.Char8 as BL
+import qualified Data.ByteString.Lazy.UTF8 as UTF8
 import Data.List
 import System.Directory
 import System.FilePath
@@ -56,7 +56,7 @@ fileFromArchive filePath archive = do
    let mbEntry = findEntryByPath filePath archive
    maybe
       (throwError $ "Unable to locate file " ++ filePath)
-      (return . BL.unpack . fromEntry) mbEntry
+      (return . UTF8.toString . fromEntry) mbEntry
 
 
 {- | The static location of the container.xml, as specified by the

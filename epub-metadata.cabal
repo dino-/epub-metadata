@@ -63,6 +63,7 @@ library
                      Codec.Epub.Util
    build-depends:    base >= 3 && < 5,
                      bytestring,
+                     utf8-string,
                      containers,
                      directory,
                      filepath,
@@ -79,6 +80,7 @@ test-suite           test-epub-metadata
    main-is:          test-main.hs
    build-depends:    base >= 3 && < 5,
                      bytestring,
+                     utf8-string,
                      directory,
                      filepath,
                      HUnit,
