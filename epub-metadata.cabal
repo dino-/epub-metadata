@@ -1,6 +1,6 @@
 name:                epub-metadata
 version:             4.4
-cabal-version:       >= 1.8
+cabal-version:       >= 1.10
 build-type:          Simple
 license:             BSD3
 license-file:        LICENSE
@@ -76,6 +76,7 @@ library
                      zip-archive
    hs-source-dirs:   src
    ghc-options:      -Wall -fsimpl-tick-factor=200
+   default-language: Haskell2010
 
 test-suite           test-epub-metadata
    type:             exitcode-stdio-1.0
@@ -114,3 +115,4 @@ test-suite           test-epub-metadata
                      ParsePackage
                      ParseSpine
    ghc-options:      -Wall -fsimpl-tick-factor=200
+   default-language: Haskell2010
