@@ -7,6 +7,7 @@ module Archive
 
 import Codec.Archive.Zip
 import Control.Monad.Except
+import Data.List ( isPrefixOf )
 import System.Directory
 import System.FilePath
 import Test.HUnit
@@ -42,10 +43,14 @@ testMkArchive = TestCase $ do
    a fatal exception.
 -}
 testDamagedZip :: Test
-testDamagedZip = TestLabel "damaged zip" $ TestCase $ do
+testDamagedZip = TestCase $ do
+   let label = "damaged zip"
+   let expectedErrorPrefix = "Data.Binary.Get.runGet at position 138: Did not find end of central directory signature"
    actual <- runExceptT $ getPkgXmlFromZip $ "testsuite"
       </> "damagedZipCentralDir.epub"
-   actual @?= Left "Data.Binary.Get.runGet at position 138: Did not find end of central directory signature"
+   case actual of
+      Left actualMessage -> assertBool label $ isPrefixOf expectedErrorPrefix actualMessage
+      Right _ -> assertFailure label
 
 
 {- Found books coming from Barnes & Noble (for their NOOK reader) to
