@@ -22,6 +22,7 @@ extra-source-files:  changelog.md
                      doc/examples/*.hs
                      doc/hcar/epubmetadata-De.tex
                      README.md
+                     stack.yaml
                      testsuite/*.epub
                      testsuite/*.hs
                      testsuite/*.opf
@@ -89,4 +90,27 @@ test-suite           test-epub-metadata
                      regex-compat,
                      zip-archive
    hs-source-dirs:   src testsuite
+   other-modules:    Archive
+                     Codec.Epub.Data.Common
+                     Codec.Epub.Data.Guide
+                     Codec.Epub.Data.Manifest
+                     Codec.Epub.Data.Metadata
+                     Codec.Epub.Data.Package
+                     Codec.Epub.Data.Spine
+                     Codec.Epub.IO
+                     Codec.Epub.Parse
+                     Codec.Epub.Parse.Guide
+                     Codec.Epub.Parse.Manifest
+                     Codec.Epub.Parse.Metadata
+                     Codec.Epub.Parse.Package
+                     Codec.Epub.Parse.Refinements
+                     Codec.Epub.Parse.Spine
+                     Codec.Epub.Parse.Util
+                     Codec.Epub.Util
+                     Epub2.ParseGuide
+                     Epub2.ParseMetadata
+                     Epub3.ParseMetadata
+                     ParseManifest
+                     ParsePackage
+                     ParseSpine
    ghc-options:      -Wall -fsimpl-tick-factor=200
