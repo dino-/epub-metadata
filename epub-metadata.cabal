@@ -72,7 +72,7 @@ library
                      regex-compat,
                      zip-archive
    hs-source-dirs:   src
-   ghc-options:      -Wall -fsimpl-tick-factor=200
+   ghc-options:      -Wall
    default-language: Haskell2010
 
 test-suite           test-epub-metadata
@@ -111,7 +111,7 @@ test-suite           test-epub-metadata
                      ParseManifest
                      ParsePackage
                      ParseSpine
-   ghc-options:      -Wall -fsimpl-tick-factor=200
+   ghc-options:      -Wall
    default-language: Haskell2010
 
 executable           epub-metadata-example
