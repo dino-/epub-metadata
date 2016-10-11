@@ -1,3 +1,14 @@
+4.4 (2016-10-11)
+
+   * Removed defunct cabal stability field
+   * Moved copyright dates up to 2016
+   * Moved tested-with up to GHC 8.0.1
+   * Removed GHC switch simpl-tick-factor
+   * Moved cabal-version up to >= 1.10
+   * Project now builds with stack
+   * Fixed failing damaged zip file unit test
+
+
 4.3 (2015-05-25)
 
    * Replaced deprecated Control.Monad.Error with
