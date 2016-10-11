@@ -1,5 +1,3 @@
-- Update cabal stability, this software is not experimental
-   - What are the possible values?
 - May need to add a special function that will try to locate modified
   even in the metaDate field (which is what an epub2 might look like)
 - Need more API docs. Detail the differences between epub2 and
