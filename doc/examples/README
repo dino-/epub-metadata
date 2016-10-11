@@ -1,3 +1,0 @@
-This is a small project for maintaining the example code that goes into the Haddock docs for Codec.Epub
-
-To build it, you'll need to install epub-metadata as it's called for by this example code's cabal file.

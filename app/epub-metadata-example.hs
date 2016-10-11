@@ -1,6 +1,11 @@
+{-
+   This is a small app for maintaining the example code that
+   goes into the Haddock docs for Codec.Epub
+-}
+
 import Codec.Epub
 import Codec.Epub.Data.Package
-import Control.Monad.Error
+import Control.Monad.Except
 
 
 main :: IO ()
@@ -8,7 +13,7 @@ main = do
    -- epub-metadata actions are in MonadIO and MonadError, so we're
    -- using ErrorT here
 
-   result <- runErrorT $ do
+   result <- runExceptT $ do
 
       -- Use the getPkgXmlFromZip action to extract the Package
       -- Document as an XML string. There are also other actions

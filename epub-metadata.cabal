@@ -17,9 +17,6 @@ category:            Codec, Text
 tested-with:         GHC >= 7.10.1
 extra-source-files:  changelog.md
                      doc/dev/notes
-                     doc/examples/README
-                     doc/examples/*.cabal
-                     doc/examples/*.hs
                      doc/hcar/epubmetadata-De.tex
                      README.md
                      stack.yaml
@@ -115,4 +112,13 @@ test-suite           test-epub-metadata
                      ParsePackage
                      ParseSpine
    ghc-options:      -Wall -fsimpl-tick-factor=200
+   default-language: Haskell2010
+
+executable           epub-metadata-example
+   main-is:          epub-metadata-example.hs
+   build-depends:    base >= 3 && < 5,
+                     epub-metadata,
+                     mtl
+   hs-source-dirs:   app
+   ghc-options:      -Wall
    default-language: Haskell2010
