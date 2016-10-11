@@ -73,23 +73,16 @@ I experienced various problems using this software, such as:
 ## Getting source
 
 - Download the cabalized source package [from Hackage](http://hackage.haskell.org/package/epub-metadata)
-- Get the source with cabal-install: `$ cabal get epub-metadata`
 - Get the source with darcs: `$ darcs get http://hub.darcs.net/dino/epub-metadata`
+- Get the source with cabal-install: `$ cabal get epub-metadata`
+- Get the source with stack: `$ stack unpack epub-metadata`
 - If you're just looking, [browse the source](http://hub.darcs.net/dino/epub-metadata)
 
 And once you have it, building the usual way:
 
-    $ cabal configure --enable-tests
-    $ cabal build
-    $ cabal test
-    $ cabal haddock
-    $ cabal install
-
-
-## Installing
-
-Build and install with cabal-install:
-  `$ cabal update ; cabal install epub-metadata`
+    $ stack build
+    $ stack test
+    $ stack haddock
 
 
 ## Contact
