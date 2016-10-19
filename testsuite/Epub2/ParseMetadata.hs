@@ -42,6 +42,11 @@ testFull = TestCase $ do
                   "Josephine B. Wiggins"
                , Creator
                   (Just "aut")
+                  (Just "Dicker, Joël")
+                  Nothing
+                  "Joël Dicker"
+               , Creator
+                  (Just "aut")
                   Nothing
                   Nothing
                   "Horatio Cromwell"

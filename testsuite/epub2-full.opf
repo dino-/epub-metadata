@@ -10,6 +10,7 @@
       <dc:title>Title Of This Book</dc:title>
       <dc:title xml:lang="fr">Titre De Ce Livre</dc:title>
       <dc:creator opf:role="aut" opf:file-as="Wiggins, Josephine B.">Josephine B. Wiggins</dc:creator>
+      <dc:creator opf:file-as="Dicker, Joël" opf:role="aut">Joël Dicker</dc:creator>
       <dc:creator opf:role="aut">Horatio Cromwell</dc:creator>
       <dc:creator>Natalia Jenkins</dc:creator>
       <dc:contributor opf:role="ill" opf:file-as="Knickerbocker, Reginald Q.">Reginald Q. Knickerbocker</dc:contributor>
