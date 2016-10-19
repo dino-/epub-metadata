@@ -1,3 +1,8 @@
+4.5 (2016-10-19)
+
+   * Fix merged for UTF8 issue
+
+
 4.4 (2016-10-11)
 
    * Removed defunct cabal stability field
