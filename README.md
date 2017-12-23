@@ -19,8 +19,8 @@ The motivation for this project grew out of my desire to take charge
 of missing or incorrect epub metadata in books I have purchased. I
 started out using the Calibre open source tools for examining this
 info. Limitations and incomplete implementation of those tools led
-me here to build a more complete implementation in the programming
-language that I love beyond all others.
+me here to build a more complete library in one of the best
+programming languages ever created.
 
 
 ### Why didn't I just use existing solutions?
