@@ -7,7 +7,7 @@ license-file:        LICENSE
 copyright:           2010-2016 Dino Morelli
 author:              Dino Morelli
 maintainer:          Dino Morelli <dino@ui3.info>
-homepage:            http://hub.darcs.net/dino/epub-metadata
+homepage:            https://github.com/dino-/epub-metadata
 synopsis:            Library for parsing epub document metadata
 description:         Library for parsing and manipulating epub document metadata. Supports epub versions 2 and 3.
 
@@ -33,8 +33,8 @@ extra-source-files:  changelog.md
                      util/show-opf.hs
 
 source-repository    head
-   type:             darcs
-   location:         http://hub.darcs.net/dino/epub-metadata
+   type:             git
+   location:         https://github.com/dino-/epub-metadata
 
 library
    exposed-modules:  Codec.Epub
