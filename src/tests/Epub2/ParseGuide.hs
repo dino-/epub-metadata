@@ -24,7 +24,7 @@ tests = TestList
 -}
 testFull :: Test
 testFull = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
+   xmlString <- readFile $ "util" </> "resources" </> "epub2-full.opf"
    actual <- runExceptT $ getGuide xmlString
    let expected =
          Right [ GuideRef
@@ -45,7 +45,7 @@ testFull = TestCase $ do
 -}
 testMinimal :: Test
 testMinimal = TestCase $ do
-   xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
+   xmlString <- liftIO $ readFile $ "util" </> "resources" </> "epub2-minimal.opf"
    actual <- runExceptT $ getGuide xmlString
    let expected = Right []
    assertEqual "minimal guide" expected actual

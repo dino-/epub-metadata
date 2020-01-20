@@ -23,7 +23,7 @@ tests = TestList
 -}
 testEpub2 :: Test
 testEpub2 = TestCase $ do
-   xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
+   xmlString <- liftIO $ readFile $ "util" </> "resources" </> "epub2-minimal.opf"
    actual <- runExceptT $ getPackage xmlString
    let expected = 
          Right Package 

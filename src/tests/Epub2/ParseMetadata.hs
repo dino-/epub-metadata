@@ -26,7 +26,7 @@ tests = TestList
 -}
 testFull :: Test
 testFull = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "epub2-full.opf"
+   xmlString <- readFile $ "util" </> "resources" </> "epub2-full.opf"
    actual <- runExceptT $ getMetadata xmlString
    let expected =
          Right Metadata
@@ -116,7 +116,7 @@ testFull = TestCase $ do
 -}
 testMinimal :: Test
 testMinimal = TestCase $ do
-   xmlString <- liftIO $ readFile $ "testsuite" </> "epub2-minimal.opf"
+   xmlString <- liftIO $ readFile $ "util" </> "resources" </> "epub2-minimal.opf"
    actual <- runExceptT $ getMetadata xmlString
    let expected = 
          Right Metadata 
@@ -147,7 +147,7 @@ testMinimal = TestCase $ do
 -}
 testMissingAll :: Test
 testMissingAll = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "epub2-missingAll.opf"
+   xmlString <- readFile $ "util" </> "resources" </> "epub2-missingAll.opf"
    actual <- runExceptT $ getMetadata xmlString
    let expected = Right emptyMetadata
    assertEqual "missing all" expected actual

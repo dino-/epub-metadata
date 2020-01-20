@@ -41,7 +41,7 @@ dependencies:
 - mtl
 
 library:
-  source-dirs: src
+  source-dirs: src/lib
   dependencies:
   - bytestring
   - utf8-string
@@ -54,14 +54,14 @@ library:
 
 executables:
   epub-metadata-example:
-    source-dirs: app
+    source-dirs: src/app
     main: epub-metadata-example.hs
     dependencies:
     - epub-metadata
 
 tests:
   test-epub-metadata:
-    source-dirs: testsuite
+    source-dirs: src/tests
     main: test-main.hs
     dependencies:
       - directory

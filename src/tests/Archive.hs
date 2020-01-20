@@ -31,7 +31,7 @@ tests = TestList
 testMkArchive :: Test
 testMkArchive = TestCase $ do
    origDir <- getCurrentDirectory
-   a <- mkEpubArchive $ "testsuite" </> "bookfiles"
+   a <- mkEpubArchive $ "util" </> "resources" </> "bookfiles"
    setCurrentDirectory origDir
    let maybeFirstFile = listToMaybe . filesInArchive $ a
 
@@ -47,7 +47,7 @@ testDamagedZip :: Test
 testDamagedZip = TestCase $ do
    let label = "damaged zip"
    let expectedErrorPrefix = "Data.Binary.Get.runGet at position 138: Did not find end of central directory signature"
-   actual <- runExceptT $ getPkgXmlFromZip $ "testsuite"
+   actual <- runExceptT $ getPkgXmlFromZip $ "util" </> "resources"
       </> "damagedZipCentralDir.epub"
    case actual of
       Left actualMessage -> assertBool label $ isPrefixOf expectedErrorPrefix actualMessage
@@ -62,7 +62,7 @@ testDamagedZip = TestCase $ do
 testIllegalCharsBeforeDecl :: Test
 testIllegalCharsBeforeDecl = TestCase $ do
    xmlString <- readFile $
-      "testsuite" </> "testIllegalCharsBeforeDecl.opf"
+      "util" </> "resources" </> "testIllegalCharsBeforeDecl.opf"
    actual <- runExceptT $ getPackage xmlString
    let expected =
          Right Package {pkgVersion = "2.0", pkgUniqueId = "uuid_id"}

@@ -24,7 +24,7 @@ tests = TestList
 -}
 testFull :: Test
 testFull = TestCase $ do
-   xmlString <- readFile $ "testsuite" </> "epub3-full.opf"
+   xmlString <- readFile $ "util" </> "resources" </> "epub3-full.opf"
    actual <- runExceptT $ getMetadata xmlString
    let expected =
          Right Metadata
