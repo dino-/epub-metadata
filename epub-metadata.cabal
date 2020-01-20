@@ -29,7 +29,6 @@ extra-source-files:  changelog.md
                      testsuite/Epub3/*.hs
                      TODO.md
                      util/gentags.sh
-                     util/prefs/boring
                      util/show-opf.hs
 
 source-repository    head
