@@ -10,7 +10,7 @@ Library for parsing epub document metadata (Haskell)
 
 Library for parsing and manipulating epub document metadata. Supports epub versions 2 and 3.
 
-This library was constructed by studying the IDPF specifications for epub documents found [here for version 2.x](http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm) and [here for version 3.x](http://www.idpf.org/epub/30/spec/epub30-publications.html)
+This library was constructed by studying the IDPF specifications for epub documents found [here for version 2.0.1](http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm) and [here for version 3.0](http://www.idpf.org/epub/30/spec/epub30-publications.html)
 
 
 ### Why was this done?
@@ -64,7 +64,7 @@ I experienced various problems using this software, such as:
 
 ### Using this library
 
-   Please see the [Haddock documentation](https://hackage.haskell.org/package/epub-metadata) or source code for [Codec.Epub](https://github.com/dino-/epub-metadata/blob/master/src/Codec/Epub.hs)
+   Please see the [Haddock documentation](https://hackage.haskell.org/package/epub-metadata) or source code for [Codec.Epub](https://github.com/dino-/epub-metadata/blob/master/src/lib/Codec/Epub.hs)
 
    This file has a working example of using this library.
 
@@ -72,7 +72,7 @@ I experienced various problems using this software, such as:
 ## Getting source
 
 - Download the cabalized source package [from Hackage](http://hackage.haskell.org/package/epub-metadata)
-- Get the source with darcs: `$ darcs get http://hub.darcs.net/dino/epub-metadata`
+- Get the source with git: `$ git clone https://github.com/dino-/epub-metadata.git`
 - Get the source with cabal-install: `$ cabal get epub-metadata`
 - Get the source with stack: `$ stack unpack epub-metadata`
 - If you're just looking, [browse the source](https://github.com/dino-/epub-metadata)
