@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {-# LANGUAGE FlexibleContexts #-}
 
 -- | Utility functions shared by several formatting modules

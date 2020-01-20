@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {-# LANGUAGE Arrows #-}
 
 -- | Helper functions used by the other parsing modules

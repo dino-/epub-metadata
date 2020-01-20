@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {-# LANGUAGE FlexibleContexts #-}
 
 {- | Module for pretty-printing epub guide info

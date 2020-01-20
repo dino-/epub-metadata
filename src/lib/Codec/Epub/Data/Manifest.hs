@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- | Data types for working with the metadata of epub documents
 
    This contains the manifest information from an epub document.

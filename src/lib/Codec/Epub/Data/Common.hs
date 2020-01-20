@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- | Data types for working with the metadata of epub documents
 
    This module helps to avoid circular imports for definitions needed by two or more other modules in this library.

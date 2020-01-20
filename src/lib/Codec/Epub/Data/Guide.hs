@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- | Data types for working with the metadata of epub documents
 
    This contains the guide section in an epub2 OPF document. It has been deprecated in the epub3 spec and should not be present in epub3 documents.

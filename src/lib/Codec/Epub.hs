@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- |
    This is a library for parsing and manipulating epub document metadata. Almost all of the data stored in the epub Package Document can be worked with using this API. This includes the most useful block of data, the epub metadata. This library supports epub versions 2 and 3.
 

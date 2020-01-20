@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {-# LANGUAGE Arrows #-}
 
 {- | Parsing for meta tags in the metadata section of the OPF

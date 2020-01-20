@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 module Epub3.ParseMetadata
    ( tests )
    where
@@ -94,7 +91,7 @@ testFull = TestCase $ do
                ]
             , metaSubjects = ["Fiction","Science Fiction"]
             , metaRights =
-               [ "Copyright: 2010 Dino Morelli, License: BSD3"
+               [ "Copyright: 2010 Dino Morelli, License: ISC"
                , "an additional rights"
                ]
             }

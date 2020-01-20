@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- | Utility functions shared by modules that need to read the
    contents of XML documents.
 -}

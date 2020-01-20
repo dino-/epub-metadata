@@ -1,8 +1,5 @@
 #! /usr/bin/runhaskell -isrc
 
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 import Control.Monad.Error ( runErrorT )
 import System.Environment ( getArgs )
 

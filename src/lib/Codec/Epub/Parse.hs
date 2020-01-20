@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {-# LANGUAGE Arrows, FlexibleContexts #-}
 
 {- | The main parsing interface, these get* functions are intended

@@ -37,7 +37,7 @@
       <dc:relation>an additional relation</dc:relation>
       <dc:coverage>coverage information</dc:coverage>
       <dc:coverage>an additional coverage</dc:coverage>
-      <dc:rights>Copyright: 2010 Dino Morelli, License: BSD3</dc:rights>
+      <dc:rights>Copyright: 2010 Dino Morelli, License: ISC</dc:rights>
       <dc:rights>an additional rights</dc:rights>
    </metadata>
 

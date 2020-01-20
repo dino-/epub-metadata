@@ -1,6 +1,3 @@
--- License: BSD3 (see LICENSE)
--- Author: Dino Morelli <dino@ui3.info>
-
 {- | Data type for working with epub package info
 
    This contains the package section from an epub document. In the
