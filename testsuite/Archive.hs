@@ -8,6 +8,7 @@ module Archive
 import Codec.Archive.Zip
 import Control.Monad.Except
 import Data.List ( isPrefixOf )
+import Data.Maybe ( listToMaybe )
 import System.Directory
 import System.FilePath
 import Test.HUnit
@@ -32,9 +33,9 @@ testMkArchive = TestCase $ do
    origDir <- getCurrentDirectory
    a <- mkEpubArchive $ "testsuite" </> "bookfiles"
    setCurrentDirectory origDir
-   let (firstFile : _) = filesInArchive a
+   let maybeFirstFile = listToMaybe . filesInArchive $ a
 
-   assertEqual "mimetype file is FIRST" "mimetype" firstFile
+   assertEqual "mimetype file is FIRST" (Just "mimetype") maybeFirstFile
 
 
 {- Occasionally epub zip files come along that are damaged in this
