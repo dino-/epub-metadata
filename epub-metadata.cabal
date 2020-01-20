@@ -1,5 +1,5 @@
 name:                epub-metadata
-version:             4.5
+version:             4.6
 cabal-version:       >= 1.10
 build-type:          Simple
 license:             BSD3
