@@ -23,7 +23,6 @@ extra-source-files:
 # - testsuite/Epub2/*.hs
 # - testsuite/Epub3/*.hs
 - TODO.md
-- util/gentags.sh
 - util/show-opf.hs
 
 github: dino-/epub-metadata
