@@ -11,18 +11,21 @@ extra-source-files:
 - changelog.md
 - doc/dev/notes
 - doc/hcar/epubmetadata-De.tex
+- .gitignore
 - package.yaml
 - README.md
 - stack.yaml
-# - testsuite/*.epub
-# - testsuite/*.hs
-# - testsuite/*.opf
-# - testsuite/bookfiles/foo
-# - testsuite/bookfiles/mimetype
-# - testsuite/bookfiles/content/bar
-# - testsuite/Epub2/*.hs
-# - testsuite/Epub3/*.hs
+- stack.yaml.lock
 - TODO.md
+- util/resources/bookfiles/content/bar
+- util/resources/bookfiles/foo
+- util/resources/bookfiles/mimetype
+- util/resources/damagedZipCentralDir.epub
+- util/resources/epub2-full.opf
+- util/resources/epub2-minimal.opf
+- util/resources/epub2-missingAll.opf
+- util/resources/epub3-full.opf
+- util/resources/testIllegalCharsBeforeDecl.opf
 - util/show-opf.hs
 
 github: dino-/epub-metadata
