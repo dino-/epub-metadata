@@ -9,7 +9,7 @@ homepage:       https://github.com/dino-/epub-metadata#readme
 bug-reports:    https://github.com/dino-/epub-metadata/issues
 author:         Dino Morelli
 maintainer:     Dino Morelli <dino@ui3.info>
-copyright:      2010- Dino Morelli
+copyright:      2010 Dino Morelli
 license:        ISC
 license-file:   LICENSE
 build-type:     Simple
