@@ -51,7 +51,7 @@ library:
   - directory
   - filepath
   - hxt >= 9
-  - regex-compat-tdfa
+  - regex-compat
   - zip-archive
 
 executables:
