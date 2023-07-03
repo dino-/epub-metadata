@@ -83,6 +83,10 @@ And once you have it, building the usual way:
     $ stack test
     $ stack haddock
 
+### Generating tags
+
+    $ hasktags --ctags .
+
 
 ## Contact
 
