@@ -21,7 +21,7 @@ import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.UTF8 as UTF8
-import Data.List
+import Data.List ( (\\), isPrefixOf )
 import System.Directory
 import System.FilePath
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
