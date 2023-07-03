@@ -3,6 +3,7 @@ module Epub3.ParseMetadata
    where
 
 import Control.Monad.Except
+import qualified Data.Map.Strict as Map
 import System.FilePath
 import Test.HUnit
 
@@ -65,8 +66,11 @@ testFull = TestCase $ do
                   (Just 3)
                   "Natalia Jenkins"
                ]
-            , metaDates = [ Date Nothing "2012" ]
-            , metaModified = Just "2013-08-31T13:06:32Z"
+            , metaDates = Map.fromList
+                [ (Issued, Date "2011")
+                , (Epub, Date "2012")
+                , (Modified, Date "2013-08-31T13:06:32Z")
+                ]
             , metaSource = Just "document source"
             , metaType = Just "test OPF Package Document"
             , metaCoverages =

@@ -10,18 +10,22 @@ module Codec.Epub.Data.Metadata
    , Title (..)
    , Creator (..)
    , Date (..)
+   , DateEvent (..)
    , Description (..)
    , Refinement (..)
+   , dateEventFromString
+   , dateEventToString
    , emptyMetadata
    , refineIdentifier
    , refineTitle
-   , getModified
    , refineCreator
    )
    where
 
 import Control.Monad ( mplus )
 import Data.List ( find )
+import qualified Data.Map.Strict as Map
+import Data.Map.Strict ( Map )
 
 
 {- | Refinements represent meta tags within the metadata section
@@ -141,18 +145,50 @@ refineCreator refinements (elid, creator) =
          in creator' { creatorSeq = sq }
 
 
--- | package\/metadata\/dc:date tag, opf:event attribute, text
-data Date = Date (Maybe String) String
+data DateEvent
+  = Available
+  | Created
+  | DateAccepted
+  | DateCopyrighted
+  | DateSubmitted
+  | Epub
+  | Issued
+  | Modified
+  | Valid
+  deriving (Eq, Ord, Show)
+
+dateEventFromString :: Maybe String -> DateEvent
+dateEventFromString (Just "dcterms:available") = Available
+dateEventFromString (Just "dcterms:created") = Created
+dateEventFromString (Just "publication") = Created                      -- EPUB 2.x
+dateEventFromString (Just "dcterms:dateAccepted") = DateAccepted
+dateEventFromString (Just "dcterms:dateCopyrighted") = DateCopyrighted
+dateEventFromString (Just "dcterms:dateSubmitted") = DateSubmitted
+dateEventFromString (Just "dcterms:issued") = Issued
+dateEventFromString (Just "original-publication") = Issued              -- EPUB 2.x
+dateEventFromString (Just "dcterms:modified") = Modified
+dateEventFromString (Just "dcterms:Valid") = Valid
+dateEventFromString _ = Epub
+
+dateEventToString :: DateEvent -> String
+dateEventToString Available = "available"
+dateEventToString Created = "created"
+dateEventToString DateAccepted = "dateAccepted"
+dateEventToString DateCopyrighted = "dateCopyrighted"
+dateEventToString DateSubmitted = "dateSubmitted"
+dateEventToString Epub = "EPUB created"
+dateEventToString Issued = "issued"
+dateEventToString Modified = "modified"
+dateEventToString Valid = "valid"
+
+
+-- | EPUB 2.x: package\/metadata\/dc:date tag, opf:event attribute, text
+-- | EPUB 3.x: package\/metadata\/dc:date tag
+-- |           package\/metadata\/meta property="dcterms:issued"
+-- |           package\/metadata\/meta property="dcterms:modified"
+-- |           package\/metadata\/meta property="dcterms:..."
+newtype Date = Date String
    deriving (Eq, Show)
-
-
-{- | Used internally by Codec.Epub.Parse.Metadata to populate the
-   metadata modified field with data extracted from the epub3 meta
-   tag with property dcterms:modified
--}
-getModified :: [Refinement] -> Maybe String
-getModified refinements =
-   refText `fmap` findByIdProp "" "dcterms:modified" refinements
 
 
 -- | package\/metadata\/dc:description tag, xml:lang attribute, text
@@ -172,8 +208,7 @@ data Metadata = Metadata
    , metaLangs :: [String]  -- ^ dc:language tags, at least one required
    , metaContributors :: [Creator]
    , metaCreators :: [Creator]
-   , metaDates :: [Date]
-   , metaModified :: Maybe String  -- ^ meta tag with property dcterms:modified, present only in epub3 documents
+   , metaDates :: Map DateEvent Date
    , metaSource :: Maybe String  -- ^ dc:source tags
    , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags
@@ -194,8 +229,7 @@ emptyMetadata = Metadata
    , metaLangs = []  -- one required
    , metaContributors = []
    , metaCreators = []
-   , metaDates = []
-   , metaModified = Nothing
+   , metaDates = Map.empty
    , metaSource = Nothing
    , metaType = Nothing
    , metaCoverages = []

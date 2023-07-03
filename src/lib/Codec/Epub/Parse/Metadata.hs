@@ -8,6 +8,8 @@ module Codec.Epub.Parse.Metadata
 
 import Control.Applicative
 import Control.Arrow.ListArrows
+import Data.List ( isPrefixOf )
+import qualified Data.Map.Strict as Map
 import Data.Tree.NTree.TypeDefs ( NTree )
 import Text.XML.HXT.Arrow.XmlArrow
 import Text.XML.HXT.DOM.TypeDefs
@@ -51,12 +53,20 @@ creatorP tag = atQTag (dcName tag) >>>
       returnA -< ((maybe "" id i), Creator r f Nothing t)
 
 
-dateP :: (ArrowXml a) => a (NTree XNode) Date
-dateP = atQTag (dcName "date") >>>
+dateElemP :: (ArrowXml a) => a (NTree XNode) (DateEvent, Date)
+dateElemP = atQTag (dcName "date") >>>
    proc x -> do
       e <- mbGetQAttrValue (opfName "event") -< x
       c <- text -< x
-      returnA -< Date e c
+      returnA -< (dateEventFromString e, Date c)
+
+
+dateMetaP :: (ArrowXml a) => a (NTree XNode) (DateEvent, Date)
+dateMetaP = atQTag (opfName "meta") >>>
+   proc x -> do
+      e <- mbGetAttrValue "property" <<< hasAttrValue "property" (isPrefixOf "dcterms:") -< x
+      c <- text -< x
+      returnA -< (dateEventFromString e, Date c)
 
 
 sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
@@ -109,8 +119,7 @@ metadataP refinements =
          map (refineCreator refinements))
       <*> (WrapArrow $ listA $ creatorP "creator" >>.
          map (refineCreator refinements))
-      <*> (WrapArrow $ listA dateP)
-      <*> (WrapArrow $ constA $ getModified refinements)
+      <*> (Map.fromList <$> (WrapArrow $ listA $ catA [dateElemP, dateMetaP]))
       <*> (WrapArrow sourceP)
       <*> (WrapArrow typeP)
       <*> (WrapArrow $ listA coverageP)

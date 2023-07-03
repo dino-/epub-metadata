@@ -10,7 +10,8 @@ module Codec.Epub.Format.Metadata
    where
 
 import Control.Monad.Writer.Lazy
-import Data.Foldable ( toList )
+import qualified Data.Foldable as Foldable
+import qualified Data.Map.Strict as Map
 import Text.Printf
 
 import Codec.Epub.Format.Util
@@ -50,13 +51,11 @@ tellContributor (Creator role fileAs dseq contributor) =
       (formatSubline "display-seq" (show `fmap` dseq))
 
 
-tellDate :: MonadWriter (Seq Char) m => Date -> m ()
-tellDate (Date Nothing date) =
-   tellSeq $ printf "date: %s\n" date
-tellDate (Date event date) =
+tellDate :: MonadWriter (Seq Char) m => (DateEvent, Date) -> m ()
+tellDate (event', Date date') =
    tellSeq $ printf "date\n%s%s"
-      (formatSubline "event" event)
-      (formatSubline "text" (Just date))
+      (formatSubline "event" (Just . dateEventToString $ event'))
+      (formatSubline "text" (Just date'))
 
 
 tellId :: MonadWriter (Seq Char) m => Identifier -> m ()
@@ -88,14 +87,13 @@ tellSimpleMbString label (Just s) = tellSimpleString label s
 
 
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
-tellMetadata (Metadata ids titles langs contributors creators dates modified source mType coverage desc format publisher relation rights subjects) = do
+tellMetadata (Metadata ids titles langs contributors creators dates source mType coverage desc format publisher relation rights subjects) = do
    mapM_ tellId ids
    mapM_ tellTitle titles
    mapM_ (tellSimpleString "language") langs
    mapM_ tellContributor contributors
    mapM_ tellCreator creators
-   mapM_ tellDate dates
-   tellSimpleMbString "modified" modified
+   mapM_ tellDate $ Map.toList dates
    tellSimpleMbString "source" source
    tellSimpleMbString "type" mType
    mapM_ (tellSimpleString "coverage") coverage
@@ -110,5 +108,5 @@ tellMetadata (Metadata ids titles langs contributors creators dates modified sou
 {- | Format an epub Metadata structure for pretty printing
 -}
 formatMetadata :: Metadata -> String
-formatMetadata meta = toList . execWriter
+formatMetadata meta = Foldable.toList . execWriter
    $ tellMetadata meta

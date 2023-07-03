@@ -3,6 +3,7 @@ module Epub2.ParseMetadata
    where
 
 import Control.Monad.Except
+import qualified Data.Map.Strict as Map
 import System.FilePath
 import Test.HUnit
 
@@ -74,13 +75,11 @@ testFull = TestCase $ do
                [ "Fictional Books Ltd."
                , "An additional publisher"
                ]
-            , metaDates = 
-               [ Date (Just "published") "2010"
-               , Date (Just "created") "2010-05-07"
-               , Date (Just "modified") "2010-05-08T10:20:57"
-               , Date Nothing "2009"
+            , metaDates = Map.fromList
+               [ (Issued, Date "2010")
+               , (Created, Date "2010-05-07")
+               , (Epub, Date "2009")
                ]
-            , metaModified = Nothing
             , metaType = Just "test OPF Package Document"
             , metaFormats =
                [ "ePub publication"
@@ -124,8 +123,7 @@ testMinimal = TestCase $ do
             , metaSubjects = []
             , metaDescriptions = []
             , metaPublishers = []
-            , metaDates = []
-            , metaModified = Nothing
+            , metaDates = Map.empty
             , metaType = Nothing
             , metaFormats = []
             , metaIds = [Identifier (Just "isbn") Nothing

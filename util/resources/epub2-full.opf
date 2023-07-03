@@ -18,9 +18,8 @@
       <dc:description>This document is a stub used for unit testing. It is missing the rest of the tags that normally occur after metadata.</dc:description>
       <dc:description>An additional description</dc:description>
       <dc:identifier id="isbn" opf:scheme="ISBN">1-82057-821-9</dc:identifier>
-      <dc:date opf:event="published">2010</dc:date>
-      <dc:date opf:event="created">2010-05-07</dc:date>
-      <dc:date opf:event="modified">2010-05-08T10:20:57</dc:date>
+      <dc:date opf:event="original-publication">2010</dc:date>
+      <dc:date opf:event="publication">2010-05-07</dc:date>
       <dc:date>2009</dc:date>
       <dc:language>en-US</dc:language>
       <dc:language>en-UK</dc:language>
