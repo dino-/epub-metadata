@@ -157,18 +157,19 @@ data DateEvent
   | Valid
   deriving (Eq, Ord, Show)
 
-dateEventFromString :: Maybe String -> DateEvent
-dateEventFromString (Just "dcterms:available") = Available
-dateEventFromString (Just "dcterms:created") = Created
-dateEventFromString (Just "publication") = Created                      -- EPUB 2.x
-dateEventFromString (Just "dcterms:dateAccepted") = DateAccepted
-dateEventFromString (Just "dcterms:dateCopyrighted") = DateCopyrighted
-dateEventFromString (Just "dcterms:dateSubmitted") = DateSubmitted
-dateEventFromString (Just "dcterms:issued") = Issued
-dateEventFromString (Just "original-publication") = Issued              -- EPUB 2.x
-dateEventFromString (Just "dcterms:modified") = Modified
-dateEventFromString (Just "dcterms:Valid") = Valid
-dateEventFromString _ = Epub
+dateEventFromString :: Maybe String -> Maybe DateEvent
+dateEventFromString (Just "dcterms:available") = Just Available
+dateEventFromString (Just "dcterms:created") = Just Created
+dateEventFromString (Just "publication") = Just Created                      -- EPUB 2.x
+dateEventFromString (Just "dcterms:dateAccepted") = Just DateAccepted
+dateEventFromString (Just "dcterms:dateCopyrighted") = Just DateCopyrighted
+dateEventFromString (Just "dcterms:dateSubmitted") = Just DateSubmitted
+dateEventFromString (Just "dcterms:issued") = Just Issued
+dateEventFromString (Just "original-publication") = Just Issued              -- EPUB 2.x
+dateEventFromString (Just "dcterms:modified") = Just Modified
+dateEventFromString (Just "dcterms:valid") = Just Valid
+dateEventFromString Nothing = Just Epub
+dateEventFromString _ = Nothing
 
 dateEventToString :: DateEvent -> String
 dateEventToString Available = "available"

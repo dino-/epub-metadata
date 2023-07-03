@@ -39,6 +39,8 @@ source-repository head
 
 common lang
   default-language: Haskell2010
+  default-extensions:
+    TupleSections
   build-depends:
       mtl
   ghc-options:
