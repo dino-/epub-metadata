@@ -80,6 +80,8 @@ library
       Codec.Epub.Util
   other-modules:
       Paths_epub_metadata
+  autogen-modules:
+      Paths_epub_metadata
   hs-source-dirs:
       src/lib
   build-depends:
@@ -97,6 +99,8 @@ executable epub-metadata-example
   import: lang
   main-is: epub-metadata-example.hs
   other-modules:
+      Paths_epub_metadata
+  autogen-modules:
       Paths_epub_metadata
   hs-source-dirs:
       src/app
@@ -116,6 +120,8 @@ test-suite test-epub-metadata
       ParseManifest
       ParsePackage
       ParseSpine
+      Paths_epub_metadata
+  autogen-modules:
       Paths_epub_metadata
   hs-source-dirs:
       src/tests
