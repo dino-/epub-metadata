@@ -67,9 +67,9 @@ testFull = TestCase $ do
                   "Natalia Jenkins"
                ]
             , metaDates = Map.fromList
-                [ (Issued, Date "2011")
-                , (Epub, Date "2012")
-                , (Modified, Date "2013-08-31T13:06:32Z")
+                [ (Issued, DateValue "2011")
+                , (Epub, DateValue "2012")
+                , (Modified, DateValue "2013-08-31T13:06:32Z")
                 ]
             , metaSource = Just "document source"
             , metaType = Just "test OPF Package Document"

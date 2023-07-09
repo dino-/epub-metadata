@@ -9,7 +9,7 @@ module Codec.Epub.Data.Metadata
    , Identifier (..)
    , Title (..)
    , Creator (..)
-   , Date (..)
+   , DateValue (..)
    , DateEvent (..)
    , Description (..)
    , Refinement (..)
@@ -148,6 +148,7 @@ refineCreator refinements (elid, creator) =
 data DateEvent
   = Available
   | Created
+  | Date
   | DateAccepted
   | DateCopyrighted
   | DateSubmitted
@@ -161,6 +162,7 @@ dateEventFromString :: Maybe String -> Maybe DateEvent
 dateEventFromString (Just "dcterms:available") = Just Available
 dateEventFromString (Just "dcterms:created") = Just Created
 dateEventFromString (Just "publication") = Just Created                      -- EPUB 2.x
+dateEventFromString (Just "dcterms:date") = Just Date
 dateEventFromString (Just "dcterms:dateAccepted") = Just DateAccepted
 dateEventFromString (Just "dcterms:dateCopyrighted") = Just DateCopyrighted
 dateEventFromString (Just "dcterms:dateSubmitted") = Just DateSubmitted
@@ -174,6 +176,7 @@ dateEventFromString _ = Nothing
 dateEventToString :: DateEvent -> String
 dateEventToString Available = "available"
 dateEventToString Created = "created"
+dateEventToString Date = "date"
 dateEventToString DateAccepted = "dateAccepted"
 dateEventToString DateCopyrighted = "dateCopyrighted"
 dateEventToString DateSubmitted = "dateSubmitted"
@@ -188,7 +191,7 @@ dateEventToString Valid = "valid"
 -- |           package\/metadata\/meta property="dcterms:issued"
 -- |           package\/metadata\/meta property="dcterms:modified"
 -- |           package\/metadata\/meta property="dcterms:..."
-newtype Date = Date String
+newtype DateValue = DateValue String
    deriving (Eq, Show)
 
 
@@ -209,7 +212,7 @@ data Metadata = Metadata
    , metaLangs :: [String]  -- ^ dc:language tags, at least one required
    , metaContributors :: [Creator]
    , metaCreators :: [Creator]
-   , metaDates :: Map DateEvent Date
+   , metaDates :: Map DateEvent DateValue
    , metaSource :: Maybe String  -- ^ dc:source tags
    , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags

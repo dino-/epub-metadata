@@ -54,20 +54,20 @@ creatorP tag = atQTag (dcName tag) >>>
       returnA -< ((maybe "" id i), Creator r f Nothing t)
 
 
-dateElemP :: (ArrowXml a) => a (NTree XNode) (Maybe (DateEvent, Date))
+dateElemP :: (ArrowXml a) => a (NTree XNode) (Maybe (DateEvent, DateValue))
 dateElemP = atQTag (dcName "date") >>>
    proc x -> do
       e <- mbGetQAttrValue (opfName "event") -< x
       c <- text -< x
-      returnA -< (, Date c) <$> dateEventFromString e
+      returnA -< (, DateValue c) <$> dateEventFromString e
 
 
-dateMetaP :: (ArrowXml a) => a (NTree XNode) (Maybe (DateEvent, Date))
+dateMetaP :: (ArrowXml a) => a (NTree XNode) (Maybe (DateEvent, DateValue))
 dateMetaP = atQTag (opfName "meta") >>>
    proc x -> do
       e <- mbGetAttrValue "property" <<< hasAttrValue "property" (isPrefixOf "dcterms:") -< x
       c <- text -< x
-      returnA -< (, Date c) <$> dateEventFromString e
+      returnA -< (, DateValue c) <$> dateEventFromString e
 
 
 sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)

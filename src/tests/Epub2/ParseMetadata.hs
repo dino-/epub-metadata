@@ -76,9 +76,9 @@ testFull = TestCase $ do
                , "An additional publisher"
                ]
             , metaDates = Map.fromList
-               [ (Issued, Date "2010")
-               , (Created, Date "2010-05-07")
-               , (Epub, Date "2009")
+               [ (Issued, DateValue "2010")
+               , (Created, DateValue "2010-05-07")
+               , (Epub, DateValue "2009")
                ]
             , metaType = Just "test OPF Package Document"
             , metaFormats =

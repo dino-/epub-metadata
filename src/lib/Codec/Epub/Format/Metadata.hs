@@ -51,8 +51,8 @@ tellContributor (Creator role fileAs dseq contributor) =
       (formatSubline "display-seq" (show `fmap` dseq))
 
 
-tellDate :: MonadWriter (Seq Char) m => (DateEvent, Date) -> m ()
-tellDate (event', Date date') =
+tellDate :: MonadWriter (Seq Char) m => (DateEvent, DateValue) -> m ()
+tellDate (event', DateValue date') =
    tellSeq $ printf "date\n%s%s"
       (formatSubline "event" (Just . dateEventToString $ event'))
       (formatSubline "text" (Just date'))
