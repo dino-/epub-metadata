@@ -1,3 +1,24 @@
+5.2 (2023-08-09)
+
+  * Fixed import issues with GHC 9.6.2 related to monad transformer functions
+
+
+5.1 (2023-07-09)
+
+  * Fixed an sdist problem with missing autogen-modules
+
+
+5.0 (2023-07-09)
+
+  * Fixed some problems with extra-source-files
+  * Moved Stackage snapshot up to lts-20.12
+  * Switched from hpack to cabal v2.2
+  * Fixed all copyright date issues
+  * Made Data.List imports explicit
+  * Completely overhauled how dates are handled
+  * Added another EPUB3 dcterms date type
+
+
 4.5 (2016-10-19)
 
    * Fix merged for UTF8 issue
