@@ -3,6 +3,7 @@ module Epub2.ParseGuide
    where
 
 import Control.Monad.Except
+import Control.Monad.IO.Class ( liftIO )
 import System.FilePath
 import Test.HUnit
 

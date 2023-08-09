@@ -16,7 +16,10 @@ module Codec.Epub.IO
 import Codec.Archive.Zip
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Exception
+import Control.Monad ( (>=>), forM, liftM )
 import Control.Monad.Except
+import Control.Monad.IO.Class ( liftIO )
+import Control.Monad.Trans ( MonadIO )
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B

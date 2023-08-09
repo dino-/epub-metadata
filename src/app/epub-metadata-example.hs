@@ -6,6 +6,7 @@
 import Codec.Epub
 import Codec.Epub.Data.Package
 import Control.Monad.Except
+import Control.Monad.IO.Class ( liftIO )
 
 
 main :: IO ()

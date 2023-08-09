@@ -3,6 +3,7 @@ module Epub2.ParseMetadata
    where
 
 import Control.Monad.Except
+import Control.Monad.IO.Class ( liftIO )
 import qualified Data.Map.Strict as Map
 import System.FilePath
 import Test.HUnit
