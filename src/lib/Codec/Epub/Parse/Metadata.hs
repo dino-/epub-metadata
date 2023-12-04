@@ -70,8 +70,12 @@ dateMetaP = atQTag (opfName "meta") >>>
       returnA -< (, DateValue c) <$> dateEventFromString e
 
 
-sourceP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
-sourceP = mbQTagText $ dcName "source"
+sourceP :: (ArrowXml a) => a (NTree XNode) (String, Source)
+sourceP = atQTag (dcName "source") >>>
+  proc x -> do
+    i <- mbGetAttrValue "id" -< x
+    t <- text -< x
+    returnA -< ((maybe "" id i), Source Nothing Nothing Nothing t)
 
 
 typeP :: (ArrowXml a) => a (NTree XNode) (Maybe String)
@@ -121,7 +125,7 @@ metadataP refinements =
       <*> (WrapArrow $ listA $ creatorP "creator" >>.
          map (refineCreator refinements))
       <*> (Map.fromList . catMaybes <$> (WrapArrow $ listA $ catA [dateElemP, dateMetaP]))
-      <*> (WrapArrow sourceP)
+      <*> (WrapArrow $ listA $ sourceP >>. map (refineSource refinements))
       <*> (WrapArrow typeP)
       <*> (WrapArrow $ listA coverageP)
       <*> (WrapArrow $ listA descriptionP)

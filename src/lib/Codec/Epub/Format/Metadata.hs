@@ -51,6 +51,17 @@ tellContributor (Creator role fileAs dseq contributor) =
       (formatSubline "display-seq" (show `fmap` dseq))
 
 
+tellSource :: MonadWriter (Seq Char) m => Source -> m ()
+tellSource (Source Nothing Nothing Nothing source) =
+  tellSeq $ printf "source: %s\n" source
+tellSource (Source idType' scheme sourceOf source) =
+  tellSeq $ printf "source\n%s%s%s%s"
+    (formatSubline "text" (Just source))
+    (formatSubline "identifier-type" idType')
+    (formatSubline "scheme" scheme)
+    (formatSubline "source-of" sourceOf)
+
+
 tellDate :: MonadWriter (Seq Char) m => (DateEvent, DateValue) -> m ()
 tellDate (event', DateValue date') =
    tellSeq $ printf "date\n%s%s"
@@ -87,14 +98,14 @@ tellSimpleMbString label (Just s) = tellSimpleString label s
 
 
 tellMetadata :: MonadWriter (Seq Char) m => Metadata -> m ()
-tellMetadata (Metadata ids titles langs contributors creators dates source mType coverage desc format publisher relation rights subjects) = do
+tellMetadata (Metadata ids titles langs contributors creators dates sources mType coverage desc format publisher relation rights subjects) = do
    mapM_ tellId ids
    mapM_ tellTitle titles
    mapM_ (tellSimpleString "language") langs
    mapM_ tellContributor contributors
    mapM_ tellCreator creators
    mapM_ tellDate $ Map.toList dates
-   tellSimpleMbString "source" source
+   mapM_ tellSource sources
    tellSimpleMbString "type" mType
    mapM_ (tellSimpleString "coverage") coverage
    mapM_ tellDescription desc

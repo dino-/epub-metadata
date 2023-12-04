@@ -90,7 +90,7 @@ testFull = TestCase $ do
                [ Identifier (Just "isbn") Nothing (Just "ISBN") "1-82057-821-9"
                , Identifier (Just "other") Nothing Nothing "1386506873266"
                ]
-            , metaSource = Just "document source"
+            , metaSources = [Source Nothing Nothing Nothing "document source"]
             , metaLangs = ["en-US", "en-UK"]
             , metaRelations =
                [ "document relation"
@@ -129,7 +129,7 @@ testMinimal = TestCase $ do
             , metaFormats = []
             , metaIds = [Identifier (Just "isbn") Nothing
                (Just "ISBN") "1-82057-821-9"]
-            , metaSource = Nothing
+            , metaSources = []
             , metaLangs = ["en-us"]
             , metaRelations = []
             , metaCoverages = []

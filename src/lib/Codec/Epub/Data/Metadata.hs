@@ -13,12 +13,14 @@ module Codec.Epub.Data.Metadata
    , DateEvent (..)
    , Description (..)
    , Refinement (..)
+   , Source (..)
    , dateEventFromString
    , dateEventToString
    , emptyMetadata
    , refineIdentifier
    , refineTitle
    , refineCreator
+   , refineSource
    )
    where
 
@@ -41,6 +43,7 @@ data Refinement = Refinement
    , refScheme :: String  -- ^ scheme attribute
    , refText :: String  -- ^ meta tag text
    }
+   deriving Show
 
 
 {- Used for locating specific meta information in a list of
@@ -145,6 +148,37 @@ refineCreator refinements (elid, creator) =
          in creator' { creatorSeq = sq }
 
 
+{- | package\/metadata\/dc:source tags
+-}
+data Source = Source
+  { sourceType :: Maybe String
+  , sourceScheme :: Maybe String
+  , sourceSourceOf :: Maybe String
+  , sourceText :: String
+  }
+  deriving (Eq, Show)
+
+{- | Used internally by Codec.Epub.Parse.Metadata to merge epub3 meta
+   tag info into the data gathered from contributor and creator tags
+-}
+refineSource :: [Refinement] -> (String, Source) -> Source
+refineSource refinements (elid, source) =
+  assignType . assignScheme . assignSourceOf $ source
+
+  where
+    idTypeMeta = findByIdProp elid "identifier-type" refinements
+
+    assignType source' = source' { sourceType = refText <$> idTypeMeta }
+
+    assignScheme source' = source' { sourceScheme = refScheme <$> idTypeMeta }
+
+    assignSourceOf source' =
+      let existingSourceOf = sourceSourceOf source'
+          metaSourceOf = maybe Nothing (Just . refText) $
+            findByIdProp elid "source-of" refinements
+      in source' { sourceSourceOf = existingSourceOf `mplus` metaSourceOf }
+
+
 data DateEvent
   = Available
   | Created
@@ -213,7 +247,7 @@ data Metadata = Metadata
    , metaContributors :: [Creator]
    , metaCreators :: [Creator]
    , metaDates :: Map DateEvent DateValue
-   , metaSource :: Maybe String  -- ^ dc:source tags
+   , metaSources :: [Source]  -- ^ dc:source tags
    , metaType :: Maybe String  -- ^ dc:type tags
    , metaCoverages :: [String]  -- ^ dc:coverage tags
    , metaDescriptions :: [Description]
@@ -234,7 +268,7 @@ emptyMetadata = Metadata
    , metaContributors = []
    , metaCreators = []
    , metaDates = Map.empty
-   , metaSource = Nothing
+   , metaSources = []
    , metaType = Nothing
    , metaCoverages = []
    , metaDescriptions = []

@@ -43,7 +43,7 @@ import Codec.Epub.Util
 {- Extract the epub OPF Package data contained in the supplied 
    XML string
 -}
-performParse :: (MonadIO m, MonadError String m) =>
+performParse :: (MonadIO m, MonadError String m, Show b) =>
    IOSLA (XIOState ()) XmlTree b -> String -> m b
 performParse parser contents = do
    {- Improper encoding and schema declarations have been causing
@@ -59,8 +59,8 @@ performParse parser contents = do
 
    case result of
       (r : []) -> return r
-      _        -> throwError
-         "ERROR: FIXME with a better message"
+      (_ : unparseable) -> throwError $
+         "ERROR: Unable to parse epub metadata\n" <> (show unparseable)
 
 
 {- | Parse epub guide items from a String representing the epub XML

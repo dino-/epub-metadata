@@ -11,7 +11,6 @@ module Codec.Epub.Parse.Refinements
 import Control.Applicative (WrappedArrow (WrapArrow), unwrapArrow)
 import Control.Arrow.ListArrows ((>>>), (>>^), listA)
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Debug.Trace
 import Text.XML.HXT.Arrow.XmlArrow (ArrowXml)
 import Text.XML.HXT.DOM.TypeDefs (XNode)
 

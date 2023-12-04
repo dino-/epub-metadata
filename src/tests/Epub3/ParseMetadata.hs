@@ -71,7 +71,10 @@ testFull = TestCase $ do
                 , (Epub, DateValue "2012")
                 , (Modified, DateValue "2013-08-31T13:06:32Z")
                 ]
-            , metaSource = Just "document source"
+            , metaSources =
+              [ Source Nothing Nothing Nothing "document source"
+              , Source (Just "15") (Just "onix:codelist5") (Just "pagination") "another source"
+              ]
             , metaType = Just "test OPF Package Document"
             , metaCoverages =
                [ "coverage information"

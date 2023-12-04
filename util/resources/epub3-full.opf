@@ -45,6 +45,9 @@
       <meta property="dcterms:modified">2013-08-31T13:06:32Z</meta>
 
       <dc:source>document source</dc:source>
+      <dc:source id="src2">another source</dc:source>
+      <meta refines="#src2" property="identifier-type" scheme="onix:codelist5">15</meta>
+      <meta refines="#src2" property="source-of">pagination</meta>
 
       <dc:type>test OPF Package Document</dc:type>
 
