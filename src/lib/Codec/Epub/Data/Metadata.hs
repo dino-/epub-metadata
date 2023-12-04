@@ -5,22 +5,22 @@
    Both commonly-used versions of epub (2.x and 3.x) are supported by these types.
 -}
 module Codec.Epub.Data.Metadata
-   ( Metadata (..)
-   , Identifier (..)
-   , Title (..)
-   , Creator (..)
-   , DateValue (..)
+   ( Creator (..)
    , DateEvent (..)
+   , DateValue (..)
    , Description (..)
+   , Identifier (..)
+   , Metadata (..)
    , Refinement (..)
    , Source (..)
+   , Title (..)
    , dateEventFromString
    , dateEventToString
    , emptyMetadata
-   , refineIdentifier
-   , refineTitle
    , refineCreator
+   , refineIdentifier
    , refineSource
+   , refineTitle
    )
    where
 
