@@ -15,7 +15,7 @@ import Text.Printf
 
 formatSubline :: String -> Maybe String -> String
 formatSubline _   Nothing = ""
-formatSubline key (Just value) = printf "   %s: %s\n" key value
+formatSubline key (Just value) = printf "  %s: %s\n" key value
 
 
 tellSeq :: MonadWriter (Seq a) m => [a] -> m ()
