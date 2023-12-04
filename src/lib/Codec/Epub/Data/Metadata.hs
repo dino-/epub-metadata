@@ -70,15 +70,15 @@ data Identifier = Identifier
 refineIdentifier :: [Refinement] -> Identifier -> Identifier
 refineIdentifier refinements ident = assignScheme . assignType $ ident
    where
-      meta = findByIdProp (maybe "" id $ idId ident)
+      idTypeMeta = findByIdProp (maybe "" id $ idId ident)
          "identifier-type" refinements
 
-      assignType ident' = ident' { idType = refText `fmap` meta }
+      assignType ident' = ident' { idType = refText `fmap` idTypeMeta }
 
       assignScheme ident' =
          let existingScheme = idScheme ident'
          in ident' { idScheme = existingScheme `mplus`
-               (refScheme `fmap` meta) }
+               (refScheme `fmap` idTypeMeta) }
 
 
 -- | package\/metadata\/dc:title tag
