@@ -6,14 +6,14 @@ module Codec.Epub.Parse.Metadata
    )
    where
 
-import Control.Applicative
-import Control.Arrow.ListArrows
+import Control.Applicative ( WrappedArrow (WrapArrow), unwrapArrow )
+import Control.Arrow.ListArrows ( (>>.), (>>>), (<<<), catA, constA, listA, returnA )
 import Data.List ( isPrefixOf )
 import qualified Data.Map.Strict as Map
 import Data.Maybe ( catMaybes )
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Text.XML.HXT.Arrow.XmlArrow
-import Text.XML.HXT.DOM.TypeDefs
+import Text.XML.HXT.Arrow.XmlArrow ( ArrowXml, hasAttrValue )
+import Text.XML.HXT.DOM.TypeDefs ( XNode )
 
 import Codec.Epub.Data.Metadata
 import Codec.Epub.Parse.Util

@@ -14,10 +14,12 @@ module Codec.Epub.Parse.Util
    )
    where
 
-import Control.Arrow.ListArrows
+import Control.Arrow.ListArrows ( ArrowList, (>>^), (>>>), constA, deep,
+  getChildren, isA, orElse )
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Text.XML.HXT.Arrow.XmlArrow
-import Text.XML.HXT.DOM.TypeDefs
+import Text.XML.HXT.Arrow.XmlArrow ( ArrowXml, getAttrValue, getQAttrValue,
+  getText, hasQName, isElem )
+import Text.XML.HXT.DOM.TypeDefs ( QName, XmlTree, XNode, mkQName )
 
 
 -- HXT helpers

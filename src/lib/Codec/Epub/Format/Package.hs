@@ -9,7 +9,7 @@ module Codec.Epub.Format.Package
    )
    where
 
-import Control.Monad.Writer.Lazy
+import Control.Monad.Writer.Lazy ( MonadWriter, execWriter )
 import Data.Foldable ( toList )
 
 import Codec.Epub.Data.Package

@@ -9,9 +9,9 @@ module Codec.Epub.Format.Spine
    )
    where
 
-import Control.Monad.Writer.Lazy
+import Control.Monad.Writer.Lazy ( MonadWriter, execWriter )
 import Data.Foldable ( toList )
-import Text.Printf
+import Text.Printf ( printf )
 
 import Codec.Epub.Format.Util
 import Codec.Epub.Data.Spine

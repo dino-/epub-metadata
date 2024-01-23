@@ -16,15 +16,14 @@ module Codec.Epub.Parse
    )
    where
 
-import Control.Arrow.ListArrows
-import Control.Monad.Except
+import Control.Arrow.ListArrows ( IOSLA, (>>>) )
+import Control.Monad.Except ( MonadError, MonadIO, throwError )
 import Control.Monad.IO.Class ( liftIO )
-import Control.Monad.Trans ( MonadIO )
 import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
-import Text.XML.HXT.Arrow.XmlState.TypeDefs
+import Text.XML.HXT.Arrow.XmlState.TypeDefs ( XIOState )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
-import Text.XML.HXT.DOM.TypeDefs
+import Text.XML.HXT.DOM.TypeDefs ( XmlTree )
 
 import Codec.Epub.Data.Guide
 import Codec.Epub.Data.Manifest

@@ -8,9 +8,9 @@ module Codec.Epub.Format.Util
    )
    where
 
-import Control.Monad.Writer.Lazy
+import Control.Monad.Writer.Lazy ( MonadWriter, tell )
 import Data.Sequence ( Seq, fromList )
-import Text.Printf
+import Text.Printf ( printf )
 
 
 formatSubline :: String -> Maybe String -> String

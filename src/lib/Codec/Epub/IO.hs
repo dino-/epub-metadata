@@ -13,20 +13,20 @@ module Codec.Epub.IO
    )
    where
 
-import Codec.Archive.Zip
+import Codec.Archive.Zip ( Archive, ZipOption (OptRecursive),
+  addFilesToArchive, emptyArchive, findEntryByPath, fromArchive, fromEntry, toArchive )
 import Control.Arrow.ListArrows ( (>>>), deep )
-import Control.Exception
+import Control.Exception ( SomeException, evaluate, try )
 import Control.Monad ( (>=>), forM, liftM )
-import Control.Monad.Except
+import Control.Monad.Except ( MonadError, MonadIO, throwError )
 import Control.Monad.IO.Class ( liftIO )
-import Control.Monad.Trans ( MonadIO )
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.UTF8 as UTF8
 import Data.List ( (\\), isPrefixOf )
-import System.Directory
-import System.FilePath
+import System.Directory ( doesDirectoryExist, getDirectoryContents, setCurrentDirectory )
+import System.FilePath ( (</>) )
 import Text.XML.HXT.Arrow.ReadDocument ( readString )
 import Text.XML.HXT.Arrow.XmlArrow ( getAttrValue, hasName, isElem )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )

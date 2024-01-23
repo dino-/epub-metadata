@@ -6,10 +6,10 @@ module Codec.Epub.Parse.Manifest
    )
    where
 
-import Control.Arrow.ListArrows
+import Control.Arrow.ListArrows ( (>>>), listA, returnA )
 import Data.Tree.NTree.TypeDefs ( NTree )
-import Text.XML.HXT.Arrow.XmlArrow
-import Text.XML.HXT.DOM.TypeDefs
+import Text.XML.HXT.Arrow.XmlArrow ( ArrowXml, getAttrValue )
+import Text.XML.HXT.DOM.TypeDefs ( XNode )
 
 import Codec.Epub.Data.Manifest
 import Codec.Epub.Parse.Util

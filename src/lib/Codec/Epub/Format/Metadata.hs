@@ -9,10 +9,10 @@ module Codec.Epub.Format.Metadata
    )
    where
 
-import Control.Monad.Writer.Lazy
+import Control.Monad.Writer.Lazy ( MonadWriter, execWriter )
 import qualified Data.Foldable as Foldable
 import qualified Data.Map.Strict as Map
-import Text.Printf
+import Text.Printf ( printf )
 
 import Codec.Epub.Format.Util
 import Codec.Epub.Data.Metadata

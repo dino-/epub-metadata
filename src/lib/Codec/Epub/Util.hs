@@ -4,7 +4,7 @@
 module Codec.Epub.Util
    where
 
-import Text.Regex
+import Text.Regex ( mkRegexWithOpts, subRegex )
 
 
 {- | An evil hack to remove *ILLEGAL* characters before the XML
