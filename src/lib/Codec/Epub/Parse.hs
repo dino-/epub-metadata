@@ -60,6 +60,8 @@ performParse parser contents = do
       (r : []) -> return r
       (_ : unparseable) -> throwError $
          "ERROR: Unable to parse epub metadata\n" <> (show unparseable)
+      [] -> throwError $
+         "ERROR: Unable to parse epub metadata"
 
 
 {- | Parse epub guide items from a String representing the epub XML
