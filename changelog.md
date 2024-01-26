@@ -1,3 +1,19 @@
+5.4 (2024-01-26)
+
+  * Fix for build failure with GHC 9.8.1
+
+
+5.3 (2024-01-22)
+
+  * Fixed a non-exhaustive pattern match
+  * Removed unused imports and made most imports explicit
+  * Alphabetized exports for this module
+  * Used a better name than 'meta' in some code
+  * Metadata formatting indent changed from 3 spaces to 2
+  * Fixed parse failure for >1 source element
+  * Made most imports explicit
+
+
 5.2 (2023-08-09)
 
   * Fixed import issues with GHC 9.6.2 related to monad transformer functions
