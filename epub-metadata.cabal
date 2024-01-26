@@ -1,7 +1,7 @@
 cabal-version: 2.2
 
 name:           epub-metadata
-version:        5.3
+version:        5.4
 synopsis:       Library for parsing epub document metadata
 description:    Library for parsing and manipulating epub document metadata. Supports epub versions 2 and 3. This library was constructed by studying the IDPF specifications for epub documents found here <http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm> and here <http://www.idpf.org/epub/30/spec/epub30-publications.html>
 category:       Codec, Text
