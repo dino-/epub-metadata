@@ -17,8 +17,8 @@ module Codec.Epub.Parse
    where
 
 import Control.Arrow.ListArrows ( IOSLA, (>>>) )
-import Control.Monad.Except ( MonadError, MonadIO, throwError )
-import Control.Monad.IO.Class ( liftIO )
+import Control.Monad.Except ( MonadError, throwError )
+import Control.Monad.IO.Class ( MonadIO, liftIO )
 import Text.XML.HXT.Arrow.Namespace ( propagateNamespaces )
 import Text.XML.HXT.Arrow.XmlState ( no, runX, withValidate )
 import Text.XML.HXT.Arrow.XmlState.TypeDefs ( XIOState )

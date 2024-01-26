@@ -18,8 +18,8 @@ import Codec.Archive.Zip ( Archive, ZipOption (OptRecursive),
 import Control.Arrow.ListArrows ( (>>>), deep )
 import Control.Exception ( SomeException, evaluate, try )
 import Control.Monad ( (>=>), forM, liftM )
-import Control.Monad.Except ( MonadError, MonadIO, throwError )
-import Control.Monad.IO.Class ( liftIO )
+import Control.Monad.Except ( MonadError, throwError )
+import Control.Monad.IO.Class ( MonadIO, liftIO )
 import qualified Data.ByteString.Char8 as BS
 import Data.ByteString.Lazy ( fromChunks )
 import qualified Data.ByteString.Lazy as B
