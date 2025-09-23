@@ -1,5 +1,9 @@
 # epub-metadata
 
+## **WARNING:** This project is deprecated on GitHub
+
+Migrated to <https://codeberg.org/dinofp/epub-metadata>
+
 
 ## Synopsis
 
